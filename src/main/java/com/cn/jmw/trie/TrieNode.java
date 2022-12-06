@@ -8,6 +8,9 @@ import java.io.Serializable;
  * @Description 前缀树节点
  * @date 2022年12月05日 17:35
  * @Version 1.0
+ * @see #add(int[], int, int)
+ * @see #remove(int[], int, int)
+ *
  */
 public class TrieNode implements Comparable<TrieNode>, Serializable {
 
@@ -37,7 +40,8 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
     /**
      * 无参构造器
      */
-    public TrieNode() {}
+    public TrieNode() {
+    }
 
     /**
      * @see #c
@@ -90,14 +94,38 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
     }
 
     /**
-     * @Param [trieNode]
      * @return int
-     * @exception
+     * @throws
+     * @Param [trieNode]
      * @Date 2022/12/5 18:51
      */
     @Override
-    public int compareTo(TrieNode trieNode){
-        int tc = this.c,oc = trieNode.c;
+    public int compareTo(TrieNode trieNode) {
+        int tc = this.c, oc = trieNode.c;
         return tc > oc ? 1 : (tc == oc ? 0 : -1);
     }
+
+    /**
+     * @return com.cn.jmw.trie.TrieNode
+     * @throws
+     * @Param [newBranch]
+     * @Date 2022/12/6 20:59
+     * @description 添加词组
+     */
+    private boolean add(int[] word, int code, int type) {
+        return true;
+    }
+
+    /**
+     * @return boolean
+     * @throws
+     * @Param [word, code, type]
+     * @Date 2022/12/6 21:07
+     * description 删除词组
+     */
+    public boolean remove(int[] word, int code, int type) {
+        return true;
+    }
+
+
 }
