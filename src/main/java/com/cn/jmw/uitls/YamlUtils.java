@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -46,37 +48,24 @@ public class YamlUtils<T extends Object> {
     }
 
     public static void main(String[] args) {
-//        final Object[] build = {null};
-//        Thread.ofVirtual().start(new Runnable() {
-//            @Override
-//            public void run() {
-//                build[0] = YamlUtils.builder().file("/application.yml")
-//                        .build(HashMap.class);
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-        Object build = YamlUtils.builder().file("/application.yml")
+        HashMap build = YamlUtils.builder().fileUrl("/application.yml")
                 .build(HashMap.class);
-//        YamlUtils<Class<HashMap>> classYamlUtils = new YamlUtils<>(HashMap.class);
-//        classYamlUtils.setT((Class<HashMap>) build);
-
-        YamlUtils<HashMap> hashMapYamlUtils = new YamlUtils<>();
-        HashMap t1 = hashMapYamlUtils.getT();
     }
 
-    public static class Builder<T,K> {
+    public static class Builder {
 
-        private T file;
+        private File file;
+        private String fileUrl;
 
         Builder() {
         }
 
-        public YamlUtils.Builder file(T file) {
+        public YamlUtils.Builder file(File file) {
             this.file = file;
+            return this;
+        }
+        public YamlUtils.Builder fileUrl(String fileUrl) {
+            this.fileUrl = fileUrl;
             return this;
         }
 
@@ -84,15 +73,15 @@ public class YamlUtils<T extends Object> {
             K k = null;
             Yaml yaml = new Yaml();
             if (file instanceof File) {
-                try (InputStream inputStream = new FileInputStream((File) file);) {
+                try (InputStream inputStream = new FileInputStream(file);) {
                     k = yaml.loadAs(inputStream, clazz);
                 } catch (FileNotFoundException e) {
                     throw new RuntimeException(e);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            } else if (file instanceof String) {
-                try (InputStream inputStream = YamlUtils.class.getResourceAsStream((String)file)) {
+            } else if (fileUrl instanceof String) {
+                try (InputStream inputStream = YamlUtils.class.getResourceAsStream(fileUrl)) {
                     k = yaml.loadAs(inputStream, clazz);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -100,9 +89,6 @@ public class YamlUtils<T extends Object> {
             } else {
                 throw new PropertiesIsNullException("Unrecognized input parameter type");
             }
-//            Class<?> aClass = k.getClass();
-//            Object o = MAPPER.convertValue(k, aClass);
-//            System.out.println();
             return k;
         }
 
@@ -117,4 +103,7 @@ public class YamlUtils<T extends Object> {
         }
 
     }
+
+
+
 }

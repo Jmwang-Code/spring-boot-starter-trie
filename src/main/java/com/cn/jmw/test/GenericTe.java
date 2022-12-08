@@ -1,4 +1,4 @@
-package com.cn.jmw.uitls;
+package com.cn.jmw.test;
 
 import java.util.HashMap;
 
@@ -44,7 +44,7 @@ public class GenericTe<T extends Object> {//,K extends Object
 //        Yaml yaml = new Yaml();
 //       if (file instanceof String) {
 //            try (InputStream inputStream = YamlUtils.class.getResourceAsStream((String) file)) {
-//                k = (K) yaml.loadAs(inputStream, t.getClass());
+//                k = (K) yaml.loadAs(inputStream, t.txt.getClass());
 //            } catch (IOException e) {
 //                throw new RuntimeException(e);
 //            }
