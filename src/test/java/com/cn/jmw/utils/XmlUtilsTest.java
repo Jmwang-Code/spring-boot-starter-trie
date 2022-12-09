@@ -25,9 +25,9 @@ public class XmlUtilsTest {
 
         TrieConfig trieConfig = XmlUtils.XmlToObject(TrieConfig.class, "/triedata-config.xml");
         System.out.println(trieConfig);
-
-        TrieNode trieNode = XmlUtils.XmlToObject(TrieNode.class, "/triedata-config.xml");
-        System.out.println(trieNode);
+//反例
+//        TrieNode trieNode = XmlUtils.XmlToObject(TrieNode.class, "/triedata-config.xml");
+//        System.out.println(trieNode);
 
     }
 }
