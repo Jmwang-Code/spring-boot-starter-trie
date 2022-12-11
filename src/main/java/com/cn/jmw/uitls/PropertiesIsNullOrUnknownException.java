@@ -8,16 +8,16 @@ import java.io.Serial;
  * @date 2022年12月07日 19:10
  * @Version 1.0
  */
-public class PropertiesIsNullException extends RuntimeException{
+public class PropertiesIsNullOrUnknownException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = -4979550248468209713L;
     private transient int extendedMessageState;
     private transient String extendedMessage;
 
-    public PropertiesIsNullException() {
+    public PropertiesIsNullOrUnknownException() {
     }
 
-    public PropertiesIsNullException(String s) {
+    public PropertiesIsNullOrUnknownException(String s) {
         super(s);
     }
 
