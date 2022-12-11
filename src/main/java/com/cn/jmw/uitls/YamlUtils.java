@@ -1,15 +1,8 @@
 package com.cn.jmw.uitls;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * @author jmw
@@ -17,7 +10,7 @@ import java.util.Properties;
  * @date 2022年12月06日 23:57
  * @Version 1.0
  */
-public class YamlUtils<T extends Object> {
+public class YamlUtils<T extends Object>  {
 
     private T t;
 
@@ -47,12 +40,12 @@ public class YamlUtils<T extends Object> {
         return new YamlUtils.Builder();
     }
 
-    public static void main(String[] args) {
-        HashMap build = YamlUtils.builder().fileUrl("/application.yml")
-                .build(HashMap.class);
-    }
+//    public static void main(String[] args) {
+//        HashMap build = YamlUtils.builder().fileUrl("/application.yml")
+//                .build(HashMap.class);
+//    }
 
-    public static class Builder {
+    public static class Builder implements InterUtils{
 
         private File file;
         private String fileUrl;
@@ -87,7 +80,7 @@ public class YamlUtils<T extends Object> {
                     throw new RuntimeException(e);
                 }
             } else {
-                throw new PropertiesIsNullException("Unrecognized input parameter type");
+                throw new PropertiesIsNullOrUnknownException("Unrecognized input parameter type");
             }
             return k;
         }

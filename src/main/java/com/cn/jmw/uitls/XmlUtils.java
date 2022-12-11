@@ -9,6 +9,7 @@ import com.cn.jmw.entity.config.TrieConfig;
 import com.cn.jmw.trie.TrieNode;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
@@ -34,7 +35,7 @@ import java.util.*;
  * @date 2022年12月06日 23:56
  * @Version 1.0
  */
-public class XmlUtils {
+public class XmlUtils implements InterUtils{
 
     /**
      * @return T
@@ -164,16 +165,21 @@ public class XmlUtils {
      * @return JSONObject
      * @throws Exception
      */
-    public static Map xmlToMap(String filePath) throws Exception {
+    public static Map xmlToMap(String filePath)  {
         try {
-            File file = new File(filePath);
+            InputStream resourceAsStream = XmlUtils.class.getResourceAsStream(filePath);
+//            File file = new File(filePath);
             SAXBuilder saxBuilder = new SAXBuilder();
-            Document document = saxBuilder.build(file);
+            Document document = saxBuilder.build(resourceAsStream);
             Element element = document.getRootElement();
             Map elementMap = xmlElementToMap(element);
             return elementMap;
-        } catch (Exception e) {
-            throw new Exception(StrUtil.format("解析XML失败，文件地址为【{}】", filePath));
+        } catch (PropertiesIsNullOrUnknownException e) {
+            throw new PropertiesIsNullOrUnknownException(StrUtil.format("解析XML失败，文件地址为【{}】", filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (JDOMException e) {
+            throw new RuntimeException(e);
         }
     }
 
