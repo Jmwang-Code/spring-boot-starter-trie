@@ -1,9 +1,7 @@
-package com.cn.jmw.uitls;
+package com.cn.jmw.uitls.reader;
 
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Properties;
 
 /**
  * @author jmw
@@ -13,17 +11,6 @@ import java.util.Properties;
  */
 public class ProfileSelector {
 
-    public static void main(String[] args) {
-        //YML只能转换成任意（Hashmap）
-        HashMap choose = ProfileSelector.choose("/application.yml", HashMap.class);
-        System.out.println(choose);
-        //Properties只能转换成(Properties)
-        Properties choose1 = ProfileSelector.choose("/hello.properties", Properties.class);
-        System.out.println(choose1);
-        //xml转换成任意对象需要和注解一起使用，转换成Map、JSON不需要
-        HashMap choose2 = ProfileSelector.choose("/triedata-config.xml", HashMap.class);
-        System.out.println(choose2);
-    }
 
     public static <T extends Object> T choose(String file, Class<T> c) {
         return suffixSelector(file, c);

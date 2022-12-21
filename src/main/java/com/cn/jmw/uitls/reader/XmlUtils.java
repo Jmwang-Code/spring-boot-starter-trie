@@ -1,12 +1,10 @@
-package com.cn.jmw.uitls;
+package com.cn.jmw.uitls.reader;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cn.jmw.entity.config.TrieConfig;
-import com.cn.jmw.trie.TrieNode;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -17,7 +15,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamReader;

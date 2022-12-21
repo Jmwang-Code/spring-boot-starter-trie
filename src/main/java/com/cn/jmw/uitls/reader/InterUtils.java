@@ -1,4 +1,4 @@
-package com.cn.jmw.uitls;
+package com.cn.jmw.uitls.reader;
 
 /**
  * @author jmw
