@@ -2,8 +2,7 @@ package com.cn.jmw.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cn.jmw.entity.config.TrieConfig;
-import com.cn.jmw.trie.TrieNode;
-import com.cn.jmw.uitls.XmlUtils;
+import com.cn.jmw.uitls.reader.XmlUtils;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -28,6 +27,5 @@ public class XmlUtilsTest {
 //反例
 //        TrieNode trieNode = XmlUtils.XmlToObject(TrieNode.class, "/triedata-config.xml");
 //        System.out.println(trieNode);
-
     }
 }
