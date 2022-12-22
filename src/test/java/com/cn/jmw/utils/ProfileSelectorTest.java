@@ -1,5 +1,6 @@
 package com.cn.jmw.utils;
 
+import com.cn.jmw.entity.config.TrieConfig;
 import com.cn.jmw.uitls.reader.ProfileSelector;
 import org.junit.jupiter.api.Test;
 
@@ -25,5 +26,8 @@ public class ProfileSelectorTest {
         //xml转换成任意对象需要和注解一起使用，转换成Map、JSON不需要
         HashMap choose2 = ProfileSelector.choose("/triedata-config.xml", HashMap.class);
         System.out.println(choose2);
+
+        TrieConfig trieConfig = ProfileSelector.choose("/triedata-config.xml", TrieConfig.class);
+        System.out.println(trieConfig);
     }
 }
