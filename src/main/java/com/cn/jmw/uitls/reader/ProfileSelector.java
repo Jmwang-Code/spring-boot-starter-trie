@@ -2,6 +2,8 @@ package com.cn.jmw.uitls.reader;
 
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jmw
@@ -22,7 +24,11 @@ public class ProfileSelector {
 
     public static <T extends Object> T suffixSelector(String file, Class<T> c) {
         if (file.endsWith("xml")) {
-            return (T) XmlUtils.xmlToMap(file);
+            if ("java.util.HashMap".equals(c.getName())) {
+                return (T) XmlUtils.xmlToMap(file);
+            }else {
+                return XmlUtils.XmlToObject(c,file);
+            }
         } else if (file.endsWith("yml")) {
             //return T
             return (T) YamlUtils.builder().fileUrl(file).build(c);
