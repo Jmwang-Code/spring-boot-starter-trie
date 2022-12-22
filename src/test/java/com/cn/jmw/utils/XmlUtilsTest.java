@@ -4,7 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.cn.jmw.entity.config.TrieConfig;
 import com.cn.jmw.uitls.reader.XmlUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
 
+//@SpringBootTest
 /**
  * @author jmw
  * @Description TODO
@@ -12,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * @Version 1.0
  */
 public class XmlUtilsTest {
+
     @Test
     public void test() {
         JSONObject jsonObject = null;
@@ -29,3 +34,5 @@ public class XmlUtilsTest {
 //        System.out.println(trieNode);
     }
 }
+
+
