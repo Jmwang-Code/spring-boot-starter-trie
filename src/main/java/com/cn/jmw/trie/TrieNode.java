@@ -2,6 +2,8 @@ package com.cn.jmw.trie;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author jmw
@@ -16,6 +18,12 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     @Serial
     private static final long serialVersionUID = 5727284941846160588L;
+
+    private final static ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
+    private final static Lock r = rwl.readLock();
+
+    private final static Lock w = rwl.writeLock();
 
     /**
      * 树节点字符
@@ -112,8 +120,14 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
      * @Date 2022/12/6 20:59
      * @description 添加词组
      */
-    private boolean add(int[] word, int code, int type) {
-        return true;
+    public boolean add(int[] word, int code, int type) {
+        w.lock();
+        try {
+
+            return true;
+        } finally {
+            w.unlock();
+        }
     }
 
     /**
