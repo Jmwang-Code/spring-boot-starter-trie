@@ -1,5 +1,8 @@
 package com.cn.jmw.trie;
 
+import com.cn.jmw.trie.en.MultiCodeMode;
+import com.cn.jmw.trie.en.Result;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -11,7 +14,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @Description 前缀树节点
  * @date 2022年12月05日 17:35
  * @Version 1.0
- * @see #add(int[], int, int)
+ * @see #add(int[], MultiCodeMode, int, int)
  * @see #remove(int[], int, int)
  */
 public class TrieNode implements Comparable<TrieNode>, Serializable {
@@ -118,6 +121,19 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
         return tc > oc ? 1 : (tc == oc ? 0 : -1);
     }
 
+    @Override
+    public int hashCode() {
+        return this.c;
+    }
+
+    public byte getStatus() {
+        return this.status;
+    }
+
+    public int getC() {
+        return this.c;
+    }
+
     /**
      * 获取TrieNode,节点通过前缀方式
      * @return com.cn.jmw.trie.TrieNode
@@ -178,21 +194,163 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
     }
 
 
+
+
     /**
      * @return com.cn.jmw.trie.TrieNode
      * @throws
      * @Param [newBranch]
      * @Date 2022/12/6 20:59
-     * @description 添加词组
+     * @description 添加新词
      */
-    public boolean add(int[] word, int code, int type) {
+    public boolean add(int[] word, MultiCodeMode mode, int code, int type) {
         w.lock();
         try {
-
-            return true;
+            TrieNode tempBranch = this;
+            Result<Boolean> added = new Result<Boolean>();
+            added.setValue(false);
+            for (int i = 0; i < word.length; i++) {
+                if (word.length == i + 1) {
+                    tempBranch = tempBranch.add(new TrieNode(word[i], 3, code,type), mode, added);
+                } else {
+                    tempBranch = tempBranch.add(new TrieNode(word[i], 1), mode, added);
+                }
+            }
+            return added.getValue();
         } finally {
             w.unlock();
         }
+    }
+
+    /**
+     * 增加子页节点
+     * 添加一个叶子节点 需要判断当前节点的子节点集合中是否包含该节点
+     * 如果包含 则需要更新 不包含则直接进行添加
+     * @param newBranch
+     * @param mode
+     * @return
+     */
+    private TrieNode add(TrieNode newBranch, MultiCodeMode mode,
+                         Result<Boolean> added) {
+        added.setValue(false);
+        if (branches == null) {
+            branches = new TrieNode[0];
+        }
+        int bs = getIndex(newBranch.getC());
+        if (bs > -1) {
+            // 更新既存子节点
+            if (this.branches[bs] == null) {
+                this.branches[bs] = newBranch;
+            }
+            TrieNode branch = this.branches[bs];
+            switch (newBranch.getStatus()) {
+                case -1:
+                    branch.status = 1;
+                    break;
+                case 1:
+                    if (branch.status == 3) {
+                        branch.status = 2;
+                    }
+                    break;
+                case 3:
+                    if (branch.status == 2 || branch.status == 3) {
+                        // 多Code情况
+                        if (MultiCodeMode.Drop == mode) {
+                            added.setValue(addBranchOnDropMode(newBranch, branch));
+                        } else if (MultiCodeMode.Replace == mode) {
+                            added.setValue(addBranchOnReplaceMode(newBranch, branch));
+                        } else if (MultiCodeMode.Small == mode) {
+                            added.setValue(addBranchOnSmallMode(newBranch, branch));
+                        } else if (MultiCodeMode.Big == mode) {
+                            added.setValue(addBranchOnBigMode(newBranch, branch));
+                        } else if (MultiCodeMode.Append == mode) {
+                            added.setValue(addBranchOnAppendMode(newBranch, branch));
+                        } else if (MultiCodeMode.ThrowException == mode) {
+                            throw new UnsupportedOperationException("加入了不允许重复的词");
+                        } else {
+                            throw new UnsupportedOperationException("不支持的多码处理模式");
+                        }
+                    } else {
+                        branch.type = newBranch.type;
+                        branch.code = newBranch.code;
+                        branch.status = 2;
+                    }
+            }
+            return branch;
+        }
+
+        if (bs < 0) {
+            // 新增子节点
+            int l=branches.length;
+            TrieNode[] newBranches = new TrieNode[branches.length + 1];
+            int insert = -(bs + 1);
+            if (insert > 0) {
+                System.arraycopy(this.branches, 0, newBranches, 0, insert);
+            }
+            if (branches.length - insert > 0) {
+                System.arraycopy(branches, insert, newBranches, insert + 1,
+                        branches.length - insert);
+            }
+            newBranches[insert] = newBranch;
+            added.setValue(true);
+            this.branches = newBranches;
+        }
+        return newBranch;
+    }
+
+    /**
+     * 分支 追加模式
+     * @Param [newBranch, branch]
+     * @return java.lang.Boolean
+     * @exception
+     * @Date 2023/1/16 20:52
+     */
+    private Boolean addBranchOnAppendMode(TrieNode newBranch, TrieNode branch) {
+        return null;
+    }
+
+    /**
+     * 分支 保留大数码模式
+     * @Param [newBranch, branch]
+     * @return java.lang.Boolean
+     * @exception
+     * @Date 2023/1/16 20:52
+     */
+    private Boolean addBranchOnBigMode(TrieNode newBranch, TrieNode branch) {
+        return null;
+    }
+
+    /**
+     * 分支 保留小数码模式
+     * @Param [newBranch, branch]
+     * @return java.lang.Boolean
+     * @exception
+     * @Date 2023/1/16 20:52
+     */
+    private Boolean addBranchOnSmallMode(TrieNode newBranch, TrieNode branch) {
+        return null;
+    }
+
+    /**
+     * 分支 重置模式
+     * @Param [newBranch, branch]
+     * @return java.lang.Boolean
+     * @exception
+     * @Date 2023/1/16 20:52
+     */
+    private Boolean addBranchOnReplaceMode(TrieNode newBranch, TrieNode branch) {
+        return null;
+    }
+
+    /**
+     * 分支 丢弃模式
+     * @Param [newBranch, branch]
+     * @return java.lang.Boolean
+     * @exception
+     * @Date 2023/1/16 20:52
+     */
+    private Boolean addBranchOnDropMode(TrieNode newBranch, TrieNode branch) {
+        return null;
     }
 
     /**
@@ -211,6 +369,5 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
             w.unlock();
         }
     }
-
 
 }
