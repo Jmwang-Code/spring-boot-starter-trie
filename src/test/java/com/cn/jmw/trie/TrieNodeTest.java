@@ -1,0 +1,71 @@
+package com.cn.jmw.trie;
+
+import jakarta.servlet.http.PushBuilder;
+import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+/**
+ * @author jmw
+ * @Description TODO
+ * @date 2023年01月06日 11:15
+ * @Version 1.0
+ */
+public class TrieNodeTest {
+
+    static TrieNode trieNode = new TrieNode();
+
+
+    Object data;
+    boolean cacheValid;
+    final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
+    /**
+     * 更新缓存后锁定降级（异常处理为 在非嵌套中处理多个锁时特别棘手 时尚）
+     * @return void
+     * @Param []
+     * @Date 2023/1/15 20:20
+     */
+    @Test
+    public void ReentrantReadWriteLockTest() {
+        rwl.readLock().lock();
+        if (!cacheValid) {
+            // Must release read lock before acquiring write lock
+            rwl.readLock().unlock();
+            rwl.writeLock().lock();
+            try {
+                // Recheck state because another thread might have
+                // acquired write lock and changed state before we did.
+                if (!cacheValid) {
+                    data = 1;
+                    cacheValid = true;
+                }
+                // Downgrade by acquiring read lock before releasing write lock
+                rwl.readLock().lock();
+            } finally {
+                rwl.writeLock().unlock(); // Unlock write, still hold read
+            }
+        }
+
+        try {
+            System.out.println(data);
+        } finally {
+            rwl.readLock().unlock();
+        }
+    }
+
+    @Test
+    public void add() {
+        trieNode.add(new int[]{1, 2, 3}, 1, 1);
+    }
+
+    @Test
+    public void remove() {
+
+    }
+
+    @Test
+    public void select() {
+
+    }
+}
