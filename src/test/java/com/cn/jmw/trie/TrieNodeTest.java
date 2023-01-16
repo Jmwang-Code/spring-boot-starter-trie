@@ -1,5 +1,6 @@
 package com.cn.jmw.trie;
 
+import com.cn.jmw.trie.en.MultiCodeMode;
 import jakarta.servlet.http.PushBuilder;
 import org.junit.jupiter.api.Test;
 
@@ -56,16 +57,21 @@ public class TrieNodeTest {
 
     @Test
     public void add() {
-        trieNode.add(new int[]{1, 2, 3}, 1, 1);
+        trieNode.add(new int[]{1, 2, 3}, MultiCodeMode.Append,1, 1);
+        System.out.println(trieNode);
     }
 
     @Test
     public void remove() {
-
+        trieNode.remove(new int[]{1, 2, 3}, 1, 1);
+        System.out.println(trieNode);
     }
 
     @Test
     public void select() {
+        trieNode.add(new int[]{1, 2, 3}, MultiCodeMode.Append,1, 1);
 
+        TrieNode trieNode1 = trieNode.get(1);
+        System.out.println(trieNode1);
     }
 }
