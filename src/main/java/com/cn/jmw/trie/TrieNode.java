@@ -2,6 +2,7 @@ package com.cn.jmw.trie;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -12,7 +13,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * @Version 1.0
  * @see #add(int[], int, int)
  * @see #remove(int[], int, int)
- *
  */
 public class TrieNode implements Comparable<TrieNode>, Serializable {
 
@@ -44,6 +44,11 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
      * Code类型，用于扩展
      */
     private byte type;
+
+    /**
+     * 分支信息
+     */
+    public TrieNode[] branches = null;
 
     /**
      * 无参构造器
@@ -114,6 +119,66 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
     }
 
     /**
+     * 获取TrieNode,节点通过前缀方式
+     * @return com.cn.jmw.trie.TrieNode
+     * @throws
+     * @Param [c]
+     * @Date 2023/1/16 15:52
+     */
+    public TrieNode get(int c) {
+        r.lock();
+        try {
+            return getBranch(c);
+        } finally {
+            r.unlock();
+        }
+    }
+
+    /**
+     * 通过传入字符查询当前数组索引，获取分支节点
+     * @Param [c]
+     * @return com.cn.jmw.trie.TrieNode
+     * @exception
+     * @Date 2023/1/16 19:38
+     */
+    public TrieNode getBranch(int c) {
+        r.lock();
+        try {
+            int index = getIndex(c);
+            if (index<0){
+                return null;
+            }else {
+                return this.branches[index];
+            }
+//            return index < 0 ? null : this.branches[index];
+        } finally {
+            r.unlock();
+        }
+    }
+
+    /**
+     * 获取数组索引
+     * @Param [c]
+     * @return int
+     * @exception
+     * @Date 2023/1/16 19:39
+     */
+    public int getIndex(int c) {
+        r.lock();
+        try {
+            if (branches == null) {
+                return -1;
+            }
+            int i = Arrays.binarySearch(this.branches, new TrieNode(c));
+            return i;
+//            return branches==null?-1:Arrays.binarySearch(this.branches, new TrieNode(c));
+        } finally {
+            r.unlock();
+        }
+    }
+
+
+    /**
      * @return com.cn.jmw.trie.TrieNode
      * @throws
      * @Param [newBranch]
@@ -138,7 +203,13 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
      * description 删除词组
      */
     public boolean remove(int[] word, int code, int type) {
-        return true;
+        w.lock();
+        try {
+
+            return true;
+        } finally {
+            w.unlock();
+        }
     }
 
 
