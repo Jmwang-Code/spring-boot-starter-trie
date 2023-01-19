@@ -28,6 +28,8 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     private final static Lock w = rwl.writeLock();
 
+//    private static MultiCodeLookupTable multiCodeLookupTable = new MultiCodeLookupTable();
+
     /**
      * 树节点字符
      */
