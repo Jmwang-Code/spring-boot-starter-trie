@@ -1,7 +1,6 @@
 package com.cn.jmw.trie;
 
 import com.cn.jmw.trie.en.MultiCodeMode;
-import jakarta.servlet.http.PushBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -69,9 +68,10 @@ public class TrieNodeTest {
 
     @Test
     public void select() {
-        trieNode.add(new int[]{1, 2, 3}, MultiCodeMode.Append,1, 1);
+        trieNode.add(new int[]{1, 2, 3}, MultiCodeMode.Append,1, 0);
 
-        TrieNode trieNode1 = trieNode.get(1);
+        //这个GET只是 寻找当前层次的数据INT
+        TrieNode trieNode1 = trieNode.get(2);
         System.out.println(trieNode1);
     }
 }
