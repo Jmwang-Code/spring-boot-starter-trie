@@ -372,4 +372,27 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
         }
     }
 
+    public void print() {
+        print("", true);
+    }
+
+    private void print(String prefix, boolean isTail) {
+        r.lock();
+        try {
+            System.out.println(prefix + (isTail ? "└── " : "├── ") + toString());
+            if (branches != null) {
+                for (int i = 0; i < branches.length - 1; i++) {
+                    branches[i].print(prefix + (isTail ? "    " : "│   "),
+                            false);
+                }
+                if (branches.length > 0) {
+                    branches[branches.length - 1].print(prefix
+                            + (isTail ? "    " : "│   "), true);
+                }
+            }
+        } finally {
+            r.unlock();
+        }
+    }
+
 }
