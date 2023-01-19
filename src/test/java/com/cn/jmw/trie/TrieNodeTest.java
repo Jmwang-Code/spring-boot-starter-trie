@@ -72,7 +72,6 @@ public class TrieNodeTest {
 
         //这个GET只是 寻找当前层次的数据INT
         TrieNode trieNode1 = trieNode.get(1);
-        trieNode.add(new int[]{1, 2, 3}, MultiCodeMode.Append,1, 0);
-        System.out.println(trieNode1);
+        trieNode1.print();
     }
 }
