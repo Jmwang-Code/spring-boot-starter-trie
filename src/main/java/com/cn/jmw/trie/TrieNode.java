@@ -1,7 +1,7 @@
 package com.cn.jmw.trie;
 
-import com.cn.jmw.trie.en.MultiCodeMode;
-import com.cn.jmw.trie.en.Result;
+import com.cn.jmw.trie.entity.MultiCodeMode;
+import com.cn.jmw.trie.entity.Result;
 
 import java.io.Serial;
 import java.io.Serializable;
