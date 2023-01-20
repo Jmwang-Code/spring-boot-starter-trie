@@ -2,6 +2,7 @@ package com.cn.jmw.trie;
 
 import com.cn.jmw.trie.entity.MultiCodeMode;
 import com.cn.jmw.trie.entity.Result;
+import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -374,6 +375,12 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     public void print() {
         print("", true);
+    }
+
+    @Override
+    public String toString() {
+        //TODO 这里要从字符串转换成String 做一下逆向工程
+        return TokenizerUtil.toString(c);
     }
 
     private void print(String prefix, boolean isTail) {

@@ -1,6 +1,9 @@
 package com.cn.jmw.trie;
 
-import com.cn.jmw.trie.en.MultiCodeMode;
+import com.cn.jmw.trie.entity.MultiCodeMode;
+import com.cn.jmw.trie.tokenizer.TokenizerFactory;
+import com.cn.jmw.trie.tokenizer.TokenizerManager;
+import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -68,10 +71,12 @@ public class TrieNodeTest {
 
     @Test
     public void select() {
-        trieNode.add(new int[]{1, 2, 3}, MultiCodeMode.Append,1, 0);
+
+        trieNode.add(TokenizerManager.getIntArray("南京"), MultiCodeMode.Append,1, 0);
 
         //这个GET只是 寻找当前层次的数据INT
-        TrieNode trieNode1 = trieNode.get(1);
+        TrieNode trieNode1 = trieNode.get(TokenizerManager.getIntLocal("南"));
         trieNode1.print();
+//        trieNode.print();
     }
 }
