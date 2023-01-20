@@ -1,4 +1,4 @@
-package com.cn.jmw.trie.en;
+package com.cn.jmw.trie.entity;
 
 /**
  * @author jmw
