@@ -119,8 +119,6 @@ public class ToIn {
         System.out.println(System.currentTimeMillis()-l);
 
         System.out.println(TokenizerUtil.toString(21335));
-        System.out.println(convert(String.valueOf(list.get(0))));
-        System.out.println(unicodeToString(String.valueOf(list.get(0))));
 
         long l2 = System.currentTimeMillis();
         list.stream().forEach((a

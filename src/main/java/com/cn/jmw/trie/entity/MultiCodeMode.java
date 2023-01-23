@@ -24,16 +24,6 @@ public enum MultiCodeMode {
     Drop,
 
     /**
-     * 小的码值保留模式（保留码小的）
-     */
-    Small,
-
-    /**
-     * 大的码值保留模式（保留码大的）
-     */
-    Big,
-
-    /**
      * 抛异常
      */
     ThrowException

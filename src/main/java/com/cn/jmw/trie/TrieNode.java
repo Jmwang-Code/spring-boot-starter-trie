@@ -1,5 +1,6 @@
 package com.cn.jmw.trie;
 
+import com.cn.jmw.trie.entity.CodeCacheTable;
 import com.cn.jmw.trie.entity.MultiCodeMode;
 import com.cn.jmw.trie.entity.Result;
 import com.cn.jmw.trie.tokenizer.TokenizerUtil;
@@ -29,7 +30,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     private final static Lock w = rwl.writeLock();
 
-//    private static MultiCodeLookupTable multiCodeLookupTable = new MultiCodeLookupTable();
+    private static CodeCacheTable codeCacheTable = new CodeCacheTable();
 
     /**
      * 树节点字符
@@ -139,6 +140,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     /**
      * 获取TrieNode,节点通过前缀方式
+     *
      * @return com.cn.jmw.trie.TrieNode
      * @throws
      * @Param [c]
@@ -155,18 +157,19 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     /**
      * 通过传入字符查询当前数组索引，获取分支节点
-     * @Param [c]
+     *
      * @return com.cn.jmw.trie.TrieNode
-     * @exception
+     * @throws
+     * @Param [c]
      * @Date 2023/1/16 19:38
      */
     public TrieNode getBranch(int c) {
         r.lock();
         try {
             int index = getIndex(c);
-            if (index<0){
+            if (index < 0) {
                 return null;
-            }else {
+            } else {
                 return this.branches[index];
             }
 //            return index < 0 ? null : this.branches[index];
@@ -177,9 +180,10 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     /**
      * 获取数组索引
-     * @Param [c]
+     *
      * @return int
-     * @exception
+     * @throws
+     * @Param [c]
      * @Date 2023/1/16 19:39
      */
     public int getIndex(int c) {
@@ -197,8 +201,6 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
     }
 
 
-
-
     /**
      * @return com.cn.jmw.trie.TrieNode
      * @throws
@@ -214,7 +216,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
             added.setValue(false);
             for (int i = 0; i < word.length; i++) {
                 if (word.length == i + 1) {
-                    tempBranch = tempBranch.add(new TrieNode(word[i], 3, code,type), mode, added);
+                    tempBranch = tempBranch.add(new TrieNode(word[i], 3, code, type), mode, added);
                 } else {
                     tempBranch = tempBranch.add(new TrieNode(word[i], 1), mode, added);
                 }
@@ -229,6 +231,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
      * 增加子页节点
      * 添加一个叶子节点 需要判断当前节点的子节点集合中是否包含该节点
      * 如果包含 则需要更新 不包含则直接进行添加
+     *
      * @param newBranch
      * @param mode
      * @return
@@ -262,10 +265,6 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
                             added.setValue(addBranchOnDropMode(newBranch, branch));
                         } else if (MultiCodeMode.Replace == mode) {
                             added.setValue(addBranchOnReplaceMode(newBranch, branch));
-                        } else if (MultiCodeMode.Small == mode) {
-                            added.setValue(addBranchOnSmallMode(newBranch, branch));
-                        } else if (MultiCodeMode.Big == mode) {
-                            added.setValue(addBranchOnBigMode(newBranch, branch));
                         } else if (MultiCodeMode.Append == mode) {
                             added.setValue(addBranchOnAppendMode(newBranch, branch));
                         } else if (MultiCodeMode.ThrowException == mode) {
@@ -284,7 +283,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
         if (bs < 0) {
             // 新增子节点
-            int l=branches.length;
+            int l = branches.length;
             TrieNode[] newBranches = new TrieNode[branches.length + 1];
             int insert = -(bs + 1);
             if (insert > 0) {
@@ -303,57 +302,60 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     /**
      * 分支 追加模式
-     * @Param [newBranch, branch]
+     *
      * @return java.lang.Boolean
-     * @exception
+     * @throws
+     * @Param [newBranch, branch]
      * @Date 2023/1/16 20:52
      */
     private Boolean addBranchOnAppendMode(TrieNode newBranch, TrieNode branch) {
-        return null;
-    }
-
-    /**
-     * 分支 保留大数码模式
-     * @Param [newBranch, branch]
-     * @return java.lang.Boolean
-     * @exception
-     * @Date 2023/1/16 20:52
-     */
-    private Boolean addBranchOnBigMode(TrieNode newBranch, TrieNode branch) {
-        return null;
-    }
-
-    /**
-     * 分支 保留小数码模式
-     * @Param [newBranch, branch]
-     * @return java.lang.Boolean
-     * @exception
-     * @Date 2023/1/16 20:52
-     */
-    private Boolean addBranchOnSmallMode(TrieNode newBranch, TrieNode branch) {
-        return null;
+        //TODO 追加模式暂不适用
+        return addBranchOnReplaceMode(newBranch, branch);
     }
 
     /**
      * 分支 重置模式
-     * @Param [newBranch, branch]
+     *
      * @return java.lang.Boolean
-     * @exception
+     * @throws
+     * @Param [newBranch, branch]
      * @Date 2023/1/16 20:52
      */
     private Boolean addBranchOnReplaceMode(TrieNode newBranch, TrieNode branch) {
-        return null;
+        try {
+            if (newBranch.status == 3
+                    && (branch.status == 3 || branch.status == 2)
+                    && newBranch.code != branch.code) {
+                branch.code = newBranch.code;
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     /**
      * 分支 丢弃模式
-     * @Param [newBranch, branch]
+     *
      * @return java.lang.Boolean
-     * @exception
+     * @throws
+     * @Param [newBranch, branch]
      * @Date 2023/1/16 20:52
      */
     private Boolean addBranchOnDropMode(TrieNode newBranch, TrieNode branch) {
-        return null;
+        try {
+            if (newBranch.status == 3
+                    && (branch.status == 3 || branch.status == 2)
+                    && newBranch.code != branch.code) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (NullPointerException e) {
+            return false;
+        }
     }
 
     /**
@@ -379,7 +381,6 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     @Override
     public String toString() {
-        //TODO 这里要从字符串转换成String 做一下逆向工程
         return TokenizerUtil.toString(c);
     }
 

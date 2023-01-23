@@ -72,10 +72,15 @@ public class TrieNodeTest {
     @Test
     public void select() {
 
-        trieNode.add(TokenizerManager.getIntArray("南京"), MultiCodeMode.Append,1, 0);
+        trieNode.add(TokenizerManager.getIntArray("南京"), MultiCodeMode.Replace,1, 0);
+
+        trieNode.add(TokenizerManager.getIntArray("南京"), MultiCodeMode.Replace,3, 0);
+
+        trieNode.add(TokenizerManager.getIntArray("南京"), MultiCodeMode.Drop,1, 0);
 
         //这个GET只是 寻找当前层次的数据INT
         TrieNode trieNode1 = trieNode.get(TokenizerManager.getIntLocal("南"));
+        System.out.println(trieNode1+"\n");
         trieNode1.print();
 //        trieNode.print();
     }
