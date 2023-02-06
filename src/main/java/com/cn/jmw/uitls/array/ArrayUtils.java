@@ -8,11 +8,12 @@ package com.cn.jmw.uitls.array;
  */
 public class ArrayUtils {
 
+
     /**
-     * @Param []
+     * @Param [arr, start, end]
      * @return void
      * @exception
-     * @Date 2023/2/6 13:55
+     * @Date 2023/2/6 13:56
      * 原地翻转
      */
     public void reverse(int[] arr,int start,int end){
