@@ -26,5 +26,8 @@ public class ArrayUtilsTest {
         ArrayUtils<Integer> integerArrayUtils1 = new ArrayUtils<Integer>(arr);
         integerArrayUtils1.moveZeroes(0);
         System.out.println(Arrays.toString(arr));
+
+        integerArrayUtils1.moveZeroes(new int[]{0,1,0,3,199});
+        System.out.println();
     }
 }

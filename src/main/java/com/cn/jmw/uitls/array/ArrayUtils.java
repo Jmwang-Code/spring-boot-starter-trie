@@ -55,9 +55,12 @@ public class ArrayUtils<T>{
      * @return void
      * @exception
      * @Date 2023/2/7 13:59
-     * 指定字符后移（char）
+     * 指定数据后移
      */
-    public void moveZeroes(char[] arr,char a) {
+    public void moveZeroes(T a) {
+        if(a==null) {
+            return;
+        }
         int j = 0;
         for (int i = 0; i < arr.length; i++) {
             if (arr[i]!=a){
@@ -75,18 +78,21 @@ public class ArrayUtils<T>{
      * @return void
      * @exception
      * @Date 2023/2/7 13:59
-     * 指定数据后移
+     * int零移动
      */
-    public void moveZeroes(T a) {
-        int j = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i]!=a){
-                arr[j++]=arr[i];
-            }
+    public void moveZeroes(int[] nums) {
+        if(nums==null) {
+            return;
         }
-
-        for (int i = j; i <arr.length; i++) {
-            arr[i] = a;
+        //两个指针i和j
+        int j = 0;
+        for(int i=0;i<nums.length;i++) {
+            //当前元素!=0，就把其交换到左边，等于0的交换到右边
+            if(nums[i]!=0) {
+                int tmp = nums[i];
+                nums[i] = nums[j];
+                nums[j++] = tmp;
+            }
         }
     }
 
