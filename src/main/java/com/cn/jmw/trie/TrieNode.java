@@ -192,9 +192,19 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
             if (branches == null) {
                 return -1;
             }
+            //二分法检索
             int i = Arrays.binarySearch(this.branches, new TrieNode(c));
             return i;
 //            return branches==null?-1:Arrays.binarySearch(this.branches, new TrieNode(c));
+        } finally {
+            r.unlock();
+        }
+    }
+
+    public TrieCode[] getCodes() {
+        r.lock();
+        try {
+            return new TrieCode[]{new TrieCode(this.code, this.type)};
         } finally {
             r.unlock();
         }
