@@ -1,10 +1,5 @@
 package com.cn.jmw.uitls.array;
 
-import org.springframework.util.CollectionUtils;
-
-import java.lang.reflect.Array;
-import java.util.*;
-
 /**
  * @author jmw
  * @Description TODO
@@ -38,7 +33,7 @@ public class ArrayUtils<T>{
      * @return void
      * @exception
      * @Date 2023/2/6 13:56
-     * 原地翻转
+     * 原地-翻转
      */
     public void reverse(int start,int end){
         while (start < end) {
@@ -55,7 +50,7 @@ public class ArrayUtils<T>{
      * @return void
      * @exception
      * @Date 2023/2/7 13:59
-     * 指定数据后移
+     * 原地-指定数据后移
      */
     public void moveZeroes(T a) {
         if(a==null) {
@@ -78,7 +73,7 @@ public class ArrayUtils<T>{
      * @return void
      * @exception
      * @Date 2023/2/7 13:59
-     * int零移动
+     * 原地-int零移动
      */
     public void moveZeroes(int[] nums) {
         if(nums==null) {
