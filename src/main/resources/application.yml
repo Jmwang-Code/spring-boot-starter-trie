@@ -1,2 +1,15 @@
 server:
   port: 8081
+  address: 127.0.0.1
+spring:
+  application:
+    name: JMW.Tire
+  profiles:
+    active: dev
+
+#logging:
+#  config: classpath:logback.xml
+#  file:
+#    path: log
+#  pattern:
+#    file: '%d %5p - %m%n'
