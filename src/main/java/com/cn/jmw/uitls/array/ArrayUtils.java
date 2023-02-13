@@ -38,10 +38,8 @@ public class ArrayUtils<T>{
     public void reverse(int start,int end){
         while (start < end) {
             T temp = arr[start];
-            arr[start] = arr[end];
-            arr[end] = temp;
-            start += 1;
-            end -= 1;
+            arr[start++] = arr[end];
+            arr[end--] = temp;
         }
     }
 
