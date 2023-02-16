@@ -1,9 +1,8 @@
 package com.cn.jmw.utils.array;
 
-import com.cn.jmw.uitls.array.ArrayUtils;
+import com.cn.jmw.uitls.algorithm.array.ArrayUtils;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 

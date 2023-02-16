@@ -1,4 +1,4 @@
-package com.cn.jmw.uitls.fastandslowpointer;
+package com.cn.jmw.uitls.algorithm.fastandslowpointer;
 
 /**
  * @author jmw

@@ -1,4 +1,4 @@
-package com.cn.jmw.uitls.array;
+package com.cn.jmw.uitls.algorithm.array;
 
 /**
  * @author jmw
