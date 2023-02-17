@@ -11,41 +11,44 @@ import java.util.Map;
  * @date 2023年02月13日 16:40
  * @Version 1.0
  */
-public class TirePrefixQuerier {
+public class TirePrefixQuerier extends Querier{
 
-    private TrieNode trieRootNode;
-
-    private Tokenizer prefix;
+//    private TrieNode trieRootNode;
 
     public TirePrefixQuerier(TrieNode trieRootNode, Tokenizer prefix) {
-        this.prefix = prefix;
+        this.content = prefix;
         this.trieRootNode = trieRootNode;
     }
 
     public TriePrefixQueryResult queryAllPrefix(){
         TriePrefixQueryResult triePrefixQueryResult = new TriePrefixQueryResult();
         //返回结果集
-        Map<String, TrieCode[]> map = triePrefixQueryResult.getMap();
+        Map<int[], TrieCode[]> map = triePrefixQueryResult.getMap();
 
         //当前查询字符长度
-        int length = this.prefix.length();
+        Tokenizer prefix = content;
+        int length = this.content.length();
 
         //根节点探测
         TrieNode trieNode = this.trieRootNode;
 
         //定位树
-        TrieNode location = location(trieNode, length);
+        TrieNode location = location(trieNode, prefix);
 
+        //TODO 探针的长度 是bug需要修复，比如给主树维护一个最大深度属性，在递归遍历中顺手比较叶子节点的深度
+        int[] arr = new int[length];
+        arr[0] = location.getC();
         //钻取集合
-        System.out.println(location);
+        Drilling(map,location,arr,1);
 
 
         return triePrefixQueryResult;
     }
 
-    private TrieNode location(TrieNode trieNode,int length){
+    private TrieNode location(TrieNode trieNode,Tokenizer prefix){
         //定位树
         TrieNode trieNodeRe = trieNode;
+        int length = prefix.length();
         for (int i = 0; i < prefix.length()+1; i++) {
             /**
              * 1.如果到达终点，则将当前节点置空。
@@ -70,7 +73,33 @@ public class TirePrefixQuerier {
         return trieNodeRe;
     }
 
-    private void Drilling(Map<String, TrieCode[]> map,TrieNode trieNode){
+    private void Drilling(Map<int[], TrieCode[]> map,TrieNode trieNode,int[] a,int currentCount){
+        int[] arr = a;
+        TrieNode[] branches = trieNode.branches;
+        if (branches==null || branches.length==0){
+            return;
+        }
+        for (int i = 0; i < branches.length; i++) {
+            TrieNode sub = branches[i];
+            byte status = sub.getStatus();
+            int c = sub.getC();
+            TrieCode[] codes = sub.getCodes();
+            if (status==3){
+                int[] children = new int[arr.length];
+                System.arraycopy(arr,0,children,0,arr.length);
+                children[currentCount] = c;
+                map.put(children,codes);
+            }else if (status==2){
+                int[] children = new int[arr.length];
+                System.arraycopy(arr,0,children,0,arr.length);
+                children[currentCount] = c;
+                map.put(children,codes);
+                Drilling(map,sub,arr,currentCount+1);
+            }else{
+                Drilling(map,sub,arr,currentCount+1);
+            }
+        }
 
     }
+
 }
