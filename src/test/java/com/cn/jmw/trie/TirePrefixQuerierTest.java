@@ -4,11 +4,12 @@ import com.cn.jmw.trie.entity.MultiCodeMode;
 import com.cn.jmw.trie.entity.TriePrefixQueryResult;
 import com.cn.jmw.trie.tokenizer.TokenizerManager;
 import com.cn.jmw.trie.tokenizer.TokenizerObject;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author jmw
  * @Description TODO
- * @date 2023Äê02ÔÂ13ÈÕ 16:53
+ * @date 2023ï¿½ï¿½02ï¿½ï¿½13ï¿½ï¿½ 16:53
  * @Version 1.0
  */
 public class TirePrefixQuerierTest {
@@ -16,16 +17,17 @@ public class TirePrefixQuerierTest {
     static TrieNode trieNode = new TrieNode();
 
     {
-        trieNode.add(TokenizerManager.getIntArray("ÄÏ¾©"), MultiCodeMode.Replace, 1, 0);
-        trieNode.add(TokenizerManager.getIntArray("ÄÏÄş"), MultiCodeMode.Replace, 1, 0);
-        trieNode.add(TokenizerManager.getIntArray("ÄÏÌìÃÅ"), MultiCodeMode.Replace, 1, 0);
-        trieNode.add(TokenizerManager.getIntArray("ÄÏÌìÄÏ"), MultiCodeMode.Replace, 1, 0);
-        trieNode.add(TokenizerManager.getIntArray("ÄÏÌì"), MultiCodeMode.Replace, 1, 0);
+        trieNode.add(TokenizerManager.getIntArray("å—äº¬"), MultiCodeMode.Replace, 1, 0);
+        trieNode.add(TokenizerManager.getIntArray("å—å®"), MultiCodeMode.Replace, 1, 0);
+        trieNode.add(TokenizerManager.getIntArray("å—å¤©é—¨"), MultiCodeMode.Replace, 1, 0);
+        trieNode.add(TokenizerManager.getIntArray("å—å¤©å—"), MultiCodeMode.Replace, 1, 0);
+        trieNode.add(TokenizerManager.getIntArray("å—å¤©"), MultiCodeMode.Replace, 1, 0);
     }
 
+    @Test
     public void one(){
-        TirePrefixQuerier ÄÏÌì = new TirePrefixQuerier(trieNode, new TokenizerObject("ÄÏÌì"));
-        TriePrefixQueryResult triePrefixQueryResult = ÄÏÌì.queryAllPrefix();
+        TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("å¤§å¤§å¤§daå—"));
+        TriePrefixQueryResult triePrefixQueryResult = tirePrefixQuerier.queryAllPrefix();
         System.out.println(triePrefixQueryResult);
     }
 }

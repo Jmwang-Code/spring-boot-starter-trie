@@ -59,9 +59,37 @@ public class StringUtils {
         return false;
     }
 
+    public int countGoodSubstrings(String s) {
+//        int sum = 0;
+//        for (int i = 0; i < s.length()-2; i++) {
+//            char a = s.charAt(i);
+//            char b= s.charAt(i+1);
+//            char c = s.charAt(i+2);
+//            if (a*b!=a*c && a*b!=b*c && a*c!=b*c)sum++;
+//        }
+//        return sum;
+        int n = s.length();
+        int res = 0;
+        int left = 0, right = 0;
+        int[] arr = new int[128];
+        while (right < n) {
+            int r = s.charAt(right++);
+            arr[r]++;
+            //注水
+            while (right - left == 3) {
+                if (Arrays.stream(arr).parallel().filter(e -> e == 1).count() == 3) res++;
+                int l = s.charAt(left++);
+                arr[l]--;
+                //出水
+            }
+            //注水和出水 之间保持平衡
+        }
+        return res;
+    }
+
     public static void main(String[] args) {
         StringUtils stringUtils = new StringUtils();
-        boolean b = stringUtils.checkInclusion("abc", "adacsdbca");
-        System.out.println(b);
+        int xyzzaz = stringUtils.countGoodSubstrings("xyzzaz");
+        System.out.println(xyzzaz);
     }
 }
