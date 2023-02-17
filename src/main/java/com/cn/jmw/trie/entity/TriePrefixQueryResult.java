@@ -14,13 +14,13 @@ import java.util.Objects;
  */
 public class TriePrefixQueryResult {
 
-    private Map<String, TrieCode[]> map = new HashMap<>();
+    private Map<int[], TrieCode[]> map = new HashMap<>();
 
-    public void setMap(Map<String, TrieCode[]> map) {
+    public void setMap(Map<int[], TrieCode[]> map) {
         this.map = map;
     }
 
-    public Map<String, TrieCode[]> getMap() {
+    public Map<int[], TrieCode[]> getMap() {
         return map;
     }
 
