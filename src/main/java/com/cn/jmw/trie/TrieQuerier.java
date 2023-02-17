@@ -9,19 +9,10 @@ import com.cn.jmw.trie.tokenizer.Tokenizer;
  * @date 2023年01月25日 17:15
  * @Version 1.0
  */
-public class TrieQuerier {
-
-    /**
-     * 前缀树根节点
-     */
-    private TrieNode trieRootNode;
+public class TrieQuerier extends Querier{
 
     private TrieNode sourceRoot;
 
-    /**
-     * 查询字符串
-     */
-    private Tokenizer content;
 
     /**
      * 已探测到的字符串位置
@@ -64,8 +55,8 @@ public class TrieQuerier {
     private boolean enableTrieAllSearch;
 
     public TrieQuerier(TrieNode trieRootNode, Tokenizer content,boolean enableTrieAllSearch) {
-        this.content = content;
-        this.trieRootNode = trieRootNode;
+        super.content = content;
+        super.trieRootNode = trieRootNode;
         this.sourceRoot = trieRootNode;
         this.enableTrieAllSearch = enableTrieAllSearch;
     }
