@@ -21,8 +21,12 @@ public class TirePrefixQuerier extends Querier{
     }
 
     public TriePrefixQueryResult queryAllPrefix(){
-        TriePrefixQueryResult triePrefixQueryResult = new TriePrefixQueryResult();
         //返回结果集
+        TriePrefixQueryResult triePrefixQueryResult = new TriePrefixQueryResult();
+        if (content==null || content.length()<=0){
+            return triePrefixQueryResult;
+        }
+
         Map<int[], TrieCode[]> map = triePrefixQueryResult.getMap();
 
         //当前查询字符长度
@@ -40,7 +44,6 @@ public class TirePrefixQuerier extends Querier{
         arr[0] = location.getC();
         //钻取集合
         Drilling(map,location,arr,1);
-
 
         return triePrefixQueryResult;
     }
@@ -85,16 +88,18 @@ public class TirePrefixQuerier extends Querier{
             int c = sub.getC();
             TrieCode[] codes = sub.getCodes();
             if (status==3){
-                int[] children = new int[arr.length];
-                System.arraycopy(arr,0,children,0,arr.length);
+                int[] children = new int[currentCount+1];
+                System.arraycopy(arr,0,children,0,currentCount+1);
                 children[currentCount] = c;
                 map.put(children,codes);
             }else if (status==2){
-                int[] children = new int[arr.length];
-                System.arraycopy(arr,0,children,0,arr.length);
+                int[] children = new int[currentCount+1];
+                System.arraycopy(arr,0,children,0,currentCount+1);
                 children[currentCount] = c;
                 map.put(children,codes);
-                Drilling(map,sub,arr,currentCount+1);
+                int[] childrenRu = new int[currentCount+2];
+                System.arraycopy(children,0,childrenRu,0,currentCount+1);
+                Drilling(map,sub,childrenRu,currentCount+1);
             }else{
                 Drilling(map,sub,arr,currentCount+1);
             }
