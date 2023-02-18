@@ -13,8 +13,6 @@ import java.util.Map;
  */
 public class TirePrefixQuerier extends Querier{
 
-//    private TrieNode trieRootNode;
-
     public TirePrefixQuerier(TrieNode trieRootNode, Tokenizer prefix) {
         this.content = prefix;
         this.trieRootNode = trieRootNode;
@@ -89,22 +87,31 @@ public class TirePrefixQuerier extends Querier{
             TrieCode[] codes = sub.getCodes();
             if (status==3){
                 int[] children = new int[currentCount+1];
-                System.arraycopy(arr,0,children,0,currentCount+1);
+                System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
                 children[currentCount] = c;
                 map.put(children,codes);
             }else if (status==2){
                 int[] children = new int[currentCount+1];
-                System.arraycopy(arr,0,children,0,currentCount+1);
+                System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
                 children[currentCount] = c;
                 map.put(children,codes);
                 int[] childrenRu = new int[currentCount+2];
                 System.arraycopy(children,0,childrenRu,0,currentCount+1);
                 Drilling(map,sub,childrenRu,currentCount+1);
             }else{
-                Drilling(map,sub,arr,currentCount+1);
+                int[] children = new int[currentCount+1];
+                System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
+                children[currentCount] = c;
+                Drilling(map,sub,children,currentCount+1);
             }
         }
+    }
 
+    private int[] copyArray(int currentCount,int[] arr,int c){
+        int[] children = new int[currentCount+1];
+        System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
+        children[currentCount] = c;
+        return children;
     }
 
 }

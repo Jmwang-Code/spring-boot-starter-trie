@@ -6,6 +6,9 @@ import com.cn.jmw.trie.tokenizer.TokenizerManager;
 import com.cn.jmw.trie.tokenizer.TokenizerObject;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 /**
  * @author jmw
  * @Description TODO
@@ -26,8 +29,19 @@ public class TirePrefixQuerierTest {
 
     @Test
     public void one(){
-        TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("大大大da南"));
+        for (int i = 0; i < 1000000; i++) {
+            int[] arr= new int[1+(int)(Math.random()*20)];
+            for (int j = 0; j < arr.length; j++) {
+                arr[j] = 19969+(int)(Math.random()*20000);
+            }
+            trieNode.add(arr, MultiCodeMode.Replace, 1, 0);
+        }
+
+        long l = System.currentTimeMillis();
+        TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("南"));
         TriePrefixQueryResult triePrefixQueryResult = tirePrefixQuerier.queryAllPrefix();
         System.out.println(triePrefixQueryResult);
+        long end = System.currentTimeMillis() - l;
+        System.out.println(end);
     }
 }
