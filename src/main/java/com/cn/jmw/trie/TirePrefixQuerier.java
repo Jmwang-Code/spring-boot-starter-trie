@@ -86,22 +86,16 @@ public class TirePrefixQuerier extends Querier{
             int c = sub.getC();
             TrieCode[] codes = sub.getCodes();
             if (status==3){
-                int[] children = new int[currentCount+1];
-                System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
-                children[currentCount] = c;
+                int[] children = copyArray(currentCount, arr, c);
                 map.put(children,codes);
             }else if (status==2){
-                int[] children = new int[currentCount+1];
-                System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
-                children[currentCount] = c;
+                int[] children = copyArray(currentCount, arr, c);
                 map.put(children,codes);
                 int[] childrenRu = new int[currentCount+2];
                 System.arraycopy(children,0,childrenRu,0,currentCount+1);
                 Drilling(map,sub,childrenRu,currentCount+1);
             }else{
-                int[] children = new int[currentCount+1];
-                System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
-                children[currentCount] = c;
+                int[] children = copyArray(currentCount, arr, c);
                 Drilling(map,sub,children,currentCount+1);
             }
         }

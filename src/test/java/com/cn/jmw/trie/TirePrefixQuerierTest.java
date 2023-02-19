@@ -29,8 +29,8 @@ public class TirePrefixQuerierTest {
 
     @Test
     public void one(){
-        for (int i = 0; i < 1000000; i++) {
-            int[] arr= new int[1+(int)(Math.random()*20)];
+        for (int i = 0; i < 10000000; i++) {
+            int[] arr= new int[1+(int)(Math.random()*10)];
             for (int j = 0; j < arr.length; j++) {
                 arr[j] = 19969+(int)(Math.random()*20000);
             }
