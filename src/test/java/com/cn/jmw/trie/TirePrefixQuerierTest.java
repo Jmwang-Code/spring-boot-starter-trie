@@ -6,13 +6,10 @@ import com.cn.jmw.trie.tokenizer.TokenizerManager;
 import com.cn.jmw.trie.tokenizer.TokenizerObject;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-
 /**
  * @author jmw
  * @Description TODO
- * @date 2023��02��13�� 16:53
+ * @date 2023年02月17日 10:16
  * @Version 1.0
  */
 public class TirePrefixQuerierTest {
@@ -27,12 +24,38 @@ public class TirePrefixQuerierTest {
         trieNode.add(TokenizerManager.getIntArray("南天"), MultiCodeMode.Replace, 1, 0);
     }
 
+    /**
+     * @Param []
+     * @return void
+     * @exception
+     * @Date 2023/2/20 10:12
+     * 常数项-查询-前缀
+     * 1-2ms
+     */
     @Test
-    public void one(){
+    public void constantItemQueryPrefix(){
+        long l = System.currentTimeMillis();
+        TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("南"));
+        TriePrefixQueryResult triePrefixQueryResult = tirePrefixQuerier.queryAllPrefix();
+        System.out.println(triePrefixQueryResult.getMap().size());
+        long end = System.currentTimeMillis() - l;
+        System.out.println(end);
+    }
+
+    /**
+     * @Param []
+     * @return void
+     * @exception
+     * @Date 2023/2/20 10:15
+     * 千万级别-N-项查询前缀
+     * 2ms
+     */
+    @Test
+    public void tenMillionNQueryPrefixes() {
         for (int i = 0; i < 10000000; i++) {
-            int[] arr= new int[1+(int)(Math.random()*10)];
+            int[] arr = new int[1 + (int) (Math.random() * 10)];
             for (int j = 0; j < arr.length; j++) {
-                arr[j] = 19969+(int)(Math.random()*20000);
+                arr[j] = 19969 + (int) (Math.random() * 20000);
             }
             trieNode.add(arr, MultiCodeMode.Replace, 1, 0);
         }
@@ -40,7 +63,8 @@ public class TirePrefixQuerierTest {
         long l = System.currentTimeMillis();
         TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("南"));
         TriePrefixQueryResult triePrefixQueryResult = tirePrefixQuerier.queryAllPrefix();
-        System.out.println(triePrefixQueryResult);
+//        System.out.println(triePrefixQueryResult);
+        System.out.println(triePrefixQueryResult.getMap().size());
         long end = System.currentTimeMillis() - l;
         System.out.println(end);
     }
