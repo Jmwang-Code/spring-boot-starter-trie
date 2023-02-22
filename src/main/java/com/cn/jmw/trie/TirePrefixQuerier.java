@@ -38,8 +38,7 @@ public class TirePrefixQuerier extends Querier{
         TrieNode location = location(trieNode, prefix);
 
         //TODO 探针的长度 是bug需要修复，比如给主树维护一个最大深度属性，在递归遍历中顺手比较叶子节点的深度
-        int[] arr = new int[length];
-        arr[0] = location.getC();
+        int[] arr ={location.getC()};
         //钻取集合
         Drilling(map,location,arr,1);
 
@@ -102,10 +101,16 @@ public class TirePrefixQuerier extends Querier{
     }
 
     private int[] copyArray(int currentCount,int[] arr,int c){
+        //无需担心 currentCount+1 不定义的问题，由于int类型 -127-128 缓存在IntegerCache常量池
+        //前缀树存储字段也有长度限制 考虑效率问题 不会超过128char长度
         int[] children = new int[currentCount+1];
         System.arraycopy(arr,0,children,0,currentCount+1>arr.length?arr.length:currentCount+1);
         children[currentCount] = c;
         return children;
     }
+
+//    private int dfsDepth(){
+//
+//    }
 
 }
