@@ -61,6 +61,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
      * 无参构造器
      */
     public TrieNode() {
+        c = -1;
     }
 
     /**
@@ -376,9 +377,9 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
      * description 删除词组
      */
     public boolean remove(int[] word, int code, int type) {
+        //TODO 删除逻辑
         w.lock();
         try {
-
             return true;
         } finally {
             w.unlock();
