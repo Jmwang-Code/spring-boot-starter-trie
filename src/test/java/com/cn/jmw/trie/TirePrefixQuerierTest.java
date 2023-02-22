@@ -35,9 +35,10 @@ public class TirePrefixQuerierTest {
     @Test
     public void constantItemQueryPrefix(){
         long l = System.currentTimeMillis();
-        TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("南"));
+        TirePrefixQuerier tirePrefixQuerier = new TirePrefixQuerier(trieNode, new TokenizerObject("打赏的案发时南"));
         TriePrefixQueryResult triePrefixQueryResult = tirePrefixQuerier.queryAllPrefix();
-        System.out.println(triePrefixQueryResult.getMap().size());
+//        System.out.println(triePrefixQueryResult);
+//        System.out.println(triePrefixQueryResult.getMap().size());
         long end = System.currentTimeMillis() - l;
         System.out.println(end);
     }
