@@ -3,10 +3,8 @@ package com.cn.jmw.trie.entity;
 import com.cn.jmw.trie.TrieCode;
 import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author jmw
@@ -42,10 +40,21 @@ public class TriePrefixQueryResult {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Map.Entry<int[], TrieCode[]> entry: map.entrySet()) {
+        for (Map.Entry<int[], TrieCode[]> entry : map.entrySet()) {
             int[] key = entry.getKey();
             stringBuilder.append(TokenizerUtil.toString(key)).append(",");
         }
-        return stringBuilder.substring(0,stringBuilder.length()-1);
+        return stringBuilder.substring(0, stringBuilder.length() - 1);
     }
+
+    /**
+     * TODO
+     * key_sort
+     */
+
+    /**
+     * TODO
+     * value_sort
+     */
+
 }
