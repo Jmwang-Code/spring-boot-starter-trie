@@ -8,6 +8,8 @@ import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -386,31 +388,69 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
         }
     }
 
+    public boolean hasNext() {
+        return branches != null && branches.length > 0 ? true : false;
+    }
+
     public void print() {
-        print("", true);
+        //预览协程
+//        Thread.startVirtualThread(() -> {
+            print("",true);
+//        });
     }
 
     @Override
     public String toString() {
-        return TokenizerUtil.toString(c);
+        if (c < 0) {
+            return getFormatLogString("无效节点", 35, 1);
+        }
+        return getFormatLogString(TokenizerUtil.toString(c), 36, 0);
     }
 
     private void print(String prefix, boolean isTail) {
+        System.out.println(prefix + (isTail ? "└── " : "├── ") + toString());
+        if (branches != null) {
+            for (int i = 0; i < branches.length - 1; i++) {
+                branches[i].print(prefix + (isTail ? "    " : "│   "),
+                        false);
+            }
+            if (branches.length > 0) {
+                branches[branches.length - 1].print(prefix
+                        + (isTail ? "    " : "│   "), true);
+            }
+        }
+    }
+
+    private void lockPrint(String prefix, boolean isTail) {
         r.lock();
         try {
             System.out.println(prefix + (isTail ? "└── " : "├── ") + toString());
             if (branches != null) {
                 for (int i = 0; i < branches.length - 1; i++) {
-                    branches[i].print(prefix + (isTail ? "    " : "│   "),
+                    branches[i].lockPrint(prefix + (isTail ? "    " : "│   "),
                             false);
                 }
                 if (branches.length > 0) {
-                    branches[branches.length - 1].print(prefix
+                    branches[branches.length - 1].lockPrint(prefix
                             + (isTail ? "    " : "│   "), true);
                 }
             }
         } finally {
             r.unlock();
+        }
+    }
+
+    /**
+     * @param colour  颜色代号：背景颜色代号(41-46)；前景色代号(31-36)
+     * @param type    样式代号：0无；1加粗；3斜体；4下划线
+     * @param content 要打印的内容
+     */
+    private static String getFormatLogString(String content, int colour, int type) {
+        boolean hasType = type != 1 && type != 3 && type != 4;
+        if (hasType) {
+            return String.format("\033[%dm%s\033[0m", colour, content);
+        } else {
+            return String.format("\033[%d;%dm%s\033[0m", colour, type, content);
         }
     }
 
