@@ -401,7 +401,7 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
 
     @Override
     public String toString() {
-        if (c < 0) {
+        if (c < 0 || c>65535) {
             return getFormatLogString("无效节点", 35, 1);
         }
         return getFormatLogString(TokenizerUtil.toString(c), 36, 0);
