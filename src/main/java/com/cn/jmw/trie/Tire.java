@@ -146,12 +146,21 @@ public class Tire<K, V> implements Serializable {
         }
     }
 
+    public int getSize() {
+        r.lock();
+        try {
+            return size;
+        }finally {
+            r.unlock();
+        }
+    }
+
     /**
-     * 获取深度
+     * 获取辅助子树深度
      */
-    public int getDeep() {
-        //TODO
-        return -1;
+    public int getDeep(String word) {
+        TrieQuerier trieQuerier = new TrieQuerier(mainTree, new TokenizerObject(word), true);
+        return trieQuerier.getDeep();
     }
 
 }

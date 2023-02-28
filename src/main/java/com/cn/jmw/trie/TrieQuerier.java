@@ -9,7 +9,7 @@ import com.cn.jmw.trie.tokenizer.Tokenizer;
  * @date 2023年01月25日 17:15
  * @Version 1.0
  */
-public class TrieQuerier extends Querier{
+public class TrieQuerier extends Querier {
 
     private TrieNode sourceRoot;
 
@@ -54,7 +54,7 @@ public class TrieQuerier extends Querier{
      */
     private boolean enableTrieAllSearch;
 
-    public TrieQuerier(TrieNode trieRootNode, Tokenizer content,boolean enableTrieAllSearch) {
+    public TrieQuerier(TrieNode trieRootNode, Tokenizer content, boolean enableTrieAllSearch) {
         super.content = content;
         super.trieRootNode = trieRootNode;
         this.sourceRoot = trieRootNode;
@@ -111,11 +111,11 @@ public class TrieQuerier extends Querier{
 
                     //如果字符长度大于0
                     if (str.length() > 0) {
-                        if(enableTrieAllSearch) {
-                            this.i = this.root+1;
-                        }else {
+                        if (enableTrieAllSearch) {
+                            this.i = this.root + 1;
+                        } else {
                             //原有会从匹配的尾部的下一个位置开始扫描
-                            this.i = this.iTemp+1;
+                            this.i = this.iTemp + 1;
                         }
                         this.root = this.i;
                         trieQueryResult = new TrieQueryResult(str, this.offset,
@@ -175,6 +175,36 @@ public class TrieQuerier extends Querier{
             }
         }
         return null;
+    }
+
+    private int deep = -1;
+
+    /**
+     * @Param []
+     * @return int
+     * @exception
+     * @Date 2023/2/27 17:08
+     * -1 ： 没有层数
+     * 0 ： 只有根节点
+     */
+    public int getDeep() {
+        if (trieRootNode.hasNext()) {
+           dfs(trieRootNode,0);
+        }
+        return deep;
+    }
+
+    public void dfs(TrieNode nextTireNodes,int deep) {
+        if (!nextTireNodes.hasNext()) {
+            this.deep = Math.max(deep,this.deep);
+            return;
+        }
+        TrieNode[] trieNodes = nextTireNodes.branches;
+        for (int j = 0; j < trieNodes.length; j++) {
+            TrieNode x = trieNodes[j];
+            dfs(x,deep+1);
+        }
+
     }
 
 }
