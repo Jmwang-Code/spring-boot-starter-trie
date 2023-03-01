@@ -20,6 +20,7 @@ public class Array2D {
      */
     int[] dx = {1, 0, 0, -1};
     int[] dy = {0, 1, -1, 0};
+
     public int[][] paintCoating(int[][] image, int sr, int sc, int color) {
         int currColor = image[sr][sc];
         if (currColor != color) {
@@ -48,9 +49,9 @@ public class Array2D {
         int n = grid.length, m = grid[0].length;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (grid[i][j] ==1){
+                if (grid[i][j] == 1) {
                     int t = dfsMaxAreaOfIsland(grid, i, j);
-                    max = Math.max(max,t);
+                    max = Math.max(max, t);
                 }
             }
         }
@@ -58,12 +59,37 @@ public class Array2D {
     }
 
     public int dfsMaxAreaOfIsland(int[][] grid, int x, int y) {
-        if (x<0 || x>=grid.length || y<0 || y>=grid[0].length || grid[x][y]==0)return 0;
+        if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length || grid[x][y] == 0) return 0;
         int num = 1;
-        grid[x][y]=0;
+        grid[x][y] = 0;
         for (int i = 0; i < 4; i++) {
-            num += dfsMaxAreaOfIsland(grid,x+dx[i],y+dy[i]);
+            num += dfsMaxAreaOfIsland(grid, x + dx[i], y + dy[i]);
         }
         return num;
+    }
+
+    static int[][] arr =
+//            {
+//                    {1, 4, 7, 11, 15},
+//                    {2, 5, 8, 12, 19},
+//                    {3, 6, 9, 16, 22},
+//                    {10, 13, 14, 17, 24},
+//                    {18, 21, 23, 26, 30}
+//            };
+            {};
+
+    public static boolean findNumberIn2DArray(int[][] matrix, int target) {
+        int x = 0, y = matrix.length - 1;
+        while (y >= 0 &&x < matrix[0].length) {
+            if (matrix[y][x] > target) y--;
+            else if (matrix[y][x] < target) x++;
+            else return true;
+        }
+        return false;
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(findNumberIn2DArray(arr,0));
     }
 }

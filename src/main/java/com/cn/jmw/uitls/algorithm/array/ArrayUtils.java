@@ -1,5 +1,7 @@
 package com.cn.jmw.uitls.algorithm.array;
 
+import java.util.BitSet;
+
 /**
  * @author jmw
  * @Description TODO
@@ -87,6 +89,23 @@ public class ArrayUtils<T>{
                 nums[j++] = tmp;
             }
         }
+    }
+
+    public static int findRepeatNumber(int[] nums) {
+        BitSet bitSet = new BitSet(100000);
+        for (int i = 0; i < nums.length; i++) {
+            if (bitSet.get(nums[i])){
+                return nums[i];
+            }
+            bitSet.set(nums[i]);
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {3,4,2,1,1,0};
+        int repeatNumber = findRepeatNumber(arr);
+        System.out.println(repeatNumber);
     }
 
 }

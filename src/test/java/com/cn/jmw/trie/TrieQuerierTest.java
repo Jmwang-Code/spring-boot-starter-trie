@@ -76,7 +76,8 @@ public class TrieQuerierTest {
 
         long l = System.currentTimeMillis();
         TrieQuerier trieQuerier = new TrieQuerier(trieNode, new TokenizerObject("阿达的南天门发放"), true);
-
+        int deep = trieQuerier.getDeep();
+        System.out.println("deep:"+deep);
         TrieQueryResult query = trieQuerier.query();
         String word = query.getWord();
         System.out.println(word);
@@ -90,7 +91,9 @@ public class TrieQuerierTest {
 //        trieNode1.print();
 
         TrieQuerier trieQuerier = new TrieQuerier(trieNode, new TokenizerObject("阿达的南天门发放"), true);
-
+        trieNode.print();
+        int deep = trieQuerier.getDeep();
+        System.out.println("deep:"+deep);
         TrieQueryResult query = trieQuerier.query();
         String word = query.getWord();
         TrieCode[] codes = query.getCodes();
@@ -98,6 +101,7 @@ public class TrieQuerierTest {
         int offset = query.getOffset();
 //        System.out.println(codes);
         System.out.println(offset);
+
     }
 
 
