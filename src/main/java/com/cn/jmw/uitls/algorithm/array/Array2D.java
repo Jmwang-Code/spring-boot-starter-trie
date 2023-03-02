@@ -1,5 +1,7 @@
 package com.cn.jmw.uitls.algorithm.array;
 
+import java.util.Arrays;
+
 /**
  * @author 一只小小狗
  * @version 1.0.0
@@ -76,11 +78,28 @@ public class Array2D {
 //                    {10, 13, 14, 17, 24},
 //                    {18, 21, 23, 26, 30}
 //            };
-            {};
+//            {
+//                    {1, 2, 3, 4},
+//                    {5, 6, 7, 8},
+//                    {9, 10, 11, 12}
+//            };
+            {
+                    {1, 2},
+                    {2, 4},
+                    {3, 6},
+                    {4, 8},
+                    {5, 10},
+                    {6, 12},
+                    {7, 14},
+                    {8, 16},
+                    {9, 18},
+                    {10, 20}
+            };
+    //{};
 
     public static boolean findNumberIn2DArray(int[][] matrix, int target) {
         int x = 0, y = matrix.length - 1;
-        while (y >= 0 &&x < matrix[0].length) {
+        while (y >= 0 && x < matrix[0].length) {
             if (matrix[y][x] > target) y--;
             else if (matrix[y][x] < target) x++;
             else return true;
@@ -88,8 +107,48 @@ public class Array2D {
         return false;
     }
 
+    public static int[] spiralOrder(int[][] matrix) {
+        int top = 0, bottom = matrix.length - 1, left = 0, right = matrix[0].length - 1, index = 0;
+        int[] arr = new int[matrix.length * matrix[0].length];
+        while (true) {
+            for (int i = left; i <= right; i++)
+                arr[index++] = matrix[top][i];
+            if (++top > bottom) break;
+            for (int i = top; i <= bottom; i++)
+                arr[index++] = matrix[i][right];
+            if (left > --right) break;
+            for (int i = right; i >= left; i--)
+                arr[index++] = matrix[bottom][i];
+            if (top > --bottom) break;
+            for (int i = bottom; i >= top; i--)
+                arr[index++] = matrix[i][left];
+            if (++left > right) break;
+        }
+        return arr;
+    }
+
+    public int[] spiralOrder1(int[][] matrix) {
+        if (matrix.length == 0) return new int[0];
+        int l = 0, r = matrix[0].length - 1, t = 0, b = matrix.length - 1, x = 0;
+        int[] res = new int[(r + 1) * (b + 1)];
+        while (true) {
+            for (int i = l; i <= r; i++)
+                res[x++] = matrix[t][i]; // left to right.
+            if (++t > b) break;
+            for (int i = t; i <= b; i++)
+                res[x++] = matrix[i][r]; // top to bottom.
+            if (l > --r) break;
+            for (int i = r; i >= l; i--)
+                res[x++] = matrix[b][i]; // right to left.
+            if (t > --b) break;
+            for (int i = b; i >= t; i--)
+                res[x++] = matrix[i][l]; // bottom to top.
+            if (++l > r) break;
+        }
+        return res;
+    }
 
     public static void main(String[] args) {
-        System.out.println(findNumberIn2DArray(arr,0));
+        System.out.println(Arrays.toString(spiralOrder(arr)));
     }
 }
