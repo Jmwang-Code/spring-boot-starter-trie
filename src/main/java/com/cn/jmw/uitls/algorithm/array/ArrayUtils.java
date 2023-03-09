@@ -1,6 +1,7 @@
 package com.cn.jmw.uitls.algorithm.array;
 
 import java.util.BitSet;
+import java.util.Map;
 
 /**
  * @author jmw
@@ -102,10 +103,59 @@ public class ArrayUtils<T>{
         return -1;
     }
 
+    /**
+     * @Param [s]
+     * @return char
+     * @exception
+     * @Date 2023/3/9 10:08
+     * 字符串中第一个不重复的
+     */
+    public char firstUniqChar(String s) {
+        //判断字母a-z是否在s中只出现了一次，在判断哪一个是最先的
+        int ans=50001;//s长度小于5000
+        int first,last;
+        for(int i=0;i<26;i++){
+            char ch=(char)('a'+i);
+            first=s.indexOf(ch);
+            if(first!=-1){
+                //说明s中包含有该字母
+                last=s.lastIndexOf(ch);
+                if(first==last){
+                    //说明该字母只出现了一次，记录出现位置
+                    ans=ans>first?first:ans;
+                }
+            }
+        }
+        return ans==50001?' ':s.charAt(ans);
+    }
+
+
+    //只出现一次的数字，使用 int只有32位来计算每一个位置次数/只有当前次数余3等于1的时候说明当前位只出现了一次
+    public int singleNumber(int[] nums) {
+        int[] cnt = new int[32];
+        for (int x : nums) {
+            for (int i = 0; i < 32; i++) {
+                if (((x >> i) & 1) == 1) {
+                    cnt[i]++;
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((cnt[i] % 3 & 1) == 1) {
+                ans += (1 << i);
+            }
+        }
+        return ans;
+    }
     public static void main(String[] args) {
-        int[] arr = {3,4,2,1,1,0};
+        int[] arr = {1,0,1,0,1,0,100};
         int repeatNumber = findRepeatNumber(arr);
         System.out.println(repeatNumber);
+
+        System.out.println(new ArrayUtils<>().firstUniqChar("asdakukand"));
+
+        System.out.println(new ArrayUtils<>().singleNumber(arr));
     }
 
 }
