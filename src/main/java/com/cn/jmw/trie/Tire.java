@@ -24,7 +24,7 @@ public class Tire<K, V> implements Serializable {
     private final static Lock r = rwl.readLock();
 
     private final static Lock w = rwl.writeLock();
-
+//无法做到实时刷新
     private transient int deep = 0;
 
     private transient int size = 0;
@@ -111,9 +111,14 @@ public class Tire<K, V> implements Serializable {
     }
 
     public void clear() {
-        mainTree = null;
-        size = 0;
-        deep = 0;
+        w.lock();
+        try {
+            mainTree = null;
+            size = 0;
+            deep = 0;
+        } finally {
+            w.unlock();
+        }
     }
 
     /**
@@ -127,7 +132,7 @@ public class Tire<K, V> implements Serializable {
             size--;
             return remove;
         } finally {
-            r.unlock();
+            w.unlock();
         }
     }
 
@@ -142,7 +147,7 @@ public class Tire<K, V> implements Serializable {
             size--;
             return remove;
         } finally {
-            r.unlock();
+            w.unlock();
         }
     }
 
@@ -150,7 +155,7 @@ public class Tire<K, V> implements Serializable {
         r.lock();
         try {
             return size;
-        }finally {
+        } finally {
             r.unlock();
         }
     }

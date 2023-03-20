@@ -8,6 +8,8 @@ import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
@@ -382,9 +384,101 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
         //TODO 删除逻辑
         w.lock();
         try {
-            return true;
+            TrieNodePath path = getBranchPath(word);
+            if (path != null) {
+                return removeEndNode(path, code, type);
+            }
+            return false;
         } finally {
             w.unlock();
+        }
+    }
+
+    private boolean removeEndNode(TrieNodePath path, int code, int type) {
+        TrieNode branch = path.getNode();
+        if (branch.getStatus() == 2 || branch.getStatus() == 3) {
+            // 单码的情况
+            if (branch.code == code && branch.type == type) {
+                // 找到匹配的节点，从父节点移除该节点
+                TrieNodePath parentPath = path.getParent();
+                TrieNode parent = parentPath.getNode();
+                removeFromParent(branch, parent);
+                if (branch.getStatus() == 3) {
+                    // 如果移除的节点为终节点，还可能需要移除路径上的无用中间节点
+                    removeOrphonNode(parentPath);
+                }
+                return true;
+            } else {
+                // 没有找到匹配的节点
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private void removeFromParent(TrieNode branch, TrieNode parent) {
+        int index = parent.getIndex(branch.c);
+        TrieNode[] newBranches = null;
+        if (parent.branches.length - 1 > 0) {
+            newBranches = new TrieNode[parent.branches.length - 1];
+            if (index > 0) {
+                System.arraycopy(parent.branches, 0, newBranches, 0, index);
+            }
+            if (parent.branches.length - index > 0) {
+                System.arraycopy(parent.branches, index + 1, newBranches,
+                        index, newBranches.length - index);
+            }
+        }
+        parent.branches = newBranches;
+    }
+
+    private void removeOrphonNode(TrieNodePath path) {
+        TrieNode node = path.getNode();
+        if ((node.branches == null || node.branches.length == 0)) {
+            if (node.getStatus() == 1) {
+                if (path.getParent() != null) {
+                    removeFromParent(path.getNode(), path.getParent().getNode());
+                    removeOrphonNode(path.getParent());
+                }
+            } else if (node.getStatus() == 2) {
+                node.status = 3;
+            }
+        }
+    }
+
+    public TrieNodePath getBranchPath(int[] word) {
+        List<TrieNode> nodes = new LinkedList<TrieNode>();
+        r.lock();
+        try {
+            TrieNode tempBranch = this;
+            nodes.add(tempBranch);
+            int index = 0;
+            for (int j = 0; j < word.length; j++) {
+                index = tempBranch.getIndex(word[j]);
+                if (index < 0) {
+                    return null;
+                }
+                if ((tempBranch = tempBranch.branches[index]) == null) {
+                    return null;
+                }
+                nodes.add(tempBranch);
+            }
+            TrieNodePath result = null;
+            TrieNodePath prevPath = null;
+            for (int i = nodes.size() - 1; i >= 0; i--) {
+                TrieNodePath currentPath = new TrieNodePath();
+                currentPath.setNode(nodes.get(i));
+                if (prevPath != null) {
+                    prevPath.setParent(currentPath);
+                }
+                if (result == null) {
+                    result = currentPath;
+                }
+                prevPath = currentPath;
+            }
+            return result;
+        } finally {
+            r.unlock();
         }
     }
 
@@ -395,13 +489,13 @@ public class TrieNode implements Comparable<TrieNode>, Serializable {
     public void print() {
         //预览协程
 //        Thread.startVirtualThread(() -> {
-            print("",true);
+        print("", true);
 //        });
     }
 
     @Override
     public String toString() {
-        if (c < 0 || c>65535) {
+        if (c < 0 || c > 65535) {
             return getFormatLogString("无效节点", 35, 1);
         }
         return getFormatLogString(TokenizerUtil.toString(c), 36, 0);

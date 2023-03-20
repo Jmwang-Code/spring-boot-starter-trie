@@ -1,5 +1,6 @@
 package com.cn.jmw;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.junit.jupiter.api.Test;
