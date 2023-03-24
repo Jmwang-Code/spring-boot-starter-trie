@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF8"?>
+<config enableTrieCompress="true" enableTrieInverted="false"
+	disableTrieLoad="false" enableTrieAllSearch="true">
+	<connection usePasswordService="false">
+		<!-- 直连tidb的配置文件，与Oracle配置文件互斥-->
+		<url>jdbc:mysql://10.202.16.15:4400/wind</url>
+		<user>wu_wdp</user>
+		<password>wu_wdp2021</password>
+
+		<!-- 直连oracle的配置文件，与TIDB配置文件互斥-->
+<!--		<url>jdbc:oracle:thin:@10.200.4.87:1521:stonetest</url>-->
+<!--		<user>wu_wdp</user>-->
+<!--		<password>pob6y1o6st6j78k5</password>-->
+		
+	</connection>
+	<elasticsearch scrollTimeout="86400000" batchSize="1000">
+		<hosts>
+			<host name="10.200.5.217" port="9300" />
+			<host name="10.200.5.217" port="9301" />
+		</hosts>
+		<settings>
+			<setting name="cluster.name" value="lzxsearch" />
+		</settings>
+	</elasticsearch>
+	
+	<codes>
+		<!-- 重要提示：看下面table标签中，关于remoteHandler属性的解释：
+						  （1）remoteHandler如果不配置，那么默认会通过JServer查询数据库，并使用配套的JServer结果处理器解析查询结果
+						  （2）remoteHandler如果配置了‘jserver’，那么也是使用的JServer查询数据库，跟不配置效果一样
+						  （3）remoteHandler如果配置了‘direct’，那么使用的是直连数据库的方式查询数据，并通过JDBC原生的那一套进行处理查询结果
+						  （4）remoteHandler如果配置了‘类全路径’，那么使用的是直连数据库的方式查询数据，并通过指定的这个类处理查询数据库结果
+						  综上，目前公司要求通过JServer连接数据库，可使用（1）或者（2）提示的配置方案，
+						  如果确实需要通过直连的方式连接数据库，那么请参考（3）
+					-->
+	   <code id="FULL-GS" name="企业全称" type="1" prefix="FULL-GS-" enable="true">
+            <tables>
+<!--                <table id="FULL-GS" name="企业全称" enable="true" remoteHandler="wind.news.code.data.JServerTrieDataResultSetHandler">-->
+<!--                <table id="FULL-GS" name="企业全称" enable="true" remoteHandler="wind.news.code.data.DefaultTrieDataResultSetHandler">-->
+<!--                <table id="FULL-GS" name="企业全称" enable="true" remoteHandler="direct">-->
+                <table id="FULL-GS" name="企业全称" enable="true" remoteHandler="jserver">
+<!--                <table id="FULL-GS" name="企业全称" enable="true">-->
+                    <sql>
+						<![CDATA[
+							SELECT F17_1090 code, OB_OBJECT_NAME_1090 NAME FROM TB_OBJECT_1090
+							WHERE 1=1			
+						]]>
+                    </sql>
+					
+					
+<!--					<rows name="1" code="2" threshold="75"/>-->
+<!--					<rows name="1" code="2" threshold="75"/>-->
+                </table>
+            </tables>
+        </code>
+		<code id="TEXT-NONUNIQUEABBR-GS" name="重复的新版文本简称名" type="5" prefix="TEXT-NONUNIQUEABBR-GS-" enable="false">
+			<tables>
+				<table id="TEXT_NONUNIQUE_ABBRNAME" name="重复的新版文本简称名" enable="true" remoteHandler="direct">
+					<sql>
+						<![CDATA[
+							SELECT F1_1419 code, F3_1419 NAME FROM TB_OBJECT_1419
+							WHERE 1=1				
+						]]>
+					</sql>
+				</table>
+			</tables>
+		</code>
+		<code id="TEXT-UNIQUEABBR-GS" name="不重复的新版文本简称名" type="4" prefix="TEXT-UNIQUEABBR-GS-" enable="false">
+			<tables>
+				<table id="TEXT_UNIQUE_ABBRNAME" name="不重复的新版文本简称名" enable="true" remoteHandler="direct">
+					<sql>
+						<![CDATA[
+                     select T0088.F1_0088 code,
+                     T0088.F2_0088 NAME FROM WIND.TB_OBJECT_0088 T0088 WHERE ROWNUM < 10
+                		]]>
+					</sql>
+				</table>
+			</tables>
+		</code>
+
+	</codes>
+	<cache enable="true">
+		<dir>D:\coding\哈几米玛死它\1\cache</dir>
+		<initSql>
+			<![CDATA[
+        CREATE TABLE IF NOT EXISTS DATA (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                NAME VARCHAR(200) NOT NULL,
+                CODE INTEGER NOT NULL,
+                DELETED INT NOT NULL DEFAULT 0
+        );
+        ]]>
+		</initSql>
+		<checkExistsSql>
+			<![CDATA[
+        SELECT EXISTS(SELECT name from sqlite_master where type = 'table' and name = 'DATA')
+        ]]>
+		</checkExistsSql>
+		<querySql>
+			<![CDATA[
+        SELECT ID, NAME, CODE FROM DATA WHERE DELETED = 0
+        ]]>
+		</querySql>
+		<insertSql>
+			<![CDATA[
+        INSERT INTO DATA (NAME, CODE) VALUES (?, ?)
+        ]]>
+		</insertSql>
+	</cache>
+	<oplog>
+        <dir>D:\coding\哈几米玛死它\1\op</dir>
+        <initSql>
+            <![CDATA[
+        CREATE TABLE IF NOT EXISTS DATA (
+                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                NAME VARCHAR(200) NOT NULL,
+                CODE INTEGER NOT NULL,
+                TYPE INTEGER NOT NULL,
+                OP INTEGER NOT NULL
+        );
+        ]]>
+        </initSql>
+        <querySql>
+            <![CDATA[
+        SELECT ID, NAME, CODE, TYPE, OP FROM DATA
+        ]]>
+        </querySql>
+        <insertSql>
+            <![CDATA[
+        INSERT INTO DATA (NAME, CODE, TYPE, OP) VALUES (?, ?, ?, ?)
+        ]]>
+        </insertSql>
+    </oplog>
+</config>

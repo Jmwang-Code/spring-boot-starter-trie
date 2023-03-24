@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>My Cool Index Page</title>
+<!--    <link rel="stylesheet" th:href="@{../static/css/index.css}">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
+    <style>
+        /* styles.css */
+
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+        }
+
+        header {
+            background-color: #333;
+            padding: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #f00;
+        }
+
+        main {
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #f00;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #900;
+        }
+
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+<!--            <li><a href="#">About</a></li>-->
+<!--            <li><a href="#">Services</a></li>-->
+<!--            <li><a href="#">Contact</a></li>-->
+            <li><a href="#" id="logout-link">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <h1>Welcome to My Cool Website</h1>
+    <p>Check out all of the cool things we have to offer!</p>
+    <button id="learn-more-button">Learn More</button>
+</main>
+<footer>
+    <p>&copy; 2023 My Cool Website. All rights reserved.</p>
+</footer>
+<script>
+    $(function() {
+        // Handle logout link click
+        $("#logout-link").click(function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You will be logged out and redirected to the login page!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, log me out!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post("/logout", function(data) {
+                        window.location.href = "/login";
+                    });
+                }
+            });
+        });
+
+        // Handle learn more button click
+        $("#learn-more-button").click(function(event) {
+            event.preventDefault();
+            // Do something here
+        });
+    });
+</script>
+</body>
+</html>

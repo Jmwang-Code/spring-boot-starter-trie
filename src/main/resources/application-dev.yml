@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://152.136.154.249:3306/mydb?&allowMultiQueries=true&characterEncoding=utf-8
+    username: mydb
+    password: waem8XcHS2BafkKz
+
+  security:
+    user:
+      name: jmw
+      password: jmw
+
+  web:
+    resources:
+      static-locations: classpath:/static/
