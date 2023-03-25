@@ -210,14 +210,65 @@ public class ArrayUtils<T> {
                     result[i - k + 1] = ((double) maxHeap.peek() + (double) minHeap.peek()) / 2.0;
                     System.out.println(result[i - k + 1]);
                 } else {
-                    result[i - k + 1] = (double)maxHeap.peek();
+                    result[i - k + 1] = (double) maxHeap.peek();
                 }
             }
         }
         return result;
     }
 
+    public int threeSumClosest(int[] nums, int target) {
+        //排序 o(NlogN)
+        Arrays.sort(nums);
+        //如果最小组合小于目标，直接返回
+        int min = nums[0] + nums[1] + nums[2];
+        if(target < min){
+            return min;
+        }
+        //如果目标大于最大组合，直接返回
+        int max = nums[nums.length-3] + nums[nums.length-2] + nums[nums.length-1];
+        if( target > max) {
+            return max;
+        }
+        //返回值 赋值最大组合
+        int better_sum = max;
 
+        for (int i = 0; i <nums.length-2 ; i++) {
+            //三个节点  i ， low ，high
+            int low = i+1, high = nums.length-1;
+            int sum = 0;
+            //low<high只要成立，low就可以像右移，high可以向左移
+            while (low < high){
+                min = nums[i] + nums[low] + nums[low+1];
+                //当前最小组合 大于 目标,则满足条件就赋值
+                if(target < min){
+                    better_sum = Math.abs(target - min ) > Math.abs(target - better_sum ) ? better_sum : min;
+                    break;
+                }
+                max = nums[i] + nums[high-1] + nums[high];
+                //目标 大于 当前最大组合,则满足条件就赋值
+                if(target > max){
+                    better_sum = Math.abs(target - max ) > Math.abs(target - better_sum ) ? better_sum : max;
+                    break;
+                }
+                sum = nums[i] + nums[low] + nums[high];
+                //否则就进行轮询，判断当前差值是否小于返回差值
+                if( Math.abs(target - sum ) < Math.abs(target - better_sum )){
+                    //赋值给返回差值
+                    better_sum = sum;
+                }
+                //low和high的移动
+                if( sum == target){
+                    return sum;
+                }else if( sum > target){
+                    high --;
+                }else {
+                    low++;
+                }
+            }
+        }
+        return better_sum;
+    }
 
     public static void main(String[] args) {
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((a, b) -> b - a);
@@ -230,7 +281,8 @@ public class ArrayUtils<T> {
         System.out.println(new ArrayUtils<>().singleNumber(arr));
 //        System.out.println(Arrays.toString(ArrayUtils.medianSlidingWindow(new int[]{2147483647,1,2,3,4,5,6,7,2147483647}, 2)));
 //        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
-        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{9,7,0,3,9,8,6,5,7,6}, 2)));
+        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{9, 7, 0, 3, 9, 8, 6, 5, 7, 6}, 2)));
+        System.out.println(new ArrayUtils<>().threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
     }
 
 }
