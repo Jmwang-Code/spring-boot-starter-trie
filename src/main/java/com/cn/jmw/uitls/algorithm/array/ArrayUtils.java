@@ -270,6 +270,42 @@ public class ArrayUtils<T> {
         return better_sum;
     }
 
+    public void nextPermutation(int[] nums) {
+        //寻找到较小的，指针A
+        int A = nums.length - 2;
+        //如果保持递增 或者平值,则移动A
+        while (A >= 0 && nums[A] >= nums[A + 1]) {
+            A--;
+        }
+
+        if (A >= 0) {
+            int B = nums.length - 1;
+            //如果较小值 大于或者平值 当前值，则需要B左移，否则就确定了较大值
+            while (B >= 0 && nums[A] >= nums[B]) {
+                B--;
+            }
+            swap(nums, A, B);
+        }
+        //最巧妙的地方就是这里，前期的铺垫已经注定了A之后的数据都是递减，这时候排序就变得简单的多o(n)足够
+        reverse(nums,A + 1);
+    }
+
+    public void swap(int[] nums, int A, int B) {
+        nums[A] ^= nums[B];
+        nums[B] ^= nums[A];
+        nums[A] ^= nums[B];
+    }
+
+    public void reverse(int[] nums, int left) {
+        int right = nums.length - 1;
+        while (left < right) {
+            swap(nums, left, right);
+            left++;
+            right--;
+        }
+    }
+
+
     public static void main(String[] args) {
         PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((a, b) -> b - a);
         int[] arr = {1, 0, 1, 0, 1, 0, 100};
@@ -283,6 +319,8 @@ public class ArrayUtils<T> {
 //        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
         System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{9, 7, 0, 3, 9, 8, 6, 5, 7, 6}, 2)));
         System.out.println(new ArrayUtils<>().threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
+        new ArrayUtils<>().nextPermutation(new int[]{3,2,1});
+        System.out.println();
     }
 
 }
