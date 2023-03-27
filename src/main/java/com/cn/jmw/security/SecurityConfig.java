@@ -63,7 +63,8 @@ public class SecurityConfig {
     private static class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
         @Override
         public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-            response.sendRedirect("/doc.html#/home");
+//            response.sendRedirect("/doc.html#/home");
+            response.sendRedirect("/index");
         }
     }
 }

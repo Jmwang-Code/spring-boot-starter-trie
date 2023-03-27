@@ -22,6 +22,11 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/index")
+    public String index(Model model) {
+        return "index";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         //注销当前用户的登录状态
@@ -32,5 +37,10 @@ public class LoginController {
         //重定向到登录页面
         return "redirect:/login?logout";
 //        return "/logout";
+    }
+
+    @GetMapping("/api")
+    public String api(Model model) {
+        return "redirect:/doc.html#/home";
     }
 }
