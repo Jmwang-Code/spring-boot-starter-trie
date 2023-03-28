@@ -48,6 +48,8 @@ public class SecurityConfig {
                 .invalidateHttpSession(true) //使HttpSession失效
                 .deleteCookies("JSESSIONID") //删除指定的cookies
                 .and()
+                .headers().frameOptions().disable() //允许iframe 嵌套，跨域问题未允许
+                .and()
                 .csrf().disable();//csrf 关闭 CSRF保护机制,403错误可能是由于CSRF保护机制造成的
 
         http.headers().contentTypeOptions().disable();

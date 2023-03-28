@@ -10,6 +10,18 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.min.js"></script>
     <style>
         /* styles.css */
+        .iframe-wrapper {
+            position: relative;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 的高宽比 */
+        }
+        .iframe-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
         body {
             background-color: #222;
@@ -87,24 +99,91 @@
 <header>
     <nav>
         <ul>
-            <li><a href="/api">API-Home</a></li>
+            <li><a href="/#" id="api-link">API-Home</a></li>
 <!--            <li><a href="#">About</a></li>-->
 <!--            <li><a href="#">Services</a></li>-->
 <!--            <li><a href="#">Contact</a></li>-->
             <li><a href="#" id="logout-link">Logout</a></li>
+            <button id="fullscreen-button">全屏</button>
         </ul>
     </nav>
 </header>
-<main>
-<!--    <h1>Welcome to My Cool Website</h1>-->
-<!--    <p>Check out all of the cool things we have to offer!</p>-->
-<!--    <button id="learn-more-button">Learn More</button>-->
-    <iframe th:src="@{/doc.html}" frameborder="0" width="100%" height="800px"></iframe>
-</main>
+<!--<main>-->
+<!--&lt;!&ndash;    <h1>Welcome to My Cool Website</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p>Check out all of the cool things we have to offer!</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <button id="learn-more-button">Learn More</button>&ndash;&gt;-->
+<!--    <iframe th:src="@{/api}" width="100%" height="100%"></iframe>-->
+<!--</main>-->
+<div class="iframe-wrapper">
+    <iframe id="my-iframe" th:src="@{/api}"></iframe>
+</div>
 <footer>
     <p>&copy; 2023 My Cool Website. All rights reserved.</p>
 </footer>
+<!-- 按钮文档 -->
 <script>
+    var fullscreenButton = document.getElementById('fullscreen-button');
+
+    // 检测浏览器是否支持 Fullscreen API
+    if (document.fullscreenEnabled) {
+        // 添加点击事件监听器
+        fullscreenButton.addEventListener('click', function() {
+            // 获取要全屏显示的元素
+            var element = document.documentElement;
+
+            // 如果当前不在全屏状态，那么进入全屏模式
+            if (!document.fullscreenElement) {
+                element.requestFullscreen();
+            } else {
+                // 如果当前在全屏状态，那么退出全屏模式
+                document.exitFullscreen();
+            }
+        });
+    } else {
+        // 如果不支持 Fullscreen API，禁用按钮
+        fullscreenButton.disabled = true;
+    }
+</script>
+<!-- frame -->
+<script>
+    // 当 iframe 加载完毕后，调整它的高度
+    var iframe = document.getElementById('my-iframe');
+    iframe.addEventListener('load', function() {
+        var doc = iframe.contentWindow.document;
+        var iframeHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+        iframe.style.height = iframeHeight + 'px';
+    });
+</script>
+<script>
+    $(function() {
+        // Handle logout link click
+        $("#api-link").click(function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Are you sure you want to go to the API page? Current page and embedded API page! And the entry page cannot jump back normally!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, let me go!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.get("/api", function(data) {
+                        // window.location.href = "/doc.html#/home";
+                        window.location.href = "/api";
+                    });
+                }
+            });
+        });
+
+        // Handle learn more button click
+        $("#learn-more-button").click(function(event) {
+            event.preventDefault();
+            // Do something here
+        });
+    });
+
     $(function() {
         // Handle logout link click
         $("#logout-link").click(function(event) {

@@ -1,6 +1,7 @@
 package com.cn.jmw.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -40,7 +41,7 @@ public class LoginController {
     }
 
     @GetMapping("/api")
-    public String api(Model model) {
+    public String api(Model model, HttpServletResponse response) {
         return "redirect:/doc.html#/home";
     }
 }
