@@ -305,22 +305,52 @@ public class ArrayUtils<T> {
         }
     }
 
+    /**
+     * 1.纵向计算
+     */
+    public int trap(int[] height) {
+        int sum = 0;
+        //第一个和最后一个的位置不论有没有墙 都不会接住雨水
+        for (int i = 1; i < height.length-1; i++) {
+            int left_max = 0,right_max = 0;
+            for (int j = i-1; j >= 0; j--) {
+                if (height[j]>left_max){
+                    left_max = height[j];
+                }
+            }
+
+            for (int j = i+1; j < height.length; j++) {
+                if (height[j]>right_max){
+                    right_max = height[j];
+                }
+            }
+
+            //找出两端较小的
+            int min = Math.min(left_max, right_max);
+            //只有较小的一段大于当前列的高度才会有水，其他情况不会有水
+            if (min > height[i]) {
+                sum += min - height[i];
+            }
+        }
+        return sum;
+    }
 
     public static void main(String[] args) {
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((a, b) -> b - a);
-        int[] arr = {1, 0, 1, 0, 1, 0, 100};
-        int repeatNumber = findRepeatNumber(arr);
-        System.out.println(repeatNumber);
-
-        System.out.println(new ArrayUtils<>().firstUniqChar("asdakukand"));
-
-        System.out.println(new ArrayUtils<>().singleNumber(arr));
-//        System.out.println(Arrays.toString(ArrayUtils.medianSlidingWindow(new int[]{2147483647,1,2,3,4,5,6,7,2147483647}, 2)));
-//        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
-        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{9, 7, 0, 3, 9, 8, 6, 5, 7, 6}, 2)));
-        System.out.println(new ArrayUtils<>().threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
-        new ArrayUtils<>().nextPermutation(new int[]{3,2,1});
-        System.out.println();
+//        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((a, b) -> b - a);
+//        int[] arr = {1, 0, 1, 0, 1, 0, 100};
+//        int repeatNumber = findRepeatNumber(arr);
+//        System.out.println(repeatNumber);
+//
+//        System.out.println(new ArrayUtils<>().firstUniqChar("asdakukand"));
+//
+//        System.out.println(new ArrayUtils<>().singleNumber(arr));
+////        System.out.println(Arrays.toString(ArrayUtils.medianSlidingWindow(new int[]{2147483647,1,2,3,4,5,6,7,2147483647}, 2)));
+////        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{1, 3, -1, -3, 5, 3, 6, 7}, 3)));
+//        System.out.println(Arrays.toString(new ArrayUtils().medianSlidingWindow(new int[]{9, 7, 0, 3, 9, 8, 6, 5, 7, 6}, 2)));
+//        System.out.println(new ArrayUtils<>().threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
+//        new ArrayUtils<>().nextPermutation(new int[]{3,2,1});
+//        System.out.println();
+        System.out.println(new ArrayUtils<>().trap(new int[]{4,2,0,3,2,5}));
     }
 
 }

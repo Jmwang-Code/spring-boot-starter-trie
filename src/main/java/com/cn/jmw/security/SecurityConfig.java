@@ -53,6 +53,17 @@ public class SecurityConfig {
                 .csrf().disable();//csrf 关闭 CSRF保护机制,403错误可能是由于CSRF保护机制造成的
 
         http.headers().contentTypeOptions().disable();
+
+        //1.HTTP响应标头
+        //https://docs.spring.io/spring-security/reference/servlet/exploits/headers.html#page-title
+        //http.headers()
+
+        //2.授权HTTP请求
+        //https://docs.spring.io/spring-security/reference/servlet/authorization/authorize-http-requests.html#page-title
+        //http.authorizeHttpRequests()
+
+        //3.基本认证
+        //http.httpBasic()
         return http.build();
     }
 
