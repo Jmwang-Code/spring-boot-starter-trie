@@ -54,7 +54,7 @@ public class Tire<K, V> implements Serializable {
         w.lock();
         try {
             boolean add = mainTree.add(word, mode, code, type);
-            size++;
+            if (add)size++;
             return add;
         } finally {
             w.unlock();
@@ -73,7 +73,7 @@ public class Tire<K, V> implements Serializable {
         w.lock();
         try {
             boolean add = mainTree.add(TokenizerUtil.codePoints(word), mode, code, type);
-            size++;
+            if (add)size++;
             return add;
         } finally {
             w.unlock();

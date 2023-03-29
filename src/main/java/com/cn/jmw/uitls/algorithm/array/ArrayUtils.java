@@ -335,6 +335,82 @@ public class ArrayUtils<T> {
         return sum;
     }
 
+    /**
+     * 2.动态规划
+     */
+    public int trap1(int[] height) {
+        int sum = 0;
+
+        //获取左边最大数组 和右边最大数组,并且要去掉计算 0和length-1的索引值
+        int[] left = new int[height.length],right = new int[height.length];
+        for (int i = 1; i < height.length-1; i++) {
+            left[i] = Math.max(left[i-1],height[i-1]);
+        }
+
+        for (int i = height.length-2; i > 0 ; i--) {
+            right[i] = Math.max(right[i+1],height[i+1]);
+        }
+
+        for (int i = 1; i < height.length-1; i++) {
+            int min = Math.min(right[i],left[i]);
+            if (min>height[i]){
+                sum += min-height[i];
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 3.双指针
+     */
+    public int trap2(int[] height) {
+        int sum = 0,left = 0,min = 10000;
+        //获取左边最大数组 和右边最大数组,并且要去掉计算 0和length-1的索引值
+        int[] right = new int[height.length];
+        for (int i = height.length-2; i > 0 ; i--) {
+            right[i] = Math.max(right[i+1],height[i+1]);
+        }
+
+        //由于left数组与 正常遍历流程方向一致，所以不需要数组存储，只需要用一个值冬天变化，固定指针就好
+        for (int i = 1; i < height.length-1; i++) {
+            left = Math.max(left,height[i-1]);
+            min = Math.min(left,right[i]);
+            if (min > height[i]) {
+                sum += min - height[i];
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 4.动态规划的极致，不需要额外的数组存储，双指针的极致
+     */
+    public int trap3(int[] height) {
+        if (height == null || height.length == 0) {
+            return 0;
+        }
+        int n = height.length;
+        //将指针绑定左右
+        int left = 0, right = n - 1;
+        //获取左右最大值
+        int leftMax = height[0], rightMax = height[n - 1];
+        int ans = 0;
+        //使勇while 去掉方向，这样就不需要关心leftMax是增 rightMax是减的问题
+        while (left <= right) {
+            leftMax = Math.max(leftMax, height[left]);
+            rightMax = Math.max(rightMax, height[right]);
+            //leftMax和rightMax 动态的获取当前最小值，并且移动指针
+            if (leftMax < rightMax) {
+                ans += leftMax - height[left];
+                left++;
+            } else {
+                ans += rightMax - height[right];
+                right--;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
 //        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((a, b) -> b - a);
 //        int[] arr = {1, 0, 1, 0, 1, 0, 100};
@@ -350,7 +426,7 @@ public class ArrayUtils<T> {
 //        System.out.println(new ArrayUtils<>().threeSumClosest(new int[]{-1, 2, 1, -4}, 1));
 //        new ArrayUtils<>().nextPermutation(new int[]{3,2,1});
 //        System.out.println();
-        System.out.println(new ArrayUtils<>().trap(new int[]{4,2,0,3,2,5}));
+        System.out.println(new ArrayUtils<>().trap2(new int[]{4,2,0,3,2,5}));
     }
 
 }
