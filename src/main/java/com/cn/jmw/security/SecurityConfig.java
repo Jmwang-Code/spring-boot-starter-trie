@@ -30,7 +30,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests()
 //               .requestMatchers("/doc.html","/v3/api-docs/**").authenticated() //精细控制
 //                .requestMatchers(HttpMethod.POST,"/Tire/**").permitAll()
-                .requestMatchers("/static/**", "/login", "/logout").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/login", "/logout").permitAll()
                 .anyRequest().authenticated() // 所有请求都需要认证，除了上述的
                 .and()
                 .formLogin()
@@ -64,6 +64,8 @@ public class SecurityConfig {
 
         //3.基本认证
         //http.httpBasic()
+
+
         return http.build();
     }
 

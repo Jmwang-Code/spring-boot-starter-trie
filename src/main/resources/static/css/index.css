@@ -1,4 +1,16 @@
 /* styles.css */
+.iframe-wrapper {
+    position: relative;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 的高宽比 */
+}
+.iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 
 body {
     background-color: #222;
