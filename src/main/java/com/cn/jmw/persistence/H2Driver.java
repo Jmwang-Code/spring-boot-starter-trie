@@ -48,6 +48,57 @@ public class H2Driver {
         conn.close();
     }
 
+    //h2内存连接代码
+    public static void main1(String[] args) throws Exception {
+        Class.forName(H2_DRIVER_MEMORY);
+        Connection conn = DriverManager.getConnection(H2_URL_MEMORY, "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("create table test(id int primary key, name varchar(255))");
+        stmt.execute("insert into test values(1, 'Hello')");
+        stmt.execute("insert into test values(2, 'World')");
+        ResultSet rs = stmt.executeQuery("select * from test");
+        while (rs.next()) {
+            System.out.println(rs.getInt(1) + " " + rs.getString(2));
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
+
+    //h2远程连接代码
+    public static void main2(String[] args) throws Exception {
+        Class.forName(H2_DRIVER_REMOTE);
+        Connection conn = DriverManager.getConnection(H2_URL_REMOTE, "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("create table test(id int primary key, name varchar(255))");
+        stmt.execute("insert into test values(1, 'Hello')");
+        stmt.execute("insert into test values(2, 'World')");
+        ResultSet rs = stmt.executeQuery("select * from test");
+        while (rs.next()) {
+            System.out.println(rs.getInt(1) + " " + rs.getString(2));
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
+
+    //h2本地连接代码
+    public static void main3(String[] args) throws Exception {
+        Class.forName(H2_DRIVER);
+        Connection conn = DriverManager.getConnection(H2_URL, "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("create table test(id int primary key, name varchar(255))");
+        stmt.execute("insert into test values(1, 'Hello')");
+        stmt.execute("insert into test values(2, 'World')");
+        ResultSet rs = stmt.executeQuery("select * from test");
+        while (rs.next()) {
+            System.out.println(rs.getInt(1) + " " + rs.getString(2));
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
+
 
 
 }
