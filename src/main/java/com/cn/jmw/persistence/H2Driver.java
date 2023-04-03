@@ -99,6 +99,39 @@ public class H2Driver {
         conn.close();
     }
 
+    //h2 druid连接代码
+    public static void main4(String[] args) throws Exception {
+        Class.forName("com.alibaba.druid.pool.DruidDataSource");
+        Connection conn = DriverManager.getConnection("jdbc:druid:h2:~/test", "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("create table test(id int primary key, name varchar(255))");
+        stmt.execute("insert into test values(1, 'Hello')");
+        stmt.execute("insert into test values(2, 'World')");
+        ResultSet rs = stmt.executeQuery("select * from test");
+        while (rs.next()) {
+            System.out.println(rs.getInt(1) + " " + rs.getString(2));
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
+
+    //h2交给spring管理
+    public static void main5(String[] args) throws Exception {
+        Class.forName("org.springframework.jdbc.datasource.DriverManagerDataSource");
+        Connection conn = DriverManager.getConnection("jdbc:druid:h2:~/test", "sa", "");
+        Statement stmt = conn.createStatement();
+        stmt.execute("create table test(id int primary key, name varchar(255))");
+        stmt.execute("insert into test values(1, 'Hello')");
+        stmt.execute("insert into test values(2, 'World')");
+        ResultSet rs = stmt.executeQuery("select * from test");
+        while (rs.next()) {
+            System.out.println(rs.getInt(1) + " " + rs.getString(2));
+        }
+        rs.close();
+        stmt.close();
+        conn.close();
+    }
 
 
 }
