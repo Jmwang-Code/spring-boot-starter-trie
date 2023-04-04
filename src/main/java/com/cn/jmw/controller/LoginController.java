@@ -28,6 +28,11 @@ public class LoginController {
         return "index";
     }
 
+    @GetMapping("/trie")
+    public String tire(Model model) {
+        return "trie";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         //注销当前用户的登录状态

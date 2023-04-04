@@ -42,6 +42,9 @@ public class ListNode {
         return dummyNode.next;
     }
 
+    //对比时间复杂度 n-1 < (n*n)/2 + n/2
+    //存在 n>0 成立以上不等式
+
     public ListNode mergeKLists(ListNode[] lists) {
         ListNode ans = null;
         for (int i = 0; i < lists.length; ++i) {
@@ -68,6 +71,41 @@ public class ListNode {
         }
         tail.next = (aPtr != null ? aPtr : bPtr);
         return head.next;
+    }
+
+    //分而治之，在合并
+    public ListNode mergeKLists2(ListNode[] lists) {
+        if (lists.length==0 && lists==null)return new ListNode();
+        return divideAndRule(lists,0,lists.length-1);
+    }
+
+    //分治法
+    public ListNode divideAndRule(ListNode[] listNode,int start,int end){
+        if (start>end)return null;
+        if (start==end)return listNode[end];
+
+        int mid = (start+end)/2;
+        ListNode left = divideAndRule(listNode,start,mid);
+        ListNode right = divideAndRule(listNode,mid+1,end);
+        return merge(left,right);
+    }
+
+    public ListNode merge(ListNode left,ListNode right){
+        ListNode temp = new ListNode(-1);
+        ListNode cur = temp;
+        while (left!=null&&right!=null){
+
+            if (left.val>right.val){
+                cur.next = right;
+                right = right.next;
+            }else {
+                cur.next = left;
+                left = left.next;
+            }
+            cur = cur.next;
+        }
+        cur.next = left!=null?left:right;
+        return temp.next;
     }
 
     public static void main(String[] args) {
