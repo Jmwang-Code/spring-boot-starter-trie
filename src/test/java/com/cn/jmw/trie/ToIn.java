@@ -1,131 +1,131 @@
-package com.cn.jmw.trie;
-
-import com.cn.jmw.trie.tokenizer.TokenizerUtil;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-/**
- * @author jmw
- * @Description TODO
- * @date 2023Äê01ÔÂ20ÈÕ 17:05
- * @Version 1.0
- */
-public class ToIn {
-
-    /**
-     * ½«×Ö·û´®×ª³Éunicode
-     * @param str ´ý×ª×Ö·û´®
-     * @return unicode×Ö·û´®
-     */
-    public static String convert(String str) {
-        str = (str == null ? "" : str);
-        String tmp;
-        StringBuffer sb = new StringBuffer(1000);
-        char c;
-        int i, j;
-        sb.setLength(0);
-        for (i = 0; i < str.length(); i++) {
-            c = str.charAt(i);
-            sb.append("\\u");
-            j = (c >>> 8); //È¡³ö¸ß8Î»
-            tmp = Integer.toHexString(j);
-            if (tmp.length() == 1)
-                sb.append("0");
-            sb.append(tmp);
-            j = (c & 0xFF); //È¡³öµÍ8Î»
-            tmp = Integer.toHexString(j);
-            if (tmp.length() == 1)
-                sb.append("0");
-            sb.append(tmp);
-
-        }
-        return (new String(sb));
-    }
-
-    /**
-     * ×Ö·û´®×ª»»unicode
-     */
-    public static String convert2(String string) {
-
-        StringBuffer unicode = new StringBuffer();
-
-        for (int i = 0; i < string.length(); i++) {
-
-            // È¡³öÃ¿Ò»¸ö×Ö·û
-            char c = string.charAt(i);
-
-            // ×ª»»Îªunicode
-            unicode.append(String.format("\\u%04x",Integer.valueOf(c)));
-        }
-
-        return unicode.toString();
-    }
-
-    /**
-     * unicode×ª×Ö·û´®
-     * @param unicodeStr unicode
-     * @return ×Ö·û´®
-     */
-    public static String unicodeToString(String unicodeStr) {
-        // XDigitÊÇPOSIX×Ö·ûÀà£¬±íÊ¾Ê®Áù½øÖÆÊý×Ö£¬\p{XDigit}µÈ¼ÛÓÚ[a-fA-F0-9]
-        // patternÓÃÓÚÆ¥ÅäÐÎÈç\\u6211µÄ×Ö·û´®
-        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
-        Matcher matcher = pattern.matcher(unicodeStr);
-        char ch;
-        while (matcher.find()) {
-            // ²¶»ñ×é°´¿ªÀ¨ºÅ'('´Ó×óµ½ÓÒ±àºÅ£¨´Ó1¿ªÊ¼£©£¬ÒÔ(A(B(C)))ÎªÀý£¬group(1)±íÊ¾(A(B(C))£¬group(2)±íÊ¾(B(C))£¬group(3)±íÊ¾(C)
-            // group(2)±íÊ¾µÚ¶þ¸ö²¶»ñ×é£¬¼´(\p{XDigit}{4})
-            // Integer.parseInt(str, 16)°Ñ16½øÖÆµÄÊý×Ö×Ö·û´®×ª»¯Îª10½øÖÆ£¬±ÈÈçInteger.parseInt("16", 16) = 22
-            ch = (char) Integer.parseInt(matcher.group(2), 16);
-            // °ÑµÚÒ»¸ö²¶»ñ×é£¬¼´ÐÎÈç\\u6211ÕâÑùµÄ×Ö·û´®Ìæ»»³ÉÖÐÎÄ
-            unicodeStr = unicodeStr.replace(matcher.group(1), ch + "");
-        }
-        return unicodeStr;
-    }
-
-
-    /**
-     * ×Ö·û´®×ªunicode
-     * @param str ×Ö·û´®
-     * @return unicode
-     */
-    public static String stringToUnicode(String str) {
-        StringBuffer sb = new StringBuffer();
-        char[] c = str.toCharArray();
-        for (int i = 0; i < c.length; i++) {
-            // Integer.toHexString°Ñ×Ö·û´®×ª16½øÖÆ
-            sb.append("\\u" + Integer.toHexString(c[i]));
-        }
-        return sb.toString();
-    }
-
-
-    public static void main(String[] args) {
-        ArrayList<String> list = new ArrayList();
-        for (int i = 0; i < 100000; i++) {
-            list.add("ÄÏ");
-        }
-        System.out.println(list.size());
-        long l = System.currentTimeMillis();
-        list.stream().forEach((a
-        )->{
-            convert(String.valueOf(a));
-        });
-        System.out.println(System.currentTimeMillis()-l);
-
-        System.out.println(TokenizerUtil.toString(21335));
-
-        long l2 = System.currentTimeMillis();
-        list.stream().forEach((a
-        )->{
-            convert2(String.valueOf(a));
-        });
-        System.out.println(System.currentTimeMillis()-l2);
-
-    }
-}
+//package com.cn.jmw.trie;
+//
+//import com.cn.jmw.trie.tokenizer.TokenizerUtil;
+//
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.HashMap;
+//import java.util.Map;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
+//
+///**
+// * @author jmw
+// * @Description TODO
+// * @date 2023ï¿½ï¿½01ï¿½ï¿½20ï¿½ï¿½ 17:05
+// * @Version 1.0
+// */
+//public class ToIn {
+//
+//    /**
+//     * ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½unicode
+//     * @param str ï¿½ï¿½×ªï¿½Ö·ï¿½ï¿½ï¿½
+//     * @return unicodeï¿½Ö·ï¿½ï¿½ï¿½
+//     */
+//    public static String convert(String str) {
+//        str = (str == null ? "" : str);
+//        String tmp;
+//        StringBuffer sb = new StringBuffer(1000);
+//        char c;
+//        int i, j;
+//        sb.setLength(0);
+//        for (i = 0; i < str.length(); i++) {
+//            c = str.charAt(i);
+//            sb.append("\\u");
+//            j = (c >>> 8); //È¡ï¿½ï¿½ï¿½ï¿½8Î»
+//            tmp = Integer.toHexString(j);
+//            if (tmp.length() == 1)
+//                sb.append("0");
+//            sb.append(tmp);
+//            j = (c & 0xFF); //È¡ï¿½ï¿½ï¿½ï¿½8Î»
+//            tmp = Integer.toHexString(j);
+//            if (tmp.length() == 1)
+//                sb.append("0");
+//            sb.append(tmp);
+//
+//        }
+//        return (new String(sb));
+//    }
+//
+//    /**
+//     * ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½unicode
+//     */
+//    public static String convert2(String string) {
+//
+//        StringBuffer unicode = new StringBuffer();
+//
+//        for (int i = 0; i < string.length(); i++) {
+//
+//            // È¡ï¿½ï¿½Ã¿Ò»ï¿½ï¿½ï¿½Ö·ï¿½
+//            char c = string.charAt(i);
+//
+//            // ×ªï¿½ï¿½Îªunicode
+//            unicode.append(String.format("\\u%04x",Integer.valueOf(c)));
+//        }
+//
+//        return unicode.toString();
+//    }
+//
+//    /**
+//     * unicode×ªï¿½Ö·ï¿½ï¿½ï¿½
+//     * @param unicodeStr unicode
+//     * @return ï¿½Ö·ï¿½ï¿½ï¿½
+//     */
+//    public static String unicodeToString(String unicodeStr) {
+//        // XDigitï¿½ï¿½POSIXï¿½Ö·ï¿½ï¿½à£¬ï¿½ï¿½Ê¾Ê®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½\p{XDigit}ï¿½È¼ï¿½ï¿½ï¿½[a-fA-F0-9]
+//        // patternï¿½ï¿½ï¿½ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\u6211ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+//        Pattern pattern = Pattern.compile("(\\\\u(\\p{XDigit}{4}))");
+//        Matcher matcher = pattern.matcher(unicodeStr);
+//        char ch;
+//        while (matcher.find()) {
+//            // ï¿½ï¿½ï¿½ï¿½ï¿½é°´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'('ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½Å£ï¿½ï¿½ï¿½1ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(A(B(C)))Îªï¿½ï¿½ï¿½ï¿½group(1)ï¿½ï¿½Ê¾(A(B(C))ï¿½ï¿½group(2)ï¿½ï¿½Ê¾(B(C))ï¿½ï¿½group(3)ï¿½ï¿½Ê¾(C)
+//            // group(2)ï¿½ï¿½Ê¾ï¿½Ú¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½(\p{XDigit}{4})
+//            // Integer.parseInt(str, 16)ï¿½ï¿½16ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ªï¿½ï¿½Îª10ï¿½ï¿½ï¿½Æ£ï¿½ï¿½ï¿½ï¿½ï¿½Integer.parseInt("16", 16) = 22
+//            ch = (char) Integer.parseInt(matcher.group(2), 16);
+//            // ï¿½Ñµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½é£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\\u6211ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½æ»»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//            unicodeStr = unicodeStr.replace(matcher.group(1), ch + "");
+//        }
+//        return unicodeStr;
+//    }
+//
+//
+//    /**
+//     * ï¿½Ö·ï¿½ï¿½ï¿½×ªunicode
+//     * @param str ï¿½Ö·ï¿½ï¿½ï¿½
+//     * @return unicode
+//     */
+//    public static String stringToUnicode(String str) {
+//        StringBuffer sb = new StringBuffer();
+//        char[] c = str.toCharArray();
+//        for (int i = 0; i < c.length; i++) {
+//            // Integer.toHexStringï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½×ª16ï¿½ï¿½ï¿½ï¿½
+//            sb.append("\\u" + Integer.toHexString(c[i]));
+//        }
+//        return sb.toString();
+//    }
+//
+//
+//    public static void main(String[] args) {
+//        ArrayList<String> list = new ArrayList();
+//        for (int i = 0; i < 100000; i++) {
+//            list.add("ï¿½ï¿½");
+//        }
+//        System.out.println(list.size());
+//        long l = System.currentTimeMillis();
+//        list.stream().forEach((a
+//        )->{
+//            convert(String.valueOf(a));
+//        });
+//        System.out.println(System.currentTimeMillis()-l);
+//
+//        System.out.println(TokenizerUtil.toString(21335));
+//
+//        long l2 = System.currentTimeMillis();
+//        list.stream().forEach((a
+//        )->{
+//            convert2(String.valueOf(a));
+//        });
+//        System.out.println(System.currentTimeMillis()-l2);
+//
+//    }
+//}
