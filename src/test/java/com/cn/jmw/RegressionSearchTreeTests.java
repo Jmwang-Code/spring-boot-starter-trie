@@ -1,9 +1,11 @@
 package com.cn.jmw;
 
+import com.cn.jmw.entity.ProviderEntity;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;

@@ -1,8 +1,9 @@
 package com.cn.jmw;
 
-import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.cn.jmw.entity.ProviderEntity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * @author jmwang-code
