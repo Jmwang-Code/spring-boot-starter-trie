@@ -6,9 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author jmw
@@ -17,16 +15,33 @@ import java.util.UUID;
  * @Version 1.0
  */
 @Data
+@ConfigurationProperties(
+        prefix = "provider"
+//        ,ignoreUnknownFields = true
+)
+@Component("providerEntity")
 public class ProviderEntity {
-
+    private String name;
     private String source;
-    private List<DataSource> password;
+    private List<DataSource> dataSources;
 
-    private class DataSource {
+    @Data
+    public static class DataSource {
         private String type;
         private String driverClassName;
         private String url;
         private String username;
         private String password;
+        //默认使用sql语句，而不是使用sql生成器
+        private boolean useSql = true;
+        private List<String> sql;
+        private boolean useSqlQenerator = false;
+        private List<SqlQenerator> sqlQenerators;
     }
+
+    @Data
+    public static class SqlQenerator {
+        //TODO SQL方言生成器，不准备填坑，方言太多，不想写，懒得写，还得学我想躺平
+    }
+
 }

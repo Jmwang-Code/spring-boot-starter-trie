@@ -31,3 +31,20 @@ springdoc:
 #    path: log
 #  pattern:
 #    file: '%d %5p - %m%n'
+
+provider:
+  name: myProvider
+  source: mySource
+  dataSources:
+    - type: myType1
+      driverClassName: myDriver1
+      url: myUrl1
+      username: myUsername1
+      password: myPassword1
+      sql: select * from myTable
+    - type: myType2
+      driverClassName: myDriver2
+      url: myUrl2
+      username: myUsername2
+      password: myPassword2
+      sql: select * from myTable
