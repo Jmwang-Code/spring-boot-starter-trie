@@ -254,6 +254,12 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.34.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.jmwang-code</groupId>
+            <artifactId>data-provider-jdbc</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
