@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cn.jmw.entity.TrieConfig;
+//import com.cn.jmw.entity.TrieConfig;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -254,9 +254,9 @@ public class XmlUtils implements InterUtils {
         return map;
     }
 
-    public static void main(String[] args) {
-        TrieConfig trieConfig = XmlUtils.XmlToObject(TrieConfig.class, "/triedata-config.xml");
-        System.out.println(trieConfig);
-    }
+//    public static void main(String[] args) {
+//        TrieConfig trieConfig = XmlUtils.XmlToObject(TrieConfig.class, "/triedata-config.xml");
+//        System.out.println(trieConfig);
+//    }
 
 }
