@@ -1,0 +1,12 @@
+spring:
+  datasource:
+
+
+  security:
+    user:
+      name: jmw
+      password: jmw
+
+#  web:
+#    resources:
+#      static-locations: classpath:/static/

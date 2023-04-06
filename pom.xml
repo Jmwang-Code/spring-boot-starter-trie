@@ -6,6 +6,9 @@
     <artifactId>regression-search-tree</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>Trie</module>
+    </modules>
     <name>regression-search-tree</name>
     <description>regression-search-tree</description>
     <properties>
