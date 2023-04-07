@@ -8,12 +8,16 @@
     <version>1.0.0-SNAPSHOT</version>
     <modules>
         <module>Trie</module>
+        <module>data-provider</module>
     </modules>
     <name>regression-search-tree</name>
     <description>regression-search-tree</description>
     <properties>
+        <!-- 文件拷贝时的编码-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 编译时的编码 这里就是你运行项目，会给你的文件进行编码-->
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
         <java.version>17</java.version>
     </properties>
@@ -258,11 +262,13 @@
             <version>3.34.0</version>
         </dependency>
 
+
         <dependency>
-            <groupId>io.github.jmwang-code</groupId>
-            <artifactId>data-provider-jdbc</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.2.1</version>
         </dependency>
+
     </dependencies>
 
     <build>
