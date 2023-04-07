@@ -7,7 +7,7 @@ spring:
   profiles:
     active: dev
 
-# springdoc-openapi项目配置
+# springdoc-openapi
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -19,7 +19,7 @@ springdoc:
 #    - group: 'jmw'
 #      paths-to-match: '/**'
 #      packages-to-scan: com.xiaominfo.knife4j.demo.web
-# knife4j的增强配置，不需要增强可以不配
+# knife4j
 #knife4j:
 #  enable: true
 #  setting:
