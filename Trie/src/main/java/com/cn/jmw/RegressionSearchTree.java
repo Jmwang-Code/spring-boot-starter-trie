@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @author jmwang-code
  */
 @SpringBootApplication
+@EnableConfigurationProperties({ProviderEntity.class})
 public class RegressionSearchTree {
 
     public static void main(String[] args) {

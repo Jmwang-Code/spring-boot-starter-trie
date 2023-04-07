@@ -2,9 +2,7 @@ package com.cn.jmw.entity;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -17,9 +15,8 @@ import java.util.List;
 @Data
 @ConfigurationProperties(
         prefix = "provider"
-//        ,ignoreUnknownFields = true
 )
-@Component("providerEntity")
+@Component
 public class ProviderEntity {
     private String name;
     private String source;
