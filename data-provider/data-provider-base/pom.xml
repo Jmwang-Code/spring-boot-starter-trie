@@ -89,5 +89,15 @@
             <artifactId>calcite-core</artifactId>
             <version>1.34.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <scope>compile</scope>
+<!--            <optional>true</optional>-->
+            <!-- 通常无需指定版本，会根据所使用SpringBoot版本自动匹配，亦可根据情况调整 -->
+            <!-- <version>1.5.16.RELEASE</version> -->
+        </dependency>
+
     </dependencies>
 </project>

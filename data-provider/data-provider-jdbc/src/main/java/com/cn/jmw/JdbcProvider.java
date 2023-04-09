@@ -2,6 +2,7 @@ package com.cn.jmw;
 
 
 import com.cn.jmw.entity.ProviderEntity;
+import com.cn.jmw.provider.AbstractFactoryProvider;
 
 import java.io.IOException;
 
@@ -11,13 +12,24 @@ import java.io.IOException;
  * @date 2023年04月06日 9:44
  * @Version 1.0
  */
-public class JdbcProvider extends AbstractProvider {
+public class JdbcProvider extends AbstractFactoryProvider {
 
+    public final String CONFIG = "JDBC-CONFIG.json";
 
     @Override
     public boolean execute(ProviderEntity providerEntity) {
 
         return false;
+    }
+
+    @Override
+    public boolean test(ProviderEntity providerEntity) throws Exception {
+        return false;
+    }
+
+    @Override
+    public String getConfigJsonFileName() {
+        return CONFIG;
     }
 
     @Override
