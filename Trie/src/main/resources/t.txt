@@ -1,29 +1,90 @@
-k.`instanceId`,
-k.`eagleEyeTraceId`,
-k.`asapiSuccess`,
-k.`Minimum`,
-k.`RequestId`,
-k.`Average`,
-k.`Period`,
-k.`Code`,
-k.`Date`,
-k.`userId`,
-k.`Success`,
-k.`serverRole`,
-k.`protocol`,
-k.`Maximum`,
-k.`asapiRequestId`,
-k.`port`,
-k.`domain`,
-k.`api`,
-k.`asapiErrorCode`,
-k.`timestamp`,
-k.`dataSource`,
-k.`dataIndex`,
-k.`create_time`,
-c.`Address`,
-c.`ResourceGroupName`,
-c.`owner_env`,
-c.`owner_bus_sys`,
-c.`owner_depart`,
-c.`owner_leader`,
+//{
+//  "groups": [
+//    {
+//      "name": "provider-entity",
+//      "type": "com.cn.jmw.entity.ProviderEntity",
+//      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+//    }
+//  ],
+//  "properties": [
+//    {
+//      "name": "provider-entity.name",
+//      "type": "java.lang.String",
+//      "description": "provider name",
+//      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+//    },
+//    {
+//      "name": "provider-entity.source",
+//      "type": "java.lang.String",
+//      "description": "provider source",
+//      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+//    },
+//    {
+//      "name": "provider-entity.data-sources",
+//      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+//      "description": "provider data-sources",
+//      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+//    },
+//    {
+//      "name": "provider-entity.data-sources.username",
+//      "type": "java.lang.String",
+//      "description": "用户名username",
+//      "sourceType": "com.cn.jmw.entity.DataSource",
+//      "defaultValue": ""
+//    },
+//    {
+//      "name": "provider-entity.data-sources.url",
+//      "type": "java.lang.String",
+//      "description": "连接地址url",
+//      "sourceType": "com.cn.jmw.entity.DataSource",
+//      "defaultValue": "${localhost:port}"
+//    },
+//    {
+//      "name": "provider-entity.data-sources.password",
+//      "type": "java.lang.String",
+//      "description": "密码password",
+//      "sourceType": "com.cn.jmw.entity.DataSource",
+//      "defaultValue": "${password}"
+//    },
+//    {
+//      "name": "provider-entity.data-sources.driver-class-name",
+//      "type": "java.lang.String",
+//      "description": "驱动类名",
+//      "sourceType": "com.cn.jmw.entity.DataSource",
+//      "defaultValue": "${driver-class-name}"
+//    },
+//    {
+//      "name": "provider-entity.data-sources.type",
+//      "type": "java.lang.String",
+//      "description": "数据源类型type",
+//      "sourceType": "com.cn.jmw.entity.DataSource"
+//    },
+//    {
+//      "name": "provider-entity.data-sources.use-sql",
+//      "type": "java.lang.Boolean",
+//      "description": "是否使用SQL",
+//      "sourceType": "com.cn.jmw.entity.DataSource",
+//      "defaultValue": true
+//    },
+//    {
+//      "name": "provider-entity.data-sources.use-sql-qenerator",
+//      "type": "java.lang.Boolean",
+//      "description": "是否使用SQK生成器",
+//      "sourceType": "com.cn.jmw.entity.DataSource",
+//      "defaultValue": false
+//    },
+//    {
+//      "name": "provider-entity.data-sources.sql-qenerators",
+//      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+//      "description": "SQL生成器配置",
+//      "sourceType": "com.cn.jmw.entity.DataSource"
+//    },
+//    {
+//      "name": "provider-entity.data-sources.sql",
+//      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+//      "description": "SQL生成器配置",
+//      "sourceType": "com.cn.jmw.entity.DataSource"
+//    }
+//  ],
+//  "hints": []
+//}
