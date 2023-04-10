@@ -1,6 +1,7 @@
 package com.cn.jmw;
 
 
+import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.entity.ProviderEntity;
 import com.cn.jmw.provider.AbstractFactoryProvider;
 
@@ -14,17 +15,20 @@ import java.io.IOException;
  */
 public class JdbcProvider extends AbstractFactoryProvider {
 
-    public final String CONFIG = "JDBC-CONFIG.json";
+    //配置名称
+    public final String CONFIG = "JDBC";
 
+    //执行
     @Override
     public boolean execute(ProviderEntity providerEntity) {
 
         return false;
     }
 
+    //测试连接
     @Override
     public boolean test(ProviderEntity providerEntity) throws Exception {
-        return false;
+        return AdapterFactory.createDataAdapter(providerEntity).test(providerEntity);
     }
 
     @Override
@@ -34,7 +38,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
 
     @Override
     public void close() throws IOException {
-        System.out.println("close:"+this.getClass().getName());
+        System.out.println("close:"+getConfigJsonFileName());
     }
 
 }

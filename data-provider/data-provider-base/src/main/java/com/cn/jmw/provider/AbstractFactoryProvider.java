@@ -3,7 +3,6 @@ package com.cn.jmw.provider;
 import com.cn.jmw.entity.ProviderEntity;
 import com.cn.jmw.service.AutoCloseBean;
 
-import java.io.Closeable;
 
 /**
  * @author jmw
