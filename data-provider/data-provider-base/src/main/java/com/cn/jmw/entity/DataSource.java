@@ -22,4 +22,5 @@ public class DataSource {
     private List<String> sql;
     private boolean useSqlQenerator = false;
     private List<ProviderEntity.SqlQenerator> sqlQenerators;
+    private int maxWaitMillis = 60 * 1000;
 }
