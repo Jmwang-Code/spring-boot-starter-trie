@@ -21,6 +21,7 @@ public class ProviderEntity {
     private String name;
     private String source;
     private List<DataSource> dataSources;
+    private int runnableThreadNum = 4;
 
     @Data
     public static class SqlQenerator {
