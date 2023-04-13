@@ -9,6 +9,7 @@
     <modules>
         <module>Trie</module>
         <module>data-provider</module>
+        <module>ColorLog</module>
     </modules>
     <name>regression-search-tree</name>
     <description>regression-search-tree</description>
