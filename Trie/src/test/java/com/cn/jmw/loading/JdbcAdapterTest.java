@@ -1,5 +1,6 @@
 package com.cn.jmw.loading;
 
+import com.cn.jmw.JdbcProvider;
 import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.adapter.JdbcAdapter;
 import com.cn.jmw.entity.ProviderEntity;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @author jmw
@@ -28,10 +30,18 @@ public class JdbcAdapterTest {
     }
 
     @Test
-    public void createDataAdapter(){
-        System.out.println(providerEntity.getRunnableThreadNum());
-        for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
-            AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(i));
+    public void createDataAdapter()  {
+//        System.out.println(providerEntity.getRunnableThreadNum());
+//        for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
+//            AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(i));
+//        }
+        JdbcProvider jdbcProvider = new JdbcProvider();
+        try {
+            boolean test = jdbcProvider.test(providerEntity);
+            System.out.println(test);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
     }
 }
