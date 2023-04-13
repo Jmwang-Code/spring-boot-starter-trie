@@ -26,7 +26,7 @@ public class ThreadPoolConfig {
     @Autowired
     private ProviderEntity providerEntity;
 
-//    @DependsOn("providerEntity")
+    @DependsOn("providerEntity")
     @Bean
     @Qualifier(value = "configurationCheckThreadPool")
     public ExecutorService executorService() {
