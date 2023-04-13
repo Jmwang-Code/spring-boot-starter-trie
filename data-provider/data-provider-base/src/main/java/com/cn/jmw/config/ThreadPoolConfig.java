@@ -19,14 +19,14 @@ import java.util.concurrent.*;
  * @date 2023年04月11日 16:30
  * @Version 1.0
  */
-@Component
+@Configuration
 @Slf4j
 public class ThreadPoolConfig {
 
     @Autowired
     private ProviderEntity providerEntity;
 
-    @DependsOn("providerEntity")
+//    @DependsOn("providerEntity")
     @Bean
     @Qualifier(value = "configurationCheckThreadPool")
     public ExecutorService executorService() {
