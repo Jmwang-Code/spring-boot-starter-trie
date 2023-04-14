@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 @SpringBootApplication
 //@EnableConfigurationProperties({ProviderEntity.class})
-public class RegressionSearchTree implements CommandLineRunner {
+public class RegressionSearchTree {//implements CommandLineRunner {
 
 
     @Autowired
@@ -31,17 +31,13 @@ public class RegressionSearchTree implements CommandLineRunner {
         SpringApplication.run(RegressionSearchTree.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        String[] beans = appContext.getBeanDefinitionNames();
-//        ThreadPoolConfig bean1 = appContext.getBean(ThreadPoolConfig.class);
-//        ExecutorService executorService = bean1.executorService();
-//        ExecutorService configurationCheckThreadPool = appContext.getBean("configurationCheckThreadPool", ExecutorService.class);
-
-        Arrays.sort(beans);
-        for (String bean : beans) {
-            System.out.println(bean);
-        }
-
-    }
+//    @Override
+//    public void run(String... args) throws Exception {
+//        String[] beans = appContext.getBeanDefinitionNames();
+//        Arrays.sort(beans);
+//        for (String bean : beans) {
+//            System.out.println(bean);
+//        }
+//
+//    }
 }

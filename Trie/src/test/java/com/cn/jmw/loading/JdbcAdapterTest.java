@@ -36,7 +36,8 @@ public class JdbcAdapterTest {
     public void createDataAdapter()  {
 //        System.out.println(providerEntity.getRunnableThreadNum());
 //        for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
-//            AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(i));
+////            AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(i));
+//            System.out.println(AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(i)).test(providerEntity.getDataSources().get(i)));
 //        }
         JdbcProvider jdbcProvider = new JdbcProvider();
         try {
@@ -45,6 +46,8 @@ public class JdbcAdapterTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+
 
     }
 }
