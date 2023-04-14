@@ -19,16 +19,16 @@ import java.util.concurrent.*;
  * @date 2023年04月11日 16:30
  * @Version 1.0
  */
-@Configuration
+@Component
 @Slf4j
 public class ThreadPoolConfig {
 
     @Autowired
     private ProviderEntity providerEntity;
 
-    @DependsOn("providerEntity")
-    @Bean
-    @Qualifier(value = "configurationCheckThreadPool")
+//    @DependsOn("providerEntity")
+    @Bean(name = "configurationCheckThreadPool")
+    //@Qualifier(value = "configurationCheckThreadPool")
     public ExecutorService executorService() {
 //        int nThreads = Runtime.getRuntime().availableProcessors();
         log.info("可用运行线程为" + providerEntity.getRunnableThreadNum());
