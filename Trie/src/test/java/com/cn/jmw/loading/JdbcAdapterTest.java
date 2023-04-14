@@ -22,6 +22,9 @@ public class JdbcAdapterTest {
     @Autowired
     private ProviderEntity providerEntity;
 
+//    @Autowired
+//    private JdbcProvider jdbcProvider;
+
     @Test
     public void jdbcAdapter() {
         System.out.println(providerEntity.getRunnableThreadNum());

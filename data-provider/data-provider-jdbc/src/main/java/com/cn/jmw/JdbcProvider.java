@@ -7,6 +7,7 @@ import com.cn.jmw.entity.ProviderEntity;
 import com.cn.jmw.provider.AbstractFactoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.concurrent.Callable;
@@ -22,9 +23,9 @@ import java.util.concurrent.FutureTask;
  */
 public class JdbcProvider extends AbstractFactoryProvider {
 
-    @Autowired
-    @Qualifier(value = "configurationCheckThreadPool")
-    private ExecutorService executorService;
+//    @Autowired
+//    @Qualifier(value = "configurationCheckThreadPool")
+//    private ExecutorService executorService;
 
     //配置名称
     public final String CONFIG = "JDBC";
@@ -39,6 +40,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
     //测试连接
     @Override
     public boolean test(ProviderEntity providerEntity) throws Exception {
+        ExecutorService executorService = ThreadPoolConfig.configurationCheckThreadPool;
 
         CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
         for (int i = 0; i < providerEntity.getDataSources().size(); i++) {

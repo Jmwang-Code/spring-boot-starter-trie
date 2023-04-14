@@ -34,9 +34,9 @@ public class RegressionSearchTree implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         String[] beans = appContext.getBeanDefinitionNames();
-        ThreadPoolConfig bean1 = appContext.getBean(ThreadPoolConfig.class);
-        ExecutorService executorService = bean1.executorService();
-        Object configurationCheckThreadPool = appContext.getBean("configurationCheckThreadPool", ExecutorService.class);
+//        ThreadPoolConfig bean1 = appContext.getBean(ThreadPoolConfig.class);
+//        ExecutorService executorService = bean1.executorService();
+//        ExecutorService configurationCheckThreadPool = appContext.getBean("configurationCheckThreadPool", ExecutorService.class);
 
         Arrays.sort(beans);
         for (String bean : beans) {
