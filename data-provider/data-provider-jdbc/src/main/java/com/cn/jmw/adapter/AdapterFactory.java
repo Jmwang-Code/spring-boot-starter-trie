@@ -17,7 +17,7 @@ public class AdapterFactory {
     //这里快速创建一个适配器，根据数据源类型，创建对应的适配器
     public static Adapter createDataAdapter(DataSource dataSource) {
         AdapterEnum adapterEnum = AdapterEnum.getAdapterEnum(dataSource.getType());
-        log.info(ColorEnum.BLUE.getColoredString("创建适配器:"+adapterEnum));
+        log.info(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"——创建适配器:"+adapterEnum));
         try {
             Class<?> aClass = Class.forName(adapterEnum.getClassName());
             Object jdbcAdapter = aClass.getDeclaredConstructor().newInstance();

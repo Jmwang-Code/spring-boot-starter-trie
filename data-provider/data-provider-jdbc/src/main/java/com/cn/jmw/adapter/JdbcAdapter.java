@@ -1,5 +1,6 @@
 package com.cn.jmw.adapter;
 
+import com.cn.jmw.color.ColorEnum;
 import com.cn.jmw.entity.DataSource;
 import com.cn.jmw.entity.ProviderEntity;
 import lombok.extern.slf4j.Slf4j;
@@ -26,17 +27,18 @@ public class JdbcAdapter implements Adapter {
             Class.forName(dataSource.getDriverClassName());
             //返回连接对象
             connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+            log.error(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
             return true;
         } catch (ClassNotFoundException | SQLException e) {
             //如果发生异常，打印错误信息并返回null
-            log.error("Driver class not found or connection failed: " + dataSource.getDriverClassName(), e);
+            log.error(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
             return false;
         } finally {
             if (connection!=null){
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    log.error("connection close failed: " + dataSource.getDriverClassName(), e);
+                    log.error(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
                 }
             }
         }

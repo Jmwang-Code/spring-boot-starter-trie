@@ -26,7 +26,7 @@ public class ThreadPoolConfig {
         if (configurationCheckThreadPool==null) {
             ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                     .setNameFormat("ConfigurationCheck-pool-%d").build();
-            log.info(ColorEnum.BLUE.getColoredString("可用运行线程为" + runnableThreadNum));
+            log.info(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"——可用运行线程为" + runnableThreadNum));
             configurationCheckThreadPool = new ThreadPoolExecutor(
                     runnableThreadNum,
                     10,
