@@ -40,7 +40,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
     //测试连接
     @Override
     public boolean test(ProviderEntity providerEntity) throws Exception {
-        ExecutorService executorService = ThreadPoolConfig.configurationCheckThreadPool;
+        ExecutorService executorService = ThreadPoolConfig.newInstance(5);
 
         CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
         for (int i = 0; i < providerEntity.getDataSources().size(); i++) {

@@ -1,16 +1,14 @@
 package com.cn.jmw.config;
 
+import com.cn.jmw.color.ColorEnum;
 import com.cn.jmw.entity.ProviderEntity;
+import com.cn.jmw.reader.ProfileSelector;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.concurrent.*;
 
 /**
@@ -22,43 +20,23 @@ import java.util.concurrent.*;
 @Slf4j
 public class ThreadPoolConfig {
 
-//    @Autowired
-//    private ProviderEntity providerEntity;
+    private static ExecutorService configurationCheckThreadPool;
 
-    public static ExecutorService configurationCheckThreadPool;
-    static {
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("ConfigurationCheck-pool-%d").build();
-
-        configurationCheckThreadPool = new ThreadPoolExecutor(
-                10,
-                10,
-                0L,
-                TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(1024),
-                namedThreadFactory,
-                new ThreadPoolExecutor.AbortPolicy());
+    public static synchronized ExecutorService newInstance(final int runnableThreadNum) {
+        if (configurationCheckThreadPool==null) {
+            ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                    .setNameFormat("ConfigurationCheck-pool-%d").build();
+            log.info(ColorEnum.BLUE.getColoredString("可用运行线程为" + runnableThreadNum));
+            configurationCheckThreadPool = new ThreadPoolExecutor(
+                    runnableThreadNum,
+                    10,
+                    0L,
+                    TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>(1024),
+                    namedThreadFactory,
+                    new ThreadPoolExecutor.AbortPolicy());
+        }
+        return configurationCheckThreadPool;
     }
 
-
-
-//    @Bean(name = "configurationCheckThreadPool")
-//    //@Qualifier(value = "configurationCheckThreadPool")
-//    public ExecutorService executorService() {
-////        int nThreads = Runtime.getRuntime().availableProcessors();
-//        log.info("可用运行线程为" + providerEntity.getRunnableThreadNum());
-//        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
-//                .setNameFormat("ConfigurationCheck-pool-%d").build();
-//
-//        ExecutorService configurationCheckThreadPool = new ThreadPoolExecutor(
-//                providerEntity.getRunnableThreadNum(),
-//                10,
-//                0L,
-//                TimeUnit.MILLISECONDS,
-//                new LinkedBlockingQueue<Runnable>(1024),
-//                namedThreadFactory,
-//                new ThreadPoolExecutor.AbortPolicy());
-//        return configurationCheckThreadPool;
-//    }
-//    @DependsOn("providerEntity")
 }
