@@ -2,6 +2,7 @@ package com.cn.jmw.adapter;
 
 import com.cn.jmw.AdapterEnum;
 import com.cn.jmw.color.ColorEnum;
+import com.cn.jmw.color.ThreadColor;
 import com.cn.jmw.entity.DataSource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +18,7 @@ public class AdapterFactory {
     //这里快速创建一个适配器，根据数据源类型，创建对应的适配器
     public static Adapter createDataAdapter(DataSource dataSource) {
         AdapterEnum adapterEnum = AdapterEnum.getAdapterEnum(dataSource.getType());
-        log.info(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"——创建适配器:"+adapterEnum));
+        log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——创建适配器:"+adapterEnum));
         try {
             Class<?> aClass = Class.forName(adapterEnum.getClassName());
             Object jdbcAdapter = aClass.getDeclaredConstructor().newInstance();

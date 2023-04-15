@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2023年04月13日 16:58
  * @Version 1.0
  */
-@Slf4j
 public enum ColorEnum {
 
     RED(31,4),
@@ -18,15 +17,7 @@ public enum ColorEnum {
     PURPLE(35,4),
     CYAN(36,4),
     GREY(37,4),
-    BLACK(30,4),
-
-    BACK_RED(41,3),
-    BACK_GREEN(42,3),
-    BACK_YELLOW(43,3),
-    BACK_BLUE(44,3),
-    BACK_PURPLE(45,3),
-    BACK_CYAN(46,3),
-    BACK_GREY(47,3);
+    BLACK(30,4);
 
     ColorEnum(){}
 
@@ -46,11 +37,25 @@ public enum ColorEnum {
         return fontType;
     }
 
-    public void getColoredLog(String content) {
-        log.info(String.format("\033[%d;%dm%s\033[0m",this.color, this.fontType, content));
-    }
-
     public String getColoredString(String content) {
         return String.format("\033[%d;%dm%s\033[0m",this.color, this.fontType, content);
+    }
+
+    public static ColorEnum getRandomColor(){
+        int i = (int) (Math.random() * 8);
+        return ColorEnum.values()[i];
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i <= 15; i++) {
+            for (int j = 0; j <= 15; j++) {
+                int number = i * 15 + j;
+                String str = String.format("%3d", number);
+
+                System.out.print("\u001b[48;5;" + number + "m " + str);
+                System.out.print("\u001b[0m");
+            }
+            System.out.println();
+        }
     }
 }
