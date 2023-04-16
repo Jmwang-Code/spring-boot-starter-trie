@@ -50,6 +50,12 @@ public class Tree {
         return root;
     }
 
+    //深度优先
+    public int maxDepth(TreeNode root) {
+        if (root==null)return 0;
+        return Math.max(maxDepth(root.left), maxDepth(root.right))+1;
+    }
+
     public static void main(String[] args) {
 //        Node node7 = new Node(7);
 //        Node node6 = new Node(6);
@@ -81,4 +87,11 @@ class Node {
         right = _right;
         next = _next;
     }
+}
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
 }
