@@ -22,13 +22,9 @@ public class MysqlAdapter extends JdbcAdapter {
         try {
             // 注册驱动
             Class.forName(dataSource.getDriverClassName());
-
             conn = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-
             stmt = conn.createStatement();
-            String sql;
-            sql = DUAL;
-            ResultSet rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery(DUAL);
             // 关闭资源
             rs.close();
             stmt.close();
