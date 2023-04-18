@@ -15,7 +15,7 @@ public abstract class AbstractFactoryProvider extends AutoCloseBean {
     /**
      * 执行-Loading
      */
-    public abstract boolean execute(ProviderEntity providerEntity);
+    public abstract boolean execute(ProviderEntity providerEntity) throws Exception;
 
     /**
      * 连接测试
