@@ -22,7 +22,9 @@ public class AdapterFactory {
         try {
             Class<?> aClass = Class.forName(adapterEnum.getClassName());
             Object jdbcAdapter = aClass.getDeclaredConstructor().newInstance();
-            return jdbcAdapter instanceof Adapter ? (Adapter) jdbcAdapter : null;
+            JdbcAdapter jd = jdbcAdapter instanceof Adapter ? (JdbcAdapter) jdbcAdapter : null;
+            jd.init(dataSource);
+            return jd;
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {

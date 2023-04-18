@@ -10,7 +10,7 @@ import com.cn.jmw.entity.DataSource;
  */
 public interface Adapter {
 
-    public boolean test(DataSource dataSource);
+    public boolean test();
 
-    public boolean streamingRead(DataSource dataSource);
+    public boolean streamingRead();
 }

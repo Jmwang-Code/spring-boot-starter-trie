@@ -16,7 +16,7 @@ import java.sql.*;
 @Slf4j
 public class MysqlAdapter extends JdbcAdapter {
     @Override
-    public boolean test(DataSource dataSource) {
+    public boolean test() {
         Connection conn = null;
         Statement stmt = null;
         try {
@@ -56,8 +56,8 @@ public class MysqlAdapter extends JdbcAdapter {
         return true;
     }
 
-    @Override
-    public boolean streamingRead(DataSource dataSource) {
-        return false;
-    }
+//    @Override
+//    public boolean streamingRead(DataSource dataSource) {
+//        return false;
+//    }
 }

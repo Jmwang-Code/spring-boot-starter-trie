@@ -1,31 +1,43 @@
 package com.cn.jmw.adapter;
 
+import com.cn.jmw.base.JdbcDataSource;
 import com.cn.jmw.base.JdbcSqlQueryRunner;
-import com.cn.jmw.color.ColorEnum;
 import com.cn.jmw.color.ThreadColor;
 import com.cn.jmw.entity.DataSource;
-import com.cn.jmw.entity.ProviderEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.QueryRunner;
 
+import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author jmw
- * @Description TODO
+ * @Description 使用次类以及子类  可以通过try 自动关闭资源
  * @date 2023年04月10日 18:01
  * @Version 1.0
  */
 @Slf4j
-public class JdbcAdapter implements Adapter {
+public class JdbcAdapter implements Adapter, Closeable {
 
     final String DUAL = "select 1 from dual";
 
+    protected DataSource dataSource;
+
+    protected Connection connection;
+
+    public final void init(DataSource dataSource) {
+        try {
+            this.dataSource = dataSource;
+            connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+        } catch (Exception e) {
+            log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"初始化数据源失败"), e);
+        }
+    }
+
     //JDCB连接测试
-    public boolean test(DataSource dataSource) {
+    public boolean test() {//DataSource dataSource
         Connection connection = null;
         try {
             //加载驱动类
@@ -50,10 +62,35 @@ public class JdbcAdapter implements Adapter {
     }
 
     @Override
-    public boolean streamingRead(DataSource dataSource) {
+    public boolean streamingRead() {
         QueryRunner jdbcSqlQueryRunner = new JdbcSqlQueryRunner();
-//        jdbcSqlQueryRunner.batch();
-        return false;
+        Connection connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+
+        dataSource.getSql().parallelStream().forEach(sql -> {
+            try {
+                jdbcSqlQueryRunner.query(connection, sql, resultSet -> {
+                    while (resultSet.next()) {
+                        //插入前缀树
+                        log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+resultSet.getString(1)));
+                    }
+                    return true;
+                });
+            } catch (SQLException e) {
+                e.printStackTrace();
+                log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"数据源流接入失败:")+ dataSource.getDriverClassName(), e);
+            }
+        });
+        return true;
     }
 
+    @Override
+    public void close() {
+        if (connection!=null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
+            }
+        }
+    }
 }
