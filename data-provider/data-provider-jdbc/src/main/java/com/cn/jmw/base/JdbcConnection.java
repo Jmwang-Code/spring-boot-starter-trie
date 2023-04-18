@@ -1,5 +1,7 @@
 package com.cn.jmw.base;
 
+import org.apache.commons.dbutils.DbUtils;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,5 +15,11 @@ import java.sql.SQLException;
 public class JdbcConnection {
 
     private Connection conn;
+
+    public JdbcConnection(String driver, String url, String username, String password) throws SQLException, ClassNotFoundException {
+        Class.forName(driver);
+        conn = DriverManager.getConnection(url, username, password);
+
+    }
 
 }
