@@ -23,18 +23,32 @@ import java.util.concurrent.FutureTask;
  */
 public class JdbcProvider extends AbstractFactoryProvider {
 
-//    @Autowired
-//    @Qualifier(value = "configurationCheckThreadPool")
-//    private ExecutorService executorService;
-
     //配置名称
     public final String CONFIG = "JDBC";
 
     //执行
     @Override
-    public boolean execute(ProviderEntity providerEntity) {
+    public boolean execute(ProviderEntity providerEntity) throws Exception {
+        ExecutorService executorService = ThreadPoolConfig.newInstance(5);
 
-        return false;
+        CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
+        for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
+            int finalI = i;
+            FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
+                    return AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI)).streamingRead();
+                }
+            });
+            executorService.submit(integerFutureTask);
+            integers.add(integerFutureTask);
+        }
+        for (FutureTask<Boolean> integerFutureTask : integers) {
+            if (!integerFutureTask.get()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     //测试连接
@@ -48,7 +62,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
             FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI)).test(providerEntity.getDataSources().get(finalI));
+                    return AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI)).test();
                 }
             });
             executorService.submit(integerFutureTask);
