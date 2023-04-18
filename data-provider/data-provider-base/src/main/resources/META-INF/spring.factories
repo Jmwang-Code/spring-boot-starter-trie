@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.cn.jmw.entity.ProviderEntity,\
+    com.cn.jmw.config.ThreadPoolConfig

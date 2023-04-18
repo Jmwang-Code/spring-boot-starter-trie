@@ -33,19 +33,34 @@ springdoc:
 #  pattern:
 #    file: '%d %5p - %m%n'
 
-provider:
-  name: myProvider
-  source: mySource
-  dataSources:
-    - type: myType1
-      driverClassName: myDriver1
-      url: myUrl1
-      username: myUsername1
-      password: myPassword1
-      sql: select * from myTable
-    - type: myType2
-      driverClassName: myDriver2
-      url: myUrl2
-      username: myUsername2
-      password: myPassword2
-      sql: select * from myTable
+provider-entity:
+  runnableThreadNum: 3
+  name: 123
+  source: 123
+  data-sources:
+    - type: MYSQL
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: mydb
+      password: waem8XcHS2BafkKz
+      url: jdbc:mysql://152.136.154.249:3306/mydb?&allowMultiQueries=true&characterEncoding=utf-8
+      sql:
+        - "select * from myTable"
+      use-sql: true
+
+    - type: MYSQL
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: demoT
+      password: 6RHDcY4kJhjjnzHr
+      url: jdbc:mysql://152.136.154.249:3306/demot?&allowMultiQueries=true&characterEncoding=utf-8
+      sql:
+        - "select * from myTable"
+      use-sql: true
+
+    - type: MYSQL
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: demo
+      password: kKJ8XynXLzjfYDA7
+      url: jdbc:mysql://152.136.154.249:3306/demo?&allowMultiQueries=true&characterEncoding=utf-8
+      sql:
+        - "select * from myTable"
+      use-sql: true

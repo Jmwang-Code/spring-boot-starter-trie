@@ -1,14 +1,14 @@
 package com.cn.jmw.config;
 
+import com.cn.jmw.color.ColorEnum;
 import com.cn.jmw.entity.ProviderEntity;
+import com.cn.jmw.reader.ProfileSelector;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.concurrent.*;
 
 /**
@@ -17,30 +17,26 @@ import java.util.concurrent.*;
  * @date 2023年04月11日 16:30
  * @Version 1.0
  */
-@Component
 @Slf4j
 public class ThreadPoolConfig {
 
-    @Autowired
-    private ProviderEntity providerEntity;
+    private static ExecutorService configurationCheckThreadPool;
 
-    @DependsOn("providerEntity")
-    @Bean
-    @Qualifier(value = "configurationCheckThreadPool")
-    public ExecutorService executorService() {
-//        int nThreads = Runtime.getRuntime().availableProcessors();
-        log.info("可用运行线程为" + providerEntity.getRunnableThreadNum());
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
-                .setNameFormat("ConfigurationCheck-pool-%d").build();
-
-        ExecutorService configurationCheckThreadPool = new ThreadPoolExecutor(
-                providerEntity.getRunnableThreadNum(),
-                10,
-                0L,
-                TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(1024),
-                namedThreadFactory,
-                new ThreadPoolExecutor.AbortPolicy());
+    public static synchronized ExecutorService newInstance(final int runnableThreadNum) {
+        if (configurationCheckThreadPool==null) {
+            ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                    .setNameFormat("ConfigurationCheck-pool-%d").build();
+            log.info(ColorEnum.BLUE.getColoredString(Thread.currentThread().getName()+"——可用运行线程为" + runnableThreadNum));
+            configurationCheckThreadPool = new ThreadPoolExecutor(
+                    runnableThreadNum,
+                    10,
+                    0L,
+                    TimeUnit.MILLISECONDS,
+                    new LinkedBlockingQueue<Runnable>(1024),
+                    namedThreadFactory,
+                    new ThreadPoolExecutor.AbortPolicy());
+        }
         return configurationCheckThreadPool;
     }
+
 }
