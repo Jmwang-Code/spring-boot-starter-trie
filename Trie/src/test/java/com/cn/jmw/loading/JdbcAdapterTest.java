@@ -22,18 +22,15 @@ public class JdbcAdapterTest {
     @Autowired
     private ProviderEntity providerEntity;
 
-//    @Autowired
-//    private JdbcProvider jdbcProvider;
-
     @Test
     public void jdbcAdapter() {
         System.out.println(providerEntity.getRunnableThreadNum());
-        boolean test = new JdbcAdapter().test(providerEntity.getDataSources().get(0));
-        log.info("test:"+test);
+        boolean test = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(0)).test();
+        log.info("test:" + test);
     }
 
     @Test
-    public void createDataAdapter()  {
+    public void test() {
 //        System.out.println(providerEntity.getRunnableThreadNum());
 //        for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
 ////            AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(i));
@@ -46,8 +43,17 @@ public class JdbcAdapterTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
+
+    @Test
+    public void execute() {
+        JdbcProvider jdbcProvider = new JdbcProvider();
+        try {
+            boolean execute = jdbcProvider.execute(providerEntity);
+            System.out.println(execute);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
