@@ -63,8 +63,8 @@
       "sourceType": "com.cn.jmw.entity.DataSource"
     },
     {
-      "name": "provider-entity.data-sources.sql",
-      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+      "name": "provider-entity.data-sources.sql-code",
+      "type": "java.util.List<com.cn.jmw.entity.SqlCode>",
       "description": "SQL生成器配置",
       "sourceType": "com.cn.jmw.entity.DataSource"
     }
