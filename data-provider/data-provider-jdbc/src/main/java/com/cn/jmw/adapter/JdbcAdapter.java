@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static cn.hutool.poi.excel.sax.ElementName.row;
+
 /**
  * @author jmw
  * @Description 使用次类以及子类  可以通过try 自动关闭资源
@@ -66,12 +68,15 @@ public class JdbcAdapter implements Adapter, Closeable {
         QueryRunner jdbcSqlQueryRunner = new JdbcSqlQueryRunner();
         Connection connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
 
-        dataSource.getSql().parallelStream().forEach(sql -> {
+        dataSource.getSqlCode().parallelStream().forEach(sqlCode -> {
             try {
-                jdbcSqlQueryRunner.query(connection, sql, resultSet -> {
+                jdbcSqlQueryRunner.query(connection, sqlCode.getSql(), resultSet -> {
                     while (resultSet.next()) {
                         //插入前缀树
-                        log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+resultSet.getString(1)));
+                        int columnCount = resultSet.getMetaData().getColumnCount();
+                        for (int i = 1; i <= columnCount; i++) {
+                            log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+resultSet.getString(i)));
+                        }
                     }
                     return true;
                 });
@@ -80,6 +85,7 @@ public class JdbcAdapter implements Adapter, Closeable {
                 log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"数据源流接入失败:")+ dataSource.getDriverClassName(), e);
             }
         });
+
         return true;
     }
 
