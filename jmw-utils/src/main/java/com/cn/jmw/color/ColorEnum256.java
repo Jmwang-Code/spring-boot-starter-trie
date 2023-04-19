@@ -232,7 +232,37 @@ public enum ColorEnum256 {
     ,NUMBER222(222,5)
     ,NUMBER223(223,5)
     ,NUMBER224(224,5)
-    ,NUMBER225(225,5);
+    ,NUMBER225(225,5)
+    ,NUMBER226(226,5)
+    ,NUMBER227(227,5)
+    ,NUMBER228(228,5)
+    ,NUMBER229(229,5)
+    ,NUMBER230(230,5)
+    ,NUMBER231(231,5)
+    ,NUMBER232(232,5)
+    ,NUMBER233(233,5)
+    ,NUMBER234(234,5)
+    ,NUMBER235(235,5)
+    ,NUMBER236(236,5)
+    ,NUMBER237(237,5)
+    ,NUMBER238(238,5)
+    ,NUMBER239(239,5)
+    ,NUMBER240(240,5)
+    ,NUMBER241(241,5)
+    ,NUMBER242(242,5)
+    ,NUMBER243(243,5)
+    ,NUMBER244(244,5)
+    ,NUMBER245(245,5)
+    ,NUMBER246(246,5)
+    ,NUMBER247(247,5)
+    ,NUMBER248(248,5)
+    ,NUMBER249(249,5)
+    ,NUMBER250(250,5)
+    ,NUMBER251(251,5)
+    ,NUMBER252(252,5)
+    ,NUMBER253(253,5)
+    ,NUMBER254(254,5)
+    ,NUMBER255(255,5);
 
     ColorEnum256() {
     }
@@ -264,13 +294,16 @@ public enum ColorEnum256 {
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i <= 15; i++) {
-            for (int j = 0; j <= 15; j++) {
-                int number = i * 15 + j;
-                String str = String.format("%3d", number);
-                System.out.print("\u001b[48;5;" + number + "m " + str + "\u001b[0m");
-            }
-            System.out.println();
+        for (int i = 0; i < 10000; i++) {
+            System.out.println(ColorEnum256.getRandomColor256().getColoredString("test"));
         }
+//        for (int i = 0; i <= 15; i++) {
+//            for (int j = 0; j <= 15; j++) {
+//                int number = i * 15 + j;
+//                String str = String.format("%3d", number);
+//                System.out.print("\u001b[48;5;" + number + "m " + str + "\u001b[0m");
+//            }
+//            System.out.println();
+//        }
     }
 }
