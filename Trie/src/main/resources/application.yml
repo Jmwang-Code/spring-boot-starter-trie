@@ -43,24 +43,25 @@ provider-entity:
       username: mydb
       password: waem8XcHS2BafkKz
       url: jdbc:mysql://152.136.154.249:3306/mydb?&allowMultiQueries=true&characterEncoding=utf-8
-      sql:
-        - "select * from myTable"
+      sql-code:
+        - sql: "select * from user"
+          str: username
       use-sql: true
-
     - type: MYSQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: demoT
       password: 6RHDcY4kJhjjnzHr
       url: jdbc:mysql://152.136.154.249:3306/demot?&allowMultiQueries=true&characterEncoding=utf-8
-      sql:
-        - "select * from myTable"
+      sql-code :
+        - sql: "select * from Frend"
+          str: username
       use-sql: true
-
     - type: MYSQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: demo
       password: kKJ8XynXLzjfYDA7
       url: jdbc:mysql://152.136.154.249:3306/demo?&allowMultiQueries=true&characterEncoding=utf-8
-      sql:
-        - "select * from myTable"
+      sql-code:
+        - sql: "select * from user"
+          str: username
       use-sql: true
