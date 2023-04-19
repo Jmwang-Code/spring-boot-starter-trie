@@ -1,7 +1,6 @@
 package com.cn.jmw.adapter;
 
 import com.cn.jmw.AdapterEnum;
-import com.cn.jmw.color.ColorEnum;
 import com.cn.jmw.color.ThreadColor;
 import com.cn.jmw.entity.DataSource;
 import lombok.extern.slf4j.Slf4j;
