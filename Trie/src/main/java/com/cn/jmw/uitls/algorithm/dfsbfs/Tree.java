@@ -20,16 +20,16 @@ public class Tree {
         Queue<Node> queue = new ArrayDeque();
         queue.offer(node);
         int count = queue.size();
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             for (int i = 0; i < count; i++) {
                 Node poll = queue.poll();
-                if (i==count-1){
+                if (i == count - 1) {
                     poll.next = null;
-                }else {
+                } else {
                     Node poll1 = queue.peek();
                     poll.next = poll1;
                 }
-                if (poll.left!=null){
+                if (poll.left != null) {
                     queue.offer(poll.left);
                     queue.offer(poll.right);
                 }
@@ -40,14 +40,40 @@ public class Tree {
     }
 
     public Node connect2(Node root) {
-        if (root==null)return root;
-        if(root.left!=null){
+        if (root == null) return root;
+        if (root.left != null) {
             root.left.next = root.right;
-            root.right.next = root.next!=null?root.next.left:null;
+            root.right.next = root.next != null ? root.next.left : null;
             connect2(root.left);
             connect2(root.right);
         }
         return root;
+    }
+
+    public Node connect(Node root) {
+        Node temp = root;
+        Queue<Node> queue = new ArrayDeque();
+        queue.add(temp);
+
+        while (!queue.isEmpty()) {
+            int queueSize = queue.size();
+            Node pre = null;
+            for (int i = 0; i < queueSize; i++) {
+                if (pre == null) {
+                    pre = queue.poll();
+                    if (pre.left != null) queue.add(pre.left);
+                    if (pre.right != null) queue.add(pre.right);
+                    continue;
+                }
+                Node node = queue.poll();
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+                pre.next = node;
+                pre = node;
+            }
+            pre.next = null;
+        }
+        return temp;
     }
 
     public static void main(String[] args) {
@@ -58,6 +84,14 @@ public class Tree {
 //        Node node3 = new Node(3,node6,node7,null);
 //        Node node2 = new Node(2,node4,node5,null);
 //        Node node1 = new Node(1,node2,node3,null);
+
+        Node node7 = new Node(7);
+        Node node5 = new Node(5);
+        Node node4 = new Node(4);
+        Node node3 = new Node(3, null, node7, null);
+        Node node2 = new Node(2, node4, node5, null);
+        Node node1 = new Node(1, node2, node3, null);
+        Node connect = new Tree().connect(node1);
     }
 }
 
