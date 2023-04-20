@@ -27,17 +27,17 @@ public class MysqlAdapter extends JdbcAdapter {
             rs.close();
             stmt.close();
             conn.close();
-            log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
+            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
 
         } catch (SQLException e) {
             // 处理JDBC错误
             e.printStackTrace();
-            log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
+            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
             return false;
         } catch (Exception e) {
             // 处理Class.forName错误
             e.printStackTrace();
-            log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
+            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
             return false;
         } finally {
             // 关闭资源

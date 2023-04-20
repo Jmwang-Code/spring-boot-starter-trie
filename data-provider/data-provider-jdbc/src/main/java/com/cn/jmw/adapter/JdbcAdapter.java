@@ -34,7 +34,7 @@ public class JdbcAdapter implements Adapter, Closeable {
             this.dataSource = dataSource;
             connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
         } catch (Exception e) {
-            log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"初始化数据源失败"), e);
+            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"初始化数据源失败"), e);
         }
     }
 
@@ -46,18 +46,18 @@ public class JdbcAdapter implements Adapter, Closeable {
             Class.forName(dataSource.getDriverClassName());
             //返回连接对象
             connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-            log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
+            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
             return true;
         } catch (ClassNotFoundException | SQLException e) {
             //如果发生异常，打印错误信息并返回null
-            log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
+            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
             return false;
         } finally {
             if (connection!=null){
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
+                    log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
                 }
             }
         }
@@ -75,14 +75,14 @@ public class JdbcAdapter implements Adapter, Closeable {
                         //插入前缀树
                         int columnCount = resultSet.getMetaData().getColumnCount();
                         for (int i = 1; i <= columnCount; i++) {
-                            log.info(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+resultSet.getString(i)));
+                            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+resultSet.getString(i)));
                         }
                     }
                     return true;
                 });
             } catch (SQLException e) {
                 e.printStackTrace();
-                log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"数据源流接入失败:")+ dataSource.getDriverClassName(), e);
+                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"数据源流接入失败:")+ dataSource.getDriverClassName(), e);
             }
         });
 
@@ -95,7 +95,7 @@ public class JdbcAdapter implements Adapter, Closeable {
             try {
                 connection.close();
             } catch (SQLException e) {
-                log.error(ThreadColor.getColor(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
+                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
             }
         }
     }

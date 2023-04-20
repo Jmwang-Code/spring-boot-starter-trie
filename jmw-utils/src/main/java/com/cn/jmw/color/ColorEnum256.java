@@ -294,16 +294,16 @@ public enum ColorEnum256 {
     }
 
     public static void main(String[] args) {
-        for (int i = 0; i < 10000; i++) {
-            System.out.println(ColorEnum256.getRandomColor256().getColoredString("test"));
-        }
-//        for (int i = 0; i <= 15; i++) {
-//            for (int j = 0; j <= 15; j++) {
-//                int number = i * 15 + j;
-//                String str = String.format("%3d", number);
-//                System.out.print("\u001b[48;5;" + number + "m " + str + "\u001b[0m");
-//            }
-//            System.out.println();
+//        for (int i = 0; i < 10000; i++) {
+//            System.out.println(ColorEnum256.getRandomColor256().getColoredString("test"));
 //        }
+        for (int i = 0; i <= 16; i++) {
+            for (int j = 1; j <= 15; j++) {
+                int number = i * 15 + j;
+                String str = String.format("%3d", number);
+                System.out.print("\u001b[48;5;" + number + "m " + str + "\u001b[0m");
+            }
+            System.out.println();
+        }
     }
 }
