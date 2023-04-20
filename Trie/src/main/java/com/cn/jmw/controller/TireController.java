@@ -1,5 +1,6 @@
 package com.cn.jmw.controller;
 
+import com.cn.jmw.dto.ResponseData;
 import com.cn.jmw.service.TireService;
 import com.cn.jmw.trie.entity.MultiCodeMode;
 import com.cn.jmw.trie.entity.TriePrefixQueryResult;
@@ -50,32 +51,33 @@ public class TireController {
 
     @Operation(summary = "字符串添加")
     @PostMapping("/add")
-    public boolean add(String word, MultiCodeMode mode) {
-        return tireService.add(word, mode);
+    public ResponseData<Boolean> add(String word, MultiCodeMode mode) {
+        return ResponseData.success(tireService.add(word, mode));
     }
 
     @Operation(summary = "单词信息查询")
     @PostMapping("/query")
-    public TrieQueryResult get(String word) {
-        return tireService.get(word);
+    public ResponseData<TrieQueryResult> get(String word) {
+
+        return ResponseData.success(tireService.get(word));
     }
 
     @Operation(summary = "单词数量查询")
     @PostMapping("/size")
-    public int getSize() {
-        return tireService.getSize();
+    public ResponseData<Integer> getSize() {
+        return ResponseData.success(tireService.getSize());
     }
 
     @Operation(summary = "单词前缀查询,查询子树")
     @PostMapping("/prefix/query")
-    public TriePrefixQueryResult getPrefix(String word) {
-        return tireService.getPrefix(word);
+    public ResponseData<TriePrefixQueryResult> getPrefix(String word) {
+        return ResponseData.success(tireService.getPrefix(word));
     }
 
     @Operation(summary = "移除单词")
     @PostMapping("/remove")
-    public boolean remove(String word, int code, int type) {
-        return tireService.remove(word,code,type);
+    public ResponseData<Boolean> remove(String word, int code, int type) {
+        return ResponseData.success(tireService.remove(word, code, type));
     }
 
     public boolean remove(int[] word, int code, int type) {
@@ -84,8 +86,8 @@ public class TireController {
 
     @Operation(summary = "获取子树（辅助树）深度")
     @PostMapping("/deep")
-    public int getDeep(String word) {
-        return tireService.getDeep(word);
+    public ResponseData<Integer> getDeep(String word) {
+        return ResponseData.success(tireService.getDeep(word));
     }
 
     public void clear() {
