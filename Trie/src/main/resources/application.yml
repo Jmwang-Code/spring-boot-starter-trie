@@ -34,6 +34,7 @@ springdoc:
 #    file: '%d %5p - %m%n'
 
 provider-entity:
+#  persistencePath:
   runnableThreadNum: 3
   name: 123
   source: 123
