@@ -8,11 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.QueryRunner;
 
 import java.io.Closeable;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
-import static cn.hutool.poi.excel.sax.ElementName.row;
 
 /**
  * @author jmw
@@ -21,56 +18,74 @@ import static cn.hutool.poi.excel.sax.ElementName.row;
  * @Version 1.0
  */
 @Slf4j
-public class JdbcAdapter implements Adapter, Closeable {
+public class JdbcAdapter implements Adapter<Boolean> {
 
-    final String DUAL = "select 1 from dual";
+    protected final static String DUAL = "select 1 from dual";
 
     protected DataSource dataSource;
 
     protected Connection connection;
 
+    protected QueryRunner queryRunner;
+
+
     public final void init(DataSource dataSource) {
         try {
+            Class.forName(dataSource.getDriverClassName());
             this.dataSource = dataSource;
-            connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+            this.queryRunner = new JdbcSqlQueryRunner();
+            this.connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
         } catch (Exception e) {
             log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"初始化数据源失败"), e);
         }
     }
 
     //JDCB连接测试
-    public boolean test() {//DataSource dataSource
-        Connection connection = null;
-        try {
-            //加载驱动类
-            Class.forName(dataSource.getDriverClassName());
-            //返回连接对象
-            connection = DriverManager.getConnection(dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
-            return true;
-        } catch (ClassNotFoundException | SQLException e) {
-            //如果发生异常，打印错误信息并返回null
-            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
-            return false;
-        } finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
-                }
-            }
-        }
+    @Override
+    public boolean test() {
+//        Statement stmt = null;
+//        try {
+//            stmt = connection.createStatement();
+//            ResultSet rs = stmt.executeQuery(DUAL);
+//            // 关闭资源
+//            rs.close();
+//            stmt.close();
+//            connection.close();
+//            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
+//
+//        } catch (SQLException e) {
+//            // 处理JDBC错误
+//            e.printStackTrace();
+//            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
+//            return false;
+//        } catch (Exception e) {
+//            // 处理Class.forName错误
+//            e.printStackTrace();
+//            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
+//            return false;
+//        } finally {
+//            // 关闭资源
+//            try {
+//                if (stmt != null) stmt.close();
+//            } catch (SQLException se2) {
+//            }
+//            try {
+//                if (connection != null) connection.close();
+//            } catch (SQLException se) {
+//                se.printStackTrace();
+//            }
+//        }
+        return connection!=null?true:false;
     }
 
+    /**
+     * 流式读取 dataSource实体类中的多种数据
+     */
     @Override
-    public boolean streamingRead() {
-        QueryRunner jdbcSqlQueryRunner = new JdbcSqlQueryRunner();
-        Connection connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
-
+    public Boolean streamingRead() {
         dataSource.getSqlCode().parallelStream().forEach(sqlCode -> {
             try {
-                jdbcSqlQueryRunner.query(connection, sqlCode.getSql(), resultSet -> {
+                queryRunner.query(connection, sqlCode.getSql(), resultSet -> {
                     while (resultSet.next()) {
                         //插入前缀树
                         int columnCount = resultSet.getMetaData().getColumnCount();
@@ -85,7 +100,6 @@ public class JdbcAdapter implements Adapter, Closeable {
                 log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"数据源流接入失败:")+ dataSource.getDriverClassName(), e);
             }
         });
-
         return true;
     }
 

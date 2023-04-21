@@ -21,7 +21,7 @@ public class JdbcDataSource {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url,username,password);
-            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
+            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——获取连接"));
             return connection;
         } catch (SQLException e) {
             throw new RuntimeException(e);

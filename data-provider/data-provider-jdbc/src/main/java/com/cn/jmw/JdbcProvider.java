@@ -1,6 +1,7 @@
 package com.cn.jmw;
 
 
+import com.cn.jmw.adapter.Adapter;
 import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.config.ThreadPoolConfig;
 import com.cn.jmw.entity.ProviderEntity;
@@ -37,7 +38,13 @@ public class JdbcProvider extends AbstractFactoryProvider {
             FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI)).streamingRead();
+                    Boolean aBoolean = false;
+                    try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI));) {
+                        aBoolean = dataAdapter.streamingRead();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return aBoolean;
                 }
             });
             executorService.submit(integerFutureTask);
@@ -62,7 +69,13 @@ public class JdbcProvider extends AbstractFactoryProvider {
             FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
-                    return AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI)).test();
+                    boolean test = false;
+                    try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI));){
+                        test = dataAdapter.test();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return test;
                 }
             });
             executorService.submit(integerFutureTask);
@@ -83,7 +96,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
 
     @Override
     public void close() throws IOException {
-        System.out.println("close:"+getConfigJsonFileName());
+        System.out.println("close:" + getConfigJsonFileName());
     }
 
 }
