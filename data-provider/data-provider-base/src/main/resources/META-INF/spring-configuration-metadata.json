@@ -7,7 +7,53 @@
     }
   ],
   "properties": [
+    {
+      "name": "provider-entity.persistence-path",
+      "type": "java.lang.String",
+      "description": "持久化路径",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
+    {
+      "name": "provider-entity.runnable-thread-num",
+      "type": "java.util.Integer",
+      "description": "可运行线程数",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
+    {
+      "name": "provider-entity.name",
+      "type": "java.util.String",
+      "description": "名称",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
+    {
+      "name": "provider-entity.source",
+      "type": "java.util.String",
+      "description": "源",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
 
+
+
+    {
+      "name": "provider-entity.data-sources",
+      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+      "description": "列表",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
+    {
+      "name": "provider-entity.data-sources",
+      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+      "description": "列表",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
+
+
+    {
+      "name": "provider-entity.data-sources",
+      "type": "java.util.List<com.cn.jmw.entity.DataSource>",
+      "description": "列表",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
     {
       "name": "provider-entity.data-sources.username",
       "type": "java.lang.String",
