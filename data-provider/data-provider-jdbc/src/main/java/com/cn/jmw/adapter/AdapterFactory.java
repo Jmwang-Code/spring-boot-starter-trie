@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 @Slf4j
 public class AdapterFactory {
     //这里快速创建一个适配器，根据数据源类型，创建对应的适配器
-    public static Adapter createDataAdapter(DataSource dataSource) {
+    public static Adapter<Boolean> createDataAdapter(DataSource dataSource) {
         AdapterEnum adapterEnum = AdapterEnum.getAdapterEnum(dataSource.getType());
         log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——创建适配器:"+adapterEnum));
         try {
