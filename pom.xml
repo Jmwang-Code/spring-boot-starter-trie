@@ -10,6 +10,7 @@
         <module>Trie</module>
         <module>data-provider</module>
         <module>jmw-utils</module>
+        <module>persistence</module>
     </modules>
     <name>regression-search-tree</name>
     <description>regression-search-tree</description>
