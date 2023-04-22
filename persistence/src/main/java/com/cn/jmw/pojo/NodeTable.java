@@ -1,5 +1,8 @@
 package com.cn.jmw.pojo;
 
+import lombok.Data;
+
+@Data
 /**
  * @author jmw
  * @Description H2存储节点表
@@ -8,7 +11,13 @@ package com.cn.jmw.pojo;
  */
 public class NodeTable {
 
-    private String str;
+    private int id;
 
-    private String code;
+    private String name;
+
+    private int code;
+
+    private int type;
+
+    private int deleted;
 }

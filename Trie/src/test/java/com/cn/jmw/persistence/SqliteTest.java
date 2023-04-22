@@ -2,7 +2,7 @@ package com.cn.jmw.persistence;
 
 import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.entity.ProviderEntity;
-import com.cn.jmw.utils.SqliteUtils;
+import com.cn.jmw.utils.SqliteCacheUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class SqliteTest {
         if (!file.getParentFile().exists()){
             file.getParentFile().mkdirs();
         }
-        Connection conn = SqliteUtils.getConnection(providerEntity.getPersistencePath());
+        Connection conn = SqliteCacheUtils.getConnection(providerEntity.getPersistencePath());
         Statement stmt = conn.createStatement();
         stmt.execute("create table test(id int primary key, name varchar(255))");
         stmt.execute("insert into test values(1, 'Hello')");
