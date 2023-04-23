@@ -31,6 +31,18 @@
       "description": "源",
       "sourceType": "com.cn.jmw.entity.ProviderEntity"
     },
+    {
+      "name": "provider-entity.load-on",
+      "type": "com.cn.jmw.entity.LoadOn",
+      "description": "使用什么加载模式",
+      "sourceType": "com.cn.jmw.entity.ProviderEntity"
+    },
+    {
+      "name": "provider-entity.data-sources.load-on",
+      "type": "com.cn.jmw.entity.LoadOn",
+      "description": "使用什么加载模式",
+      "sourceType": "com.cn.jmw.entity.DataSource"
+    },
 
 
 
