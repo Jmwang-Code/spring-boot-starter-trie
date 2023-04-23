@@ -21,4 +21,6 @@ public class SqlCode {
     private String type;
     //前缀扩展
     private String expand;
+    //加载模式
+    private LoadOn loadOn;
 }

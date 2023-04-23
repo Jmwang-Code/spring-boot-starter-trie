@@ -27,6 +27,10 @@ public class ProviderEntity {
     private List<DataSource> dataSources;
     private int runnableThreadNum = 4;
     private String persistencePath = System.getProperty("user.dir").replace("\\","/")+ "/local/sqlite/text.cache";
+    /**
+     * 细粒度高于粗粒度控制，本地
+     */
+    private LoadOn loadOn;
 
     @Data
     public static class SqlQenerator {
