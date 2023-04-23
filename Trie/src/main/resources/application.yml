@@ -47,7 +47,9 @@ provider-entity:
       sql-code:
         - sql: "select * from user"
           str: username
+          load-on: local
       use-sql: true
+      load-on: local
     - type: MYSQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: demoT
@@ -56,7 +58,9 @@ provider-entity:
       sql-code :
         - sql: "select * from Frend"
           str: username
+          load-on: remote_repository
       use-sql: true
+      load-on: remote_repository
     - type: MYSQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: demo
@@ -65,4 +69,7 @@ provider-entity:
       sql-code:
         - sql: "select * from user"
           str: username
+          load-on: mix
       use-sql: true
+      load-on: mix
+  load-on: remote_repository
