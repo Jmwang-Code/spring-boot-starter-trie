@@ -1,7 +1,5 @@
 package com.cn.jmw.loading.lo;
 
-import java.util.ArrayList;
-
 /**
  * @author jmw
  * @Description TODO
@@ -11,13 +9,14 @@ import java.util.ArrayList;
 public class LoadTireServiceImpl<T,R> implements LoadTireService{
 
     @Override
-    public Object load(Handler handler) {
+    public Object load(final Handler handler) {
+
         return null;
     }
 
     public static void main(String[] args) {
-        LoadTireService<String,Void> loadTireService = new LoadTireServiceImpl();
-        loadTireService.load(new FunctionHandler<String, String>() {
+        LoadTireService<String,String> loadTireService = new LoadTireServiceImpl();
+        String load = loadTireService.load(new FunctionHandler<String, String>() {
 
             @Override
             public String handle(String s) {
@@ -25,7 +24,7 @@ public class LoadTireServiceImpl<T,R> implements LoadTireService{
             }
         });
 
-        loadTireService.load(new SupplierHandler<String>() {
+        String load1 = loadTireService.load(new SupplierHandler<String>() {
 
             @Override
             public String handler() {
@@ -33,7 +32,7 @@ public class LoadTireServiceImpl<T,R> implements LoadTireService{
             }
         });
 
-        loadTireService.load(new ConsumerHandler<String>() {
+        String load2 = loadTireService.load(new ConsumerHandler<String>() {
 
             @Override
             public void handle(String o) {
@@ -41,7 +40,7 @@ public class LoadTireServiceImpl<T,R> implements LoadTireService{
             }
         });
 
-        loadTireService.load(new PredicateHandler<String>() {
+        String load3 = loadTireService.load(new PredicateHandler<String>() {
 
 
             @Override
@@ -51,7 +50,6 @@ public class LoadTireServiceImpl<T,R> implements LoadTireService{
         });
 
     }
-
 
 
 }

@@ -8,5 +8,5 @@ package com.cn.jmw.loading.lo;
  */
 public interface ConsumerHandler<T> extends Handler {
 
-    abstract void handle(T t);
+    void handle(T t);
 }

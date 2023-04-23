@@ -13,5 +13,5 @@ public interface LoadTireService<T,R> {
      *
      * @param handler 数据回调处理器
      */
-    T load(Handler<T,R> handler);
+    R load(final Handler<? extends T,? extends R> handler);
 }

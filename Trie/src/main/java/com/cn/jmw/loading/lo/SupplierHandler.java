@@ -8,6 +8,6 @@ package com.cn.jmw.loading.lo;
  */
 public interface SupplierHandler<T> extends Handler {
 
-    abstract T handler();
+    T handler();
 
 }

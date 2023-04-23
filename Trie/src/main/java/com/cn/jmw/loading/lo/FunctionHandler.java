@@ -8,6 +8,6 @@ package com.cn.jmw.loading.lo;
  */
 public interface FunctionHandler<T,R> extends Handler{
 
-    abstract R handle(T t);
+    R handle(T t);
 
 }

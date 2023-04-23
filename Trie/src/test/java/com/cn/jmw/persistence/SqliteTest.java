@@ -1,6 +1,5 @@
 package com.cn.jmw.persistence;
 
-import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.entity.ProviderEntity;
 import com.cn.jmw.utils.SqliteCacheUtils;
 import lombok.extern.slf4j.Slf4j;

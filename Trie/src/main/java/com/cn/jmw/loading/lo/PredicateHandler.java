@@ -8,6 +8,6 @@ package com.cn.jmw.loading.lo;
  */
 public interface PredicateHandler<T> extends Handler{
 
-    abstract boolean handle(T t);
+    boolean handle(T t);
 
 }
