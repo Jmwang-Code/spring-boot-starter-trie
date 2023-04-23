@@ -1,5 +1,11 @@
 package com.cn.jmw.loading.lo;
 
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
+
+import java.util.concurrent.ExecutorCompletionService;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * @author jmw
  * @Description TODO
@@ -10,6 +16,18 @@ public class LoadTireServiceImpl<T,R> implements LoadTireService{
 
     @Override
     public Object load(final Handler handler) {
+        ExecutorService executorService = Executors.newCachedThreadPool(new CustomizableThreadFactory("trie-cached-runner-"));
+        //ExecutorCompletionService是一个优秀的异步执行阻塞等待所有返回结果的队列
+        final ExecutorCompletionService<Long> completionService = new ExecutorCompletionService<Long>(
+                executorService);
+
+        long taskCount = 0;
+
+        //本地加载
+
+        //远程加载（第一次初始化项目）
+
+        //混合加载
 
         return null;
     }
