@@ -43,38 +43,6 @@ public class JdbcAdapter implements Adapter<Boolean> {
     //JDCB连接测试
     @Override
     public boolean test() {
-//        Statement stmt = null;
-//        try {
-//            stmt = connection.createStatement();
-//            ResultSet rs = stmt.executeQuery(DUAL);
-//            // 关闭资源
-//            rs.close();
-//            stmt.close();
-//            connection.close();
-//            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——测试连接成功"));
-//
-//        } catch (SQLException e) {
-//            // 处理JDBC错误
-//            e.printStackTrace();
-//            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
-//            return false;
-//        } catch (Exception e) {
-//            // 处理Class.forName错误
-//            e.printStackTrace();
-//            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"驱动类没有找到或者连接失败:")+ dataSource.getDriverClassName(), e);
-//            return false;
-//        } finally {
-//            // 关闭资源
-//            try {
-//                if (stmt != null) stmt.close();
-//            } catch (SQLException se2) {
-//            }
-//            try {
-//                if (connection != null) connection.close();
-//            } catch (SQLException se) {
-//                se.printStackTrace();
-//            }
-//        }
         return connection!=null?true:false;
     }
 
