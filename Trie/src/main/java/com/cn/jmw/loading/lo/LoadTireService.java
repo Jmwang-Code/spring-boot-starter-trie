@@ -1,5 +1,7 @@
 package com.cn.jmw.loading.lo;
 
+import java.util.function.Consumer;
+
 /**
  * @author jmw
  * @Description
@@ -13,5 +15,5 @@ public interface LoadTireService<T,R> {
      *
      * @param handler 数据回调处理器
      */
-    R load(final Handler<? extends T,? extends R> handler);
+    R load(final Consumer handler);
 }
