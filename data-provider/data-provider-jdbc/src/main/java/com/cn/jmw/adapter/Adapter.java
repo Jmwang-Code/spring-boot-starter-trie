@@ -1,6 +1,7 @@
 package com.cn.jmw.adapter;
 
-import com.cn.jmw.entity.DataSource;
+
+import java.io.Closeable;
 
 /**
  * @author jmw
@@ -8,9 +9,9 @@ import com.cn.jmw.entity.DataSource;
  * @date 2023年04月11日 16:20
  * @Version 1.0
  */
-public interface Adapter {
+public interface Adapter<Result> extends Closeable {
 
-    public boolean test(DataSource dataSource);
+    public boolean test();
 
-    public boolean streamingRead(DataSource dataSource);
+    public Result streamingRead();
 }

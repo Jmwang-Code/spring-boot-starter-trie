@@ -190,6 +190,19 @@ public class TreeNode {
         return Math.max(right,left)+1;
     }
 
+    public int sumNumbers(TreeNode root) {
+        return dfssumNumbers(root,0);
+    }
+
+    public int dfssumNumbers(TreeNode root,int pre){
+        if (root==null)return 0;
+        if (root.right==null&&root.left==null){
+            return pre*10 + root.val;
+        }else {
+            return dfssumNumbers(root.left,root.val)+ dfssumNumbers(root.right,root.val);
+        }
+    }
+
     public static void main(String[] args) {
         TreeNode treeNode = new TreeNode(1, new TreeNode(0, null, null), new TreeNode(48, new TreeNode(12, null, null), new TreeNode(49, null, null)));
 //        int minimumDifference = new TreeNode().getMinimumDifference(treeNode);
@@ -217,8 +230,11 @@ public class TreeNode {
         TreeNode treeNode8 = new TreeNodeCreate(new int[]{1, 2, 5, 3, 4, 0, 6}).create();
         new TreeNode().flatten(treeNode8);
 
-        TreeNode treeNode9 = new TreeNodeCreate(new int[]{2, 1, 3}).create();
+        TreeNode treeNode9 = new TreeNodeCreate(new int[]{4,9,0,5,1}).create();
         new TreeNode().isBalanced(treeNode9);
+
+
+        System.out.println(new TreeNode().sumNumbers(treeNode9));
     }
 
     static class TreeNodeCreate {

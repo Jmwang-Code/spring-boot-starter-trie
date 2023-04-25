@@ -19,8 +19,9 @@ public class DataSource {
     private String password;
     //默认使用sql语句，而不是使用sql生成器
     private boolean useSql = true;
-    private List<String> sql;
+    private List<SqlCode> sqlCode;
     private boolean useSqlQenerator = false;
     private List<ProviderEntity.SqlQenerator> sqlQenerators;
     private int maxWaitMillis = 60 * 1000;
+    private LoadOn loadOn;
 }

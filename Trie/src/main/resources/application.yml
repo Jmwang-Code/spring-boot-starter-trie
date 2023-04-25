@@ -34,6 +34,7 @@ springdoc:
 #    file: '%d %5p - %m%n'
 
 provider-entity:
+#  persistencePath:
   runnableThreadNum: 3
   name: 123
   source: 123
@@ -43,24 +44,32 @@ provider-entity:
       username: mydb
       password: waem8XcHS2BafkKz
       url: jdbc:mysql://152.136.154.249:3306/mydb?&allowMultiQueries=true&characterEncoding=utf-8
-      sql:
-        - "select * from myTable"
+      sql-code:
+        - sql: "select * from user"
+          str: username
+          load-on: local
       use-sql: true
-
+      load-on: local
     - type: MYSQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: demoT
       password: 6RHDcY4kJhjjnzHr
       url: jdbc:mysql://152.136.154.249:3306/demot?&allowMultiQueries=true&characterEncoding=utf-8
-      sql:
-        - "select * from myTable"
+      sql-code :
+        - sql: "select * from Frend"
+          str: username
+          load-on: remote_repository
       use-sql: true
-
+      load-on: remote_repository
     - type: MYSQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       username: demo
       password: kKJ8XynXLzjfYDA7
       url: jdbc:mysql://152.136.154.249:3306/demo?&allowMultiQueries=true&characterEncoding=utf-8
-      sql:
-        - "select * from myTable"
+      sql-code:
+        - sql: "select * from user"
+          str: username
+          load-on: mix
       use-sql: true
+      load-on: mix
+  load-on: remote_repository

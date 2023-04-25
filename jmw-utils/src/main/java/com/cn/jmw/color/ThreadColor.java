@@ -11,15 +11,27 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ThreadColor {
 
-    static final Map<String,ColorEnum> map = new ConcurrentHashMap();
+    static final Map<String, ColorEnum8> map8 = new ConcurrentHashMap(8);
 
-    public synchronized static ColorEnum getColor(String threadName){
-        if (map.containsKey(threadName)){
-            return map.get(threadName);
+    static final Map<String, ColorEnum256> map256 = new ConcurrentHashMap(256);
+
+    public synchronized static ColorEnum8 getColor8(String threadName){
+        if (map8.containsKey(threadName)){
+            return map8.get(threadName);
         }else {
-            ColorEnum colorEnum = ColorEnum.getRandomColor();
-            map.put(threadName,colorEnum);
-            return colorEnum;
+            ColorEnum8 colorEnum8 = ColorEnum8.getRandomColor();
+            map8.put(threadName, colorEnum8);
+            return colorEnum8;
+        }
+    }
+
+    public synchronized static ColorEnum256 getColor256(String threadName){
+        if (map256.containsKey(threadName)){
+            return map256.get(threadName);
+        }else {
+            ColorEnum256 colorEnum256 = ColorEnum256.getRandomColor256();
+            map256.put(threadName, colorEnum256);
+            return colorEnum256;
         }
     }
 }

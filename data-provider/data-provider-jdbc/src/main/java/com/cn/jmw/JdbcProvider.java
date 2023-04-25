@@ -1,6 +1,7 @@
 package com.cn.jmw;
 
 
+import com.cn.jmw.adapter.Adapter;
 import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.config.ThreadPoolConfig;
 import com.cn.jmw.entity.ProviderEntity;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 /**
  * @author jmw
@@ -23,41 +21,75 @@ import java.util.concurrent.FutureTask;
  */
 public class JdbcProvider extends AbstractFactoryProvider {
 
-//    @Autowired
-//    @Qualifier(value = "configurationCheckThreadPool")
-//    private ExecutorService executorService;
-
     //配置名称
     public final String CONFIG = "JDBC";
 
     //执行
     @Override
-    public boolean execute(ProviderEntity providerEntity) {
+    public boolean execute(ProviderEntity providerEntity) throws Exception {
+        try (ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig(5)) {
+            ExecutorService configurationCheckThreadPool = threadPoolConfig.getConfigurationCheckThreadPool();
+            CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
+            for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
+                int finalI = i;
+                FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        Boolean aBoolean = false;
+                        try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI));) {
+                            aBoolean = dataAdapter.streamingRead();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return aBoolean;
+                    }
+                });
+                configurationCheckThreadPool.submit(integerFutureTask);
+                integers.add(integerFutureTask);
+            }
+            for (FutureTask<Boolean> integerFutureTask : integers) {
+                if (!integerFutureTask.get()) {
+                    return false;
+                }
+            }
 
-        return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 
     //测试连接
     @Override
     public boolean test(ProviderEntity providerEntity) throws Exception {
-        ExecutorService executorService = ThreadPoolConfig.newInstance(5);
+        try (ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig(5)) {
+            ExecutorService configurationCheckThreadPool = threadPoolConfig.getConfigurationCheckThreadPool();
 
-        CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
-        for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
-            int finalI = i;
-            FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
-                @Override
-                public Boolean call() throws Exception {
-                    return AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI)).test(providerEntity.getDataSources().get(finalI));
-                }
-            });
-            executorService.submit(integerFutureTask);
-            integers.add(integerFutureTask);
-        }
-        for (FutureTask<Boolean> integerFutureTask : integers) {
-            if (!integerFutureTask.get()) {
-                return false;
+            CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
+            for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
+                int finalI = i;
+                FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
+                    @Override
+                    public Boolean call() throws Exception {
+                        boolean test = false;
+                        try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI));) {
+                            test = dataAdapter.test();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return test;
+                    }
+                });
+                configurationCheckThreadPool.submit(integerFutureTask);
+                integers.add(integerFutureTask);
             }
+            for (FutureTask<Boolean> integerFutureTask : integers) {
+                if (!integerFutureTask.get()) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return true;
     }
@@ -69,7 +101,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
 
     @Override
     public void close() throws IOException {
-        System.out.println("close:"+getConfigJsonFileName());
+        System.out.println("close:" + getConfigJsonFileName());
     }
 
 }
