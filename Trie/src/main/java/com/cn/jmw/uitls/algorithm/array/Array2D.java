@@ -1,6 +1,6 @@
 package com.cn.jmw.uitls.algorithm.array;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * @author 一只小小狗
@@ -148,7 +148,124 @@ public class Array2D {
         return res;
     }
 
+    public static List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        permutedfs(nums, list, new ArrayList<Integer>());
+        return list;
+    }
+
+    public static void permutedfs(int[] nums, List<List<Integer>> list, List<Integer> integers) {
+        if (nums.length == integers.size()) {
+            list.add(new ArrayList<>(integers));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (integers.contains(nums[i])) continue;
+            integers.add(nums[i]);
+            permutedfs(nums, list, integers);
+            integers.remove(integers.size() - 1);
+        }
+    }
+
+
+    public static List<List<Integer>> permuteUnique(int[] nums) {
+        int len = nums.length;
+        List<List<Integer>> res = new ArrayList<>();
+        if (len == 0) {
+            return res;
+        }
+
+        // 排序（升序或者降序都可以），排序是剪枝的前提
+        Arrays.sort(nums);
+
+        boolean[] used = new boolean[len];
+        // 使用 Deque 是 Java 官方 Stack 类的建议
+        Deque<Integer> path = new ArrayDeque<>(len);
+        permuteUniquedfs(nums, len, 0, used, path, res);
+        return res;
+    }
+
+    private static void permuteUniquedfs(int[] nums, int len, int depth, boolean[] used, Deque<Integer> path, List<List<Integer>> res) {
+        if (depth == len) {
+            res.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = 0; i < len; ++i) {
+            if (used[i]) {
+                continue;
+            }
+
+            // 剪枝条件：i > 0 是为了保证 nums[i - 1] 有意义
+            // 写 !used[i - 1] 是因为 nums[i - 1] 在深度优先遍历的过程中刚刚被撤销选择
+            if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+                continue;
+            }
+
+            path.addLast(nums[i]);
+            used[i] = true;
+
+            permuteUniquedfs(nums, len, depth + 1, used, path, res);
+            // 回溯部分的代码，和 dfs 之前的代码是对称的
+            used[i] = false;
+            path.removeLast();
+        }
+    }
+
+    /**
+     * 2D数组 反转问题
+     * */
+    public static void rotate(int[][] matrix) {
+        //上下翻转
+        for (int i = 0; i < matrix.length/2; i++) {
+            int[] temp = matrix[i];
+            matrix[i] = matrix[matrix.length-i-1];
+            matrix[matrix.length-i-1] = temp;
+        }
+
+        //左右翻转
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = i+1; j < matrix.length; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+
+    }
+
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        for (int i = 0; i < strs.length; i++) {
+            int[] abc = new int[26];
+            char[] chars = strs[i].toCharArray();
+            for (int j = 0; j < chars.length; j++) {
+                abc[chars[j] - 'a']++;
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < abc.length; j++) {
+                if (abc[j]!=0){
+                    for (int k = 0; k < abc[j]; k++) {
+                        stringBuilder.append((char)('a'+j));
+                    }
+                }
+            }
+            List<String> list = map.getOrDefault(stringBuilder.toString(),new ArrayList<String>());
+            list.add(strs[i]);
+            map.put(stringBuilder.toString(),list);
+        }
+        return new ArrayList<List<String>>(map.values());
+    }
+
     public static void main(String[] args) {
         System.out.println(Arrays.toString(spiralOrder(arr)));
+
+        System.out.println(permuteUnique(new int[]{1, 1, 2}));
+
+        int[][] arr = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        rotate(arr);
+        System.out.println(Arrays.toString(arr));
+
+        System.out.println(groupAnagrams(new String[]{"ddddddddddg","dgggggggggg"}));
     }
 }
