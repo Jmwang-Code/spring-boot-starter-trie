@@ -1,6 +1,7 @@
 package com.cn.jmw.persistence;
 
 import com.cn.jmw.entity.ProviderEntity;
+import com.cn.jmw.pojo.NodeTable;
 import com.cn.jmw.utils.SqliteCacheUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * @author jmw
@@ -27,22 +29,16 @@ public class SqliteTest {
     private ProviderEntity providerEntity;
 
     @Test
-    public void jdbcAdapter() throws SQLException {
-        File file = new File(providerEntity.getPersistencePath());
+    public void sqlite() throws SQLException {
+        File file = new File(System.getProperty("user.dir").replace("\\","/")+ "/local/sqlite/sqlite.cache");
         if (!file.getParentFile().exists()){
             file.getParentFile().mkdirs();
         }
-        Connection conn = SqliteCacheUtils.getConnection(providerEntity.getPersistencePath());
-        Statement stmt = conn.createStatement();
-        stmt.execute("create table test(id int primary key, name varchar(255))");
-        stmt.execute("insert into test values(1, 'Hello')");
-        stmt.execute("insert into test values(2, 'World')");
-        ResultSet rs = stmt.executeQuery("select * from test");
-        while (rs.next()) {
-            System.out.println(rs.getInt(1) + " " + rs.getString(2));
-        }
-        rs.close();
-        stmt.close();
-        conn.close();
+        SqliteCacheUtils sqliteCacheUtils = new SqliteCacheUtils(System.getProperty("user.dir").replace("\\","/")+ "/local/sqlite/sqlite.cache");
+        boolean test1 = sqliteCacheUtils.insert( "test", 1, 1);
+        List<NodeTable> test = sqliteCacheUtils.query("test", 1, 1);
+        boolean test2 = sqliteCacheUtils.delete("test", 1, 1);
+        List<NodeTable> test3 = sqliteCacheUtils.query("test", 1, 1);
+        sqliteCacheUtils.close();
     }
 }
