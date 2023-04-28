@@ -34,7 +34,6 @@ springdoc:
 #    file: '%d %5p - %m%n'
 
 provider-entity:
-#  persistencePath:
   runnableThreadNum: 3
   name: 123
   source: 123
@@ -73,3 +72,4 @@ provider-entity:
       use-sql: true
       load-on: mix
   load-on: remote_repository
+  persistence-path: h2
