@@ -1,13 +1,15 @@
 package com.cn.jmw.trie;
 
-import com.cn.jmw.trie.entity.*;
-import com.cn.jmw.trie.tokenizer.TokenizerManager;
+import com.cn.jmw.trie.entity.MultiCodeMode;
+import com.cn.jmw.trie.entity.TriePrefixQueryResult;
+import com.cn.jmw.trie.entity.TrieQueryResult;
 import com.cn.jmw.trie.tokenizer.TokenizerObject;
 import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -32,6 +34,11 @@ public class Tire<K, V> implements Serializable {
 //    private transient int modCount = 0;
 
     private TrieNode mainTree;
+
+    public TrieNode getMainTree() {
+        return mainTree;
+    }
+
     /**
      * 比较器
      */
