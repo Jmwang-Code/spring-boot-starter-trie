@@ -6,6 +6,8 @@ import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.config.ThreadPoolConfig;
 import com.cn.jmw.entity.ProviderEntity;
 import com.cn.jmw.provider.AbstractFactoryProvider;
+import com.cn.jmw.trie.Tire;
+import com.cn.jmw.trie.TrieNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,12 @@ import java.util.concurrent.*;
  * @Version 1.0
  */
 public class JdbcProvider extends AbstractFactoryProvider {
+
+    private final Tire forest;
+
+    public JdbcProvider(Tire forest) {
+        this.forest = forest;
+    }
 
     //配置名称
     public final String CONFIG = "JDBC";
@@ -36,7 +44,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
                     @Override
                     public Boolean call() throws Exception {
                         Boolean aBoolean = false;
-                        try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI));) {
+                        try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI),forest);) {
                             aBoolean = dataAdapter.streamingRead();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -72,7 +80,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
                     @Override
                     public Boolean call() throws Exception {
                         boolean test = false;
-                        try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI));) {
+                        try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI),forest);) {
                             test = dataAdapter.test();
                         } catch (Exception e) {
                             e.printStackTrace();

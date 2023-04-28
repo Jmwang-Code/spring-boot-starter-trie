@@ -2,6 +2,9 @@ package com.cn.jmw.controller;
 
 import com.cn.jmw.JdbcProvider;
 import com.cn.jmw.entity.ProviderEntity;
+import com.cn.jmw.provider.AbstractFactoryProvider;
+import com.cn.jmw.trie.Tire;
+import com.cn.jmw.trie.TrieNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ public class LoadingController {
     @Operation(summary = "loading")
     @GetMapping("/loading")
     public Boolean getJdbcProvider(){
-        JdbcProvider jdbcProvider = new JdbcProvider();
+        AbstractFactoryProvider jdbcProvider = new JdbcProvider(new Tire());
         boolean test;
         try {
             test = jdbcProvider.test(providerEntity);

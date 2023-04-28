@@ -1,14 +1,20 @@
 package com.cn.jmw.adapter;
 
+import com.cn.jmw.base.Counter;
 import com.cn.jmw.base.JdbcDataSource;
 import com.cn.jmw.base.JdbcSqlQueryRunner;
 import com.cn.jmw.color.ThreadColor;
 import com.cn.jmw.entity.DataSource;
+import com.cn.jmw.result.TrieResultSetHandler;
+import com.cn.jmw.trie.Tire;
+import com.cn.jmw.trie.TrieNode;
+import com.cn.jmw.trie.entity.MultiCodeMode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbutils.QueryRunner;
 
 import java.io.Closeable;
 import java.sql.*;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
@@ -28,22 +34,29 @@ public class JdbcAdapter implements Adapter<Boolean> {
 
     protected QueryRunner queryRunner;
 
+    protected Tire trieNode;
 
-    public final void init(DataSource dataSource) {
+    public JdbcAdapter(DataSource dataSource,Tire trieNode) {
+        init(dataSource,trieNode);
+    }
+
+
+    public void init(DataSource dataSource, Tire trieNode) {
         try {
             Class.forName(dataSource.getDriverClassName());
             this.dataSource = dataSource;
             this.queryRunner = new JdbcSqlQueryRunner();
             this.connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+            this.trieNode = trieNode;
         } catch (Exception e) {
-            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"初始化数据源失败"), e);
+            log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "初始化数据源失败"), e);
         }
     }
 
     //JDCB连接测试
     @Override
     public boolean test() {
-        return connection!=null?true:false;
+        return connection != null ? true : false;
     }
 
     /**
@@ -51,21 +64,31 @@ public class JdbcAdapter implements Adapter<Boolean> {
      */
     @Override
     public Boolean streamingRead() {
+        Counter counter = new Counter();
         dataSource.getSqlCode().parallelStream().forEach(sqlCode -> {
             try {
-                queryRunner.query(connection, sqlCode.getSql(), resultSet -> {
-                    while (resultSet.next()) {
-                        //插入前缀树
-                        int columnCount = resultSet.getMetaData().getColumnCount();
-                        for (int i = 1; i <= columnCount; i++) {
-                            log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+resultSet.getString(i)));
+                Long query = queryRunner.query(connection, sqlCode.getSql(), new TrieResultSetHandler() {
+                    @Override
+                    public Long handle(ResultSet rs) throws SQLException {
+                        ResultSetMetaData metaData = rs.getMetaData();
+                        int columnCount = metaData.getColumnCount();
+                        while (rs.next()) {
+                            for (int i = 1; i <= columnCount; i++) {
+                                if (rs.getString(i)!=null){
+                                    trieNode.add(rs.getString(i), MultiCodeMode.Drop);
+                                    log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "——" + rs.getString(i)));
+                                }
+                            }
+                            counter.inc();
                         }
+                        return counter.value();
                     }
-                    return true;
                 });
+
+                log.info(ThreadColor.getColor8(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——"+sqlCode.getSql()+"——单词加载树量"+query));
             } catch (SQLException e) {
                 e.printStackTrace();
-                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"数据源流接入失败:")+ dataSource.getDriverClassName(), e);
+                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "数据源流接入失败:") + dataSource.getDriverClassName(), e);
             }
         });
         return true;
@@ -73,11 +96,11 @@ public class JdbcAdapter implements Adapter<Boolean> {
 
     @Override
     public void close() {
-        if (connection!=null){
+        if (connection != null) {
             try {
                 connection.close();
             } catch (SQLException e) {
-                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"关闭连接失败:")+ dataSource.getDriverClassName(), e);
+                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "关闭连接失败:") + dataSource.getDriverClassName(), e);
             }
         }
     }
