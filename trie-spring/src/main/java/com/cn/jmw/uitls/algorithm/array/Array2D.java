@@ -214,18 +214,18 @@ public class Array2D {
 
     /**
      * 2D数组 反转问题
-     * */
+     */
     public static void rotate(int[][] matrix) {
         //上下翻转
-        for (int i = 0; i < matrix.length/2; i++) {
+        for (int i = 0; i < matrix.length / 2; i++) {
             int[] temp = matrix[i];
-            matrix[i] = matrix[matrix.length-i-1];
-            matrix[matrix.length-i-1] = temp;
+            matrix[i] = matrix[matrix.length - i - 1];
+            matrix[matrix.length - i - 1] = temp;
         }
 
         //左右翻转
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = i+1; j < matrix.length; j++) {
+            for (int j = i + 1; j < matrix.length; j++) {
                 int temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = temp;
@@ -244,17 +244,65 @@ public class Array2D {
             }
             StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < abc.length; j++) {
-                if (abc[j]!=0){
+                if (abc[j] != 0) {
                     for (int k = 0; k < abc[j]; k++) {
-                        stringBuilder.append((char)('a'+j));
+                        stringBuilder.append((char) ('a' + j));
                     }
                 }
             }
-            List<String> list = map.getOrDefault(stringBuilder.toString(),new ArrayList<String>());
+            List<String> list = map.getOrDefault(stringBuilder.toString(), new ArrayList<String>());
             list.add(strs[i]);
-            map.put(stringBuilder.toString(),list);
+            map.put(stringBuilder.toString(), list);
         }
         return new ArrayList<List<String>>(map.values());
+    }
+
+    /**
+     *  两种可能性
+     *  1 2 3 4    → ↓ ← ↑
+     *  3     5                 4 5  → ↓ ←
+     *  2     6                 7 6
+     *  1 9 8 7
+     *
+     *  1 2 3    → ↓ ← ↑
+     *  8   4                 9   →
+     *  7 6 5
+     *
+     *  时间复杂度为O(n) :由于题目要求，所需遍历所有节点。
+     *  空间复杂度也为O(n) :由于题目要求，需要返回轮旋矩阵模型所有数据
+     *
+     *  需要四点定位让上下左右都能动态变化，left right top bottom
+     *
+     */
+    public static List<Integer> spiralOrderDME(int[][] matrix) {
+        List<Integer> order = new ArrayList<Integer>();
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return order;
+        }
+        int rows = matrix.length, columns = matrix[0].length;
+        int left = 0, right = columns - 1, top = 0, bottom = rows - 1;
+        while (left <= right && top <= bottom) {
+            for (int column = left; column <= right; column++) {
+                order.add(matrix[top][column]);
+            }
+            for (int row = top + 1; row <= bottom; row++) {
+                order.add(matrix[row][right]);
+            }
+            if (left < right && top < bottom) {
+                for (int column = right - 1; column > left; column--) {
+                    order.add(matrix[bottom][column]);
+                }
+                for (int row = bottom; row > top; row--) {
+                    order.add(matrix[row][left]);
+                }
+            }
+            left++;
+            right--;
+            top++;
+            bottom--;
+        }
+        return order;
+
     }
 
     public static void main(String[] args) {
@@ -262,10 +310,17 @@ public class Array2D {
 
         System.out.println(permuteUnique(new int[]{1, 1, 2}));
 
-        int[][] arr = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        int[][] arr = new int[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
         rotate(arr);
         System.out.println(Arrays.toString(arr));
 
-        System.out.println(groupAnagrams(new String[]{"ddddddddddg","dgggggggggg"}));
+        System.out.println(groupAnagrams(new String[]{"ddddddddddg", "dgggggggggg"}));
+
+        System.out.println(spiralOrderDME(new int[][]{
+                {1, 2, 3, 4},
+                {5, 6, 7, 8},
+                {9, 10, 11, 12},
+                {13, 14, 15, 16}
+        }));
     }
 }
