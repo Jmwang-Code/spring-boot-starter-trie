@@ -7,11 +7,11 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>Trie</module>
-        <module>data-provider</module>
-        <module>jmw-utils</module>
-        <module>persistence</module>
-        <module>algorithm</module>
+        <module>trie-algorithm</module>
+        <module>trie-persistence</module>
+        <module>trie-spring</module>
+        <module>trie-data-provider</module>
+        <module>trie-utils</module>
     </modules>
     <name>regression-search-tree</name>
     <description>regression-search-tree</description>
