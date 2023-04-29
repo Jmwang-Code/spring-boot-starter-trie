@@ -37,7 +37,9 @@ public class TokenizerUtil {
             if (c >= TokenizerUtil.EXT_CHAR_BASE) {
                 buf.append("*");
             } else {
-                buf.append(toString(c));
+                if(c!=-1){
+                    buf.append(toString(c));
+                }
             }
         }
         return buf.toString();

@@ -9,7 +9,7 @@
   "properties": [
     {
       "name": "provider-entity.persistence-path",
-      "type": "java.lang.String",
+      "type": "com.cn.jmw.entity.LocalBD",
       "description": "持久化路径",
       "sourceType": "com.cn.jmw.entity.ProviderEntity"
     },

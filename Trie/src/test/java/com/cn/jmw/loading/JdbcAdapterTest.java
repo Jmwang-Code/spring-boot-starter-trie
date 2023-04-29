@@ -4,6 +4,9 @@ import com.cn.jmw.JdbcProvider;
 import com.cn.jmw.adapter.AdapterFactory;
 import com.cn.jmw.adapter.JdbcAdapter;
 import com.cn.jmw.entity.ProviderEntity;
+import com.cn.jmw.provider.AbstractFactoryProvider;
+import com.cn.jmw.trie.Tire;
+import com.cn.jmw.trie.TrieNode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +28,13 @@ public class JdbcAdapterTest {
     @Test
     public void jdbcAdapter() {
         System.out.println(providerEntity.getRunnableThreadNum());
-        boolean test = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(0)).test();
+        boolean test = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(0),new Tire()).test();
         log.info("test:" + test);
     }
 
     @Test
     public void test() {
-        JdbcProvider jdbcProvider = new JdbcProvider();
+        AbstractFactoryProvider jdbcProvider = new JdbcProvider(new Tire());
         try {
             boolean test = jdbcProvider.test(providerEntity);
             System.out.println(test);
@@ -42,7 +45,7 @@ public class JdbcAdapterTest {
 
     @Test
     public void execute() {
-        JdbcProvider jdbcProvider = new JdbcProvider();
+        AbstractFactoryProvider jdbcProvider = new JdbcProvider(new Tire());
         try {
             boolean execute = jdbcProvider.execute(providerEntity);
             System.out.println(execute);

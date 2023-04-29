@@ -1,9 +1,11 @@
-package com.cn.jmw.base;
+package com.cn.jmw.result;
 
+import com.cn.jmw.entity.DataSource;
 import org.apache.commons.dbutils.ResultSetHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author jmw
@@ -12,6 +14,7 @@ import java.sql.SQLException;
  * @Version 1.0
  */
 public interface TrieResultSetHandler extends ResultSetHandler<Long> {
+
     /**
      * 结果集处理
      *

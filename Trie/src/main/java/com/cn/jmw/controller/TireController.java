@@ -58,7 +58,6 @@ public class TireController {
     @Operation(summary = "单词信息查询")
     @PostMapping("/query")
     public ResponseData<TrieQueryResult> get(String word) {
-
         return ResponseData.success(tireService.get(word));
     }
 

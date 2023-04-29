@@ -14,7 +14,7 @@
 <!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
         <artifactId>regression-search-tree</artifactId>
         <groupId>io.github.jmwang-code</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <groupId>io.github.jmwang-code</groupId>
     <artifactId>data-provider</artifactId>

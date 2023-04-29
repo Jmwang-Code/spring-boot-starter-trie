@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>persistence</artifactId>
+    <artifactId>algorithm</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,11 +17,4 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.github.jmwang-code</groupId>
-            <artifactId>data-provider-jdbc</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
 </project>

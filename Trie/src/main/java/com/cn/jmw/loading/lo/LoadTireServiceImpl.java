@@ -1,19 +1,10 @@
 package com.cn.jmw.loading.lo;
 
 import com.cn.jmw.JdbcProvider;
-import com.cn.jmw.entity.DataSource;
-import com.cn.jmw.entity.LoadOn;
 import com.cn.jmw.entity.ProviderEntity;
-import com.cn.jmw.entity.SqlCode;
-import com.cn.jmw.provider.AbstractFactoryProvider;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
-
-import java.util.List;
-import java.util.concurrent.ExecutorCompletionService;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.function.Consumer;
+import com.cn.jmw.trie.Tire;
+import com.cn.jmw.trie.TrieNode;
+import org.springframework.stereotype.Component;
 
 /**
  * @author jmw
@@ -25,19 +16,32 @@ public class LoadTireServiceImpl<T,R> implements LoadTireService{
 
     private ProviderEntity providerEntity;
 
-    public LoadTireServiceImpl(ProviderEntity providerEntity){
+    private Tire trieNode;
+
+    public LoadTireServiceImpl(ProviderEntity providerEntity,Tire trieNode){
         this.providerEntity = providerEntity;
+        this.trieNode = trieNode;
+    }
+
+    //TODO 全部改成工厂方法创建，通过TYEP 比如JDBC ES 等等
+    @Override
+    public void loadConsumer(final ConsumerHandler handler) {
+        handler.handle(new JdbcProvider(trieNode));
     }
 
     @Override
-    public Object load(final Consumer handler) {
-        boolean execute;
-        try (AbstractFactoryProvider abstractFactoryProvider = new JdbcProvider();) {
-            execute = abstractFactoryProvider.execute(providerEntity);
-        }catch (Exception e){
+    public Object loadFunction(FunctionHandler handler) {
+        return handler.handle(new JdbcProvider(trieNode));
+    }
 
-        }
-        return null;
+    @Override
+    public boolean loadPredicate(final PredicateHandler handler) {
+        return handler.handle(new JdbcProvider(trieNode));
+    }
+
+    @Override
+    public R loadSupplier(final SupplierHandler handler) {
+        return (R) handler.handle();
     }
 
 

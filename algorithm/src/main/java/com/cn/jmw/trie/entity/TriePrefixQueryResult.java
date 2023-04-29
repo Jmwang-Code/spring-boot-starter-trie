@@ -3,8 +3,9 @@ package com.cn.jmw.trie.entity;
 import com.cn.jmw.trie.TrieCode;
 import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author jmw

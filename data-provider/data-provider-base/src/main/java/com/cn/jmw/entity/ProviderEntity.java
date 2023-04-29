@@ -26,7 +26,7 @@ public class ProviderEntity {
     private String source;
     private List<DataSource> dataSources;
     private int runnableThreadNum = 4;
-    private String persistencePath = System.getProperty("user.dir").replace("\\","/")+ "/local/sqlite/text.cache";
+    private LocalBD persistencePath = LocalBD.H2;
     /**
      * 细粒度高于粗粒度控制，本地
      */
