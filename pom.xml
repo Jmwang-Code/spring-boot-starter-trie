@@ -9,7 +9,7 @@
     <modules>
         <module>trie-algorithm</module>
         <module>trie-persistence</module>
-        <module>trie-spring</module>
+        <module>spring-boot-starter-trie</module>
         <module>trie-data-provider</module>
         <module>trie-utils</module>
     </modules>
@@ -204,11 +204,11 @@
             <version>2.4.0</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.seleniumhq.selenium</groupId>-->
-<!--            <artifactId>selenium-java</artifactId>-->
-<!--            <version>4.8.0</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.seleniumhq.selenium</groupId>-->
+        <!--            <artifactId>selenium-java</artifactId>-->
+        <!--            <version>4.8.0</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -251,6 +251,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- mongodb 驱动包 -->
+
+<!--        <dependency>-->
+<!--            <groupId>org.mongodb</groupId>-->
+<!--            <artifactId>mongo-java-driver</artifactId>-->
+<!--            <version>3.12.10</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-reactivestreams</artifactId>
+            <version>4.8.1</version>
         </dependency>
 
         <dependency>
