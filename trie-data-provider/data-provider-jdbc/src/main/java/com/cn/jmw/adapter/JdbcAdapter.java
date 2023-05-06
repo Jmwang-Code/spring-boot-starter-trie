@@ -4,6 +4,7 @@ import com.cn.jmw.base.Counter;
 import com.cn.jmw.base.JdbcDataSource;
 import com.cn.jmw.base.JdbcSqlQueryRunner;
 import com.cn.jmw.color.ThreadColor;
+import com.cn.jmw.driver.DefaultNonRelationalDataBaseDriver;
 import com.cn.jmw.entity.DataSource;
 import com.cn.jmw.result.TrieResultSetHandler;
 import com.cn.jmw.trie.Tire;
@@ -43,10 +44,12 @@ public class JdbcAdapter implements Adapter<Boolean> {
 
     public void init(DataSource dataSource, Tire trieNode) {
         try {
-            Class.forName(dataSource.getDriverClassName());
+            if (!DefaultNonRelationalDataBaseDriver.class.getName().equals(dataSource.getDriverClassName())) {
+                Class.forName(dataSource.getDriverClassName());
+                this.queryRunner = new JdbcSqlQueryRunner();
+                this.connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+            }
             this.dataSource = dataSource;
-            this.queryRunner = new JdbcSqlQueryRunner();
-            this.connection = JdbcDataSource.getConnection(dataSource.getDriverClassName(), dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
             this.trieNode = trieNode;
         } catch (Exception e) {
             log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "初始化数据源失败"), e);

@@ -22,7 +22,8 @@ public enum AdapterEnum {
 //    ES,
 //    SOLR,
     SQLITE,
-    H2;
+    H2,
+    MONGODB("com.cn.jmw.adapter.MongoDbAdapter");
 
     public String className;
 
