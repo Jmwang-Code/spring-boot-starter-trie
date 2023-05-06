@@ -71,5 +71,12 @@ provider-entity:
           load-on: mix
       use-sql: true
       load-on: mix
+    - type: MONGODB
+      driver-class-name: com.cn.jmw.driver.DefaultNonRelationalDataBaseDriver
+      url: mongodb://Mongo:123456@152.136.154.249:27017/Mongo
+      sql-code:
+        - sql: "select * from mycollection"
+          str: name
+          load-on: mix
   load-on: remote_repository
   persistence-path: h2
