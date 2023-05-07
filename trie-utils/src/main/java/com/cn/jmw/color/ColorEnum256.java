@@ -294,9 +294,6 @@ public enum ColorEnum256 {
     }
 
     public static void main(String[] args) {
-//        for (int i = 0; i < 10000; i++) {
-//            System.out.println(ColorEnum256.getRandomColor256().getColoredString("test"));
-//        }
         for (int i = 0; i <= 16; i++) {
             for (int j = 1; j <= 15; j++) {
                 int number = i * 15 + j;
