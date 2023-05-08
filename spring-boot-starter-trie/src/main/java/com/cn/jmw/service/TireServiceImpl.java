@@ -6,6 +6,8 @@ import com.cn.jmw.trie.entity.TriePrefixQueryResult;
 import com.cn.jmw.trie.entity.TrieQueryResult;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author jmw
  * @Description TODO
@@ -53,6 +55,11 @@ public class TireServiceImpl implements TireService{
     @Override
     public TrieQueryResult get(String word) {
         return tire.get(word);
+    }
+
+    @Override
+    public List<TrieQueryResult> getAll(String word) {
+        return tire.getAll(word);
     }
 
     @Override

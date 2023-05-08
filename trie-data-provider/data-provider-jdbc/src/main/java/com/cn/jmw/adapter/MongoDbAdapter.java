@@ -3,6 +3,7 @@ package com.cn.jmw.adapter;
 import com.cn.jmw.color.ThreadColor;
 import com.cn.jmw.entity.DataSource;
 import com.cn.jmw.trie.Tire;
+import com.cn.jmw.trie.entity.MultiCodeMode;
 import com.mongodb.reactivestreams.client.*;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
@@ -82,6 +83,7 @@ public class MongoDbAdapter extends JdbcAdapter {
                         String name = (String) document.get(str);
                         log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "MongoDB流式获取成功： " + name));
                         //TODO 注入前缀树
+                        trieNode.add(name, MultiCodeMode.Drop);
                     }
                     subscription.request(1);
                 }

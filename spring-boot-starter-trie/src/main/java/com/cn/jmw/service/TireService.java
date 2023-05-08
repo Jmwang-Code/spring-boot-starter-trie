@@ -4,6 +4,8 @@ import com.cn.jmw.trie.entity.MultiCodeMode;
 import com.cn.jmw.trie.entity.TriePrefixQueryResult;
 import com.cn.jmw.trie.entity.TrieQueryResult;
 
+import java.util.List;
+
 /**
  * @author jmw
  * @Description TODO
@@ -65,6 +67,11 @@ public interface TireService {
      * word 单词字符串
      */
     TrieQueryResult get(String word);
+
+    /**
+     * 获取所有编码
+     */
+    public List<TrieQueryResult> getAll(String word);
 
     /**
      * 获取单词数据量

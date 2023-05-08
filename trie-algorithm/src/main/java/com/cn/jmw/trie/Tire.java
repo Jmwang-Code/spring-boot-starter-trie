@@ -9,6 +9,7 @@ import com.cn.jmw.trie.tokenizer.TokenizerUtil;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -58,6 +59,7 @@ public class Tire<K, V> implements Serializable {
     }
 
     public boolean add(int[] word, MultiCodeMode mode, int code, int type) {
+        if (!lengthLimit(word))return false;
         w.lock();
         try {
             boolean add = mainTree.add(word, mode, code, type);
@@ -77,6 +79,7 @@ public class Tire<K, V> implements Serializable {
     }
 
     public boolean add(String word, MultiCodeMode mode, int code, int type) {
+        if (!lengthLimit(word))return false;
         w.lock();
         try {
             boolean add = mainTree.add(TokenizerUtil.codePoints(word), mode, code, type);
@@ -95,6 +98,7 @@ public class Tire<K, V> implements Serializable {
         return add(TokenizerUtil.codePoints(word), mode, -1, -1);
     }
 
+    //获取第一个匹配到的数据
     public TrieQueryResult get(String word) {
         r.lock();
         try {
@@ -106,6 +110,19 @@ public class Tire<K, V> implements Serializable {
         }
     }
 
+    //获取所有匹配到的数据
+    public List<TrieQueryResult> getAll(String word) {
+        r.lock();
+        try {
+            TrieQuerier trieQuerier = new TrieQuerier(mainTree, new TokenizerObject(word), false);
+            List<TrieQueryResult> query = trieQuerier.queryAll();
+            return query;
+        } finally {
+            r.unlock();
+        }
+    }
+
+    //获取所有匹配到前缀的数据
     public TriePrefixQueryResult getPrefix(String word) {
         r.lock();
         try {
@@ -173,6 +190,14 @@ public class Tire<K, V> implements Serializable {
     public int getDeep(String word) {
         TrieQuerier trieQuerier = new TrieQuerier(mainTree, new TokenizerObject(word), true);
         return trieQuerier.getDeep();
+    }
+
+    public boolean lengthLimit(int[] word) {
+        return word.length<=30;
+    }
+
+    public boolean lengthLimit(String word) {
+        return word.length()<=30;
     }
 
 }

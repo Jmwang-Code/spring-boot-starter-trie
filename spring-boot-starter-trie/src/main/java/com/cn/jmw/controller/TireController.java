@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author jmw
  * @Description TODO
@@ -55,10 +57,16 @@ public class TireController {
         return ResponseData.success(tireService.add(word, mode));
     }
 
-    @Operation(summary = "单词信息查询")
+    @Operation(summary = "单词第一个匹配信息查询")
     @PostMapping("/query")
     public ResponseData<TrieQueryResult> get(String word) {
         return ResponseData.success(tireService.get(word));
+    }
+
+    @Operation(summary = "单词全部匹配信息查询")
+    @PostMapping("/queryAll")
+    public ResponseData<List<TrieQueryResult>> getAll(String word) {
+        return ResponseData.success(tireService.getAll(word));
     }
 
     @Operation(summary = "单词数量查询")

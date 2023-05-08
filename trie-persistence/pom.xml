@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>persistence</artifactId>
-
+    <artifactId>trie-persistence</artifactId>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -23,5 +22,6 @@
             <artifactId>data-provider-jdbc</artifactId>
             <version>1.0.0</version>
         </dependency>
+
     </dependencies>
 </project>

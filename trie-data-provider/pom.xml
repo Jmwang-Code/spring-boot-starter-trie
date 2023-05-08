@@ -17,9 +17,9 @@
         <version>1.0.0</version>
     </parent>
     <groupId>io.github.jmwang-code</groupId>
-    <artifactId>data-provider</artifactId>
-    <name>data-provider</name>
-    <description>data-provider</description>
+    <artifactId>trie-data-provider</artifactId>
+    <name>trie-data-provider</name>
+    <description>trie-data-provider</description>
     <properties>
         <java.version>17</java.version>
     </properties>

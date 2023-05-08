@@ -19,8 +19,8 @@
 
     <dependencies>
         <dependency>
-            <artifactId>data-provider-base</artifactId>
             <groupId>io.github.jmwang-code</groupId>
+            <artifactId>data-provider-base</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -32,13 +32,13 @@
 
         <dependency>
             <groupId>io.github.jmwang-code</groupId>
-            <artifactId>persistence</artifactId>
+            <artifactId>trie-persistence</artifactId>
             <version>1.0.0</version>
         </dependency>
 
         <dependency>
             <groupId>io.github.jmwang-code</groupId>
-            <artifactId>algorithm</artifactId>
+            <artifactId>trie-algorithm</artifactId>
             <version>1.0.0</version>
         </dependency>
 
