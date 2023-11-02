@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2023年04月15日 17:38
  * @Version 1.0
  */
-public class ThreadColor {
+public class ThreadColor  {
 
     static final Map<String, ColorEnum8> map8 = new ConcurrentHashMap(8);
 
