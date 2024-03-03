@@ -51,6 +51,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
                     @Override
                     public Boolean call() throws Exception {
                         Boolean aBoolean = false;
+                        //适配器工厂在调用的时候已经创建了对应的适配器(比如JdbcAdapter、EsAdapter等等)
                         try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI),forest);) {
                             //适配器流式读取
                             aBoolean = dataAdapter.streamingRead();

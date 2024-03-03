@@ -67,9 +67,13 @@ public class JdbcAdapter implements Adapter<Boolean> {
      */
     @Override
     public Boolean streamingRead() {
+        //计数器
         Counter counter = new Counter();
+
+        //并行流处理
         dataSource.getSqlCode().parallelStream().forEach(sqlCode -> {
             try {
+                //查询
                 Long query = queryRunner.query(connection, sqlCode.getSql(), new TrieResultSetHandler() {
                     @Override
                     public Long handle(ResultSet rs) throws SQLException {
@@ -78,7 +82,10 @@ public class JdbcAdapter implements Adapter<Boolean> {
                         while (rs.next()) {
                             for (int i = 1; i <= columnCount; i++) {
                                 if (rs.getString(i)!=null){
+                                    //将数据加载到树中
                                     trieNode.add(rs.getString(i), MultiCodeMode.Drop);
+
+                                    //打印日志
                                     log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "——" + rs.getString(i)));
                                 }
                             }
@@ -103,8 +110,9 @@ public class JdbcAdapter implements Adapter<Boolean> {
             try {
                 connection.close();
             } catch (SQLException e) {
-                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + "关闭连接失败:") + dataSource.getDriverClassName(), e);
+                log.error(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + " 关闭连接失败:") + dataSource.getDriverClassName(), e);
             }
         }
+        log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName() + " 结束关闭连接:") + dataSource.getDriverClassName());
     }
 }

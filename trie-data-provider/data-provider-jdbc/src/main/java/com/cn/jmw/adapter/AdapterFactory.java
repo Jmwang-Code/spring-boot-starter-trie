@@ -22,6 +22,8 @@ public class AdapterFactory {
         log.info(ThreadColor.getColor256(Thread.currentThread().getName()).getColoredString(Thread.currentThread().getName()+"——创建适配器:"+adapterEnum));
         try {
             Class<?> aClass = Class.forName(adapterEnum.getClassName());
+
+            //newInstance此时已经调用了构造方法，也就是调用了init()方法，也就是完成了各种基本条件初始化
             Object jdbcAdapter = aClass.getDeclaredConstructor(DataSource.class,Tire.class).newInstance(dataSource,trieNode);
             return jdbcAdapter instanceof Adapter ? (JdbcAdapter) jdbcAdapter : null;
         } catch (ClassNotFoundException e) {
