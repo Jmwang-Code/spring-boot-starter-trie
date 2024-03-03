@@ -37,15 +37,22 @@ public class JdbcProvider extends AbstractFactoryProvider {
     public boolean execute(ProviderEntity providerEntity) throws Exception {
         //通过ThreadPoolConfig创建一个线程池，核心线程大小为5
         try (ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig(5)) {
+
+            //获取线程池
             ExecutorService configurationCheckThreadPool = threadPoolConfig.getConfigurationCheckThreadPool();
+
+            //创建一个线程安全的List（存放异步计算任务FutureTask）
             CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();
             for (int i = 0; i < providerEntity.getDataSources().size(); i++) {
                 int finalI = i;
+
+                //创建一个异步计算任务FutureTask，通过Callable接口实现call方法
                 FutureTask<Boolean> integerFutureTask = new FutureTask<>(new Callable<Boolean>() {
                     @Override
                     public Boolean call() throws Exception {
                         Boolean aBoolean = false;
                         try (Adapter<Boolean> dataAdapter = AdapterFactory.createDataAdapter(providerEntity.getDataSources().get(finalI),forest);) {
+                            //适配器流式读取
                             aBoolean = dataAdapter.streamingRead();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -53,9 +60,14 @@ public class JdbcProvider extends AbstractFactoryProvider {
                         return aBoolean;
                     }
                 });
+                //提交异步计算任务
                 configurationCheckThreadPool.submit(integerFutureTask);
+
+                //将异步计算任务FutureTask添加到List中
                 integers.add(integerFutureTask);
             }
+
+            //等待异步计算任务执行完成
             for (FutureTask<Boolean> integerFutureTask : integers) {
                 if (!integerFutureTask.get()) {
                     return false;
@@ -64,6 +76,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
