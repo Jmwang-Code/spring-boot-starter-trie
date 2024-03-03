@@ -27,10 +27,19 @@ public class MainTree {
     @Autowired
     private Tire tire;
 
+    /**
+     * 加载主树
+     *
+     * 依赖: 数据源提供者(providerEntity), 容器(tire)
+     *
+     * 创建一个加载树的服务（LoadTireService）
+     */
     @Bean
     @DependsOn({"providerEntity","tire"})
     public void MainTree(){
         LoadTireService loadTireService = new LoadTireServiceImpl(providerEntity,tire);
+        //有多种加载回调方式，此时只需要消费者某种提供者即可
+        //被消费的提供者选择JDBCProvider，由于处理器T是AbstractFactoryProvider的子类，所以可以直接传入
         loadTireService.loadConsumer(abstractFactoryProvider -> {
             log.info("加载判断逻辑");
             //判断缓存层面是否存在数据
@@ -38,6 +47,7 @@ public class MainTree {
             //应该采取何种方式加载数据
             boolean execute = false;
             try {
+                //调用了数据源提供者的execute方法
                 execute = abstractFactoryProvider.execute(providerEntity);
             }catch (Exception e){
                 e.printStackTrace();

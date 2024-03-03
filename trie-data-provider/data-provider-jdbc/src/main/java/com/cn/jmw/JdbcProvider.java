@@ -35,6 +35,7 @@ public class JdbcProvider extends AbstractFactoryProvider {
     //执行
     @Override
     public boolean execute(ProviderEntity providerEntity) throws Exception {
+        //通过ThreadPoolConfig创建一个线程池，核心线程大小为5
         try (ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig(5)) {
             ExecutorService configurationCheckThreadPool = threadPoolConfig.getConfigurationCheckThreadPool();
             CopyOnWriteArrayList<FutureTask<Boolean>> integers = new CopyOnWriteArrayList<>();

@@ -32,9 +32,9 @@ public class ThreadPoolConfig<T> implements AutoCloseable{
 
     private String threadName;
 
-    public ThreadPoolConfig(int runnableThreadNum){
-        this.runnableThreadNum = runnableThreadNum;
-        configurationCheckThreadPool = newInstance(runnableThreadNum);
+    public ThreadPoolConfig(int numberOfCoreThreads){
+        this.runnableThreadNum = numberOfCoreThreads;
+        configurationCheckThreadPool = newInstance(numberOfCoreThreads);
     }
 
     public ThreadPoolConfig(String threadName){
